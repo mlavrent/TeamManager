@@ -9,3 +9,6 @@ class Request(models.Model):
     quantity = models.PositiveSmallIntegerField()
     link = models.URLField(max_length=200)
     approved = models.NullBooleanField()
+
+    def __str__(self):
+        return self.item + ", x" + str(self.quantity)
