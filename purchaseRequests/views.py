@@ -1,18 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, render
+from .models import Request
+
 
 def index(request):
-    return HttpResponse("This is the purchase request homepage")
+    return render(request, "purchaseRequests/index.html")
 
 def list(request):
-    return HttpResponse("This is the list page for all the requests")
+    return render(request, "purchaseRequests/list.html")
 
 def new(request):
-    return HttpResponse("This is the page to create a new purchase request")
+    return render(request, "purchaseRequests/new_request.html")
 
 def detail(request, pReq_id):
-    return HttpResponse("This is the detail page for request %s" % pReq_id)
+    pur_req = get_object_or_404(Request, pk=pReq_id)
+    return render(request, "purchaseRequests/detail.html")
 
 def edit(request, pReq_id):
-    return HttpResponse("This is the edit page for %s" % pReq_id)
+    pur_req = get_object_or_404(Request, pk=pReq_id)
+    return render(request, "purchaseRequests/edit.html")
 
