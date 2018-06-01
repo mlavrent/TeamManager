@@ -3,6 +3,11 @@
     margin: 8px auto;
 }
 
+
+tbody tr {
+    cursor: pointer;
+}
+
 .date, .qty, .tcost, .approved {
     text-align: center;
 }
