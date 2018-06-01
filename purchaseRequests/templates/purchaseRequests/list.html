@@ -1,11 +1,47 @@
-{% load staticfiles %}
+{% load static %}
 
 <html>
     <head>
-        <link rel="stylesheet" href="{% static purchaseRequests/css/list.css %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/list.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/nav_bar.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+              integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+              crossorigin="anonymous">
     </head>
 
     <body>
-        {% include "./nav_bar.html" %}
+        {% include './nav_bar.html' %}
+        <h1>Welcome to the list page!</h1>
+        <table>
+            <tr>
+                <th>Timestamp</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Total Cost</th>
+                <th>Link</th>
+                <th>Approved?</th>
+            </tr>
+
+            {% for pur_req in pur_req_list %}
+            <tr>
+                <th>{{ pur_req.timestamp }}</th>
+                <th>{{ pur_req.item }}</th>
+                <th>{{ pur_req.quantity }}</th>
+                <th>{{ pur_req.line_total }}</th>
+                <th>
+                    <a href="{{ pur_req.link }}">{{ pur_req.link }}</a>
+                </th>
+                <th>
+                    {% if pur_req.approved %}
+                    <i class="fas fa-check"></i>
+                    {% elif pur_req.approved == False %}
+                    <i class="fas fa-times"></i>
+                    {% else %}
+                    <i class="fas fa-question"></i>
+                    {% endif %}
+                </th>
+            </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

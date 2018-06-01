@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, get_list_or_404, render
 from .models import Request
 
 
@@ -6,7 +6,8 @@ def index(request):
     return render(request, "purchaseRequests/index.html")
 
 def list(request):
-    return render(request, "purchaseRequests/list.html")
+    pur_req_list = get_list_or_404(Request)
+    return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
 def new(request):
     return render(request, "purchaseRequests/new_request.html")
