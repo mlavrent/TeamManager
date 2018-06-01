@@ -1,0 +1,15 @@
+
+#reqlist {
+    margin: 8px auto;
+}
+
+.date, .qty, .tcost, .approved {
+    text-align: center;
+}
+
+.link {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
