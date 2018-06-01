@@ -2,6 +2,7 @@
 
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/style.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/list.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/nav_bar.css' %}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
@@ -13,35 +14,46 @@
         {% include './nav_bar.html' %}
         <h1>Welcome to the list page!</h1>
         <table>
-            <tr>
-                <th>Timestamp</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Total Cost</th>
-                <th>Link</th>
-                <th>Approved?</th>
-            </tr>
-
-            {% for pur_req in pur_req_list %}
-            <tr>
-                <th>{{ pur_req.timestamp }}</th>
-                <th>{{ pur_req.item }}</th>
-                <th>{{ pur_req.quantity }}</th>
-                <th>{{ pur_req.line_total }}</th>
-                <th>
-                    <a href="{{ pur_req.link }}">{{ pur_req.link }}</a>
-                </th>
-                <th>
-                    {% if pur_req.approved %}
-                    <i class="fas fa-check"></i>
-                    {% elif pur_req.approved == False %}
-                    <i class="fas fa-times"></i>
-                    {% else %}
-                    <i class="fas fa-question"></i>
-                    {% endif %}
-                </th>
-            </tr>
-            {% endfor %}
+            <colgroup>
+                <col id="date">
+                <col id="item">
+                <col id="qty">
+                <col id="tcost">
+                <col id="link">
+                <col id="approved">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Total Cost</th>
+                    <th>Link</th>
+                    <th>Approved?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pur_req in pur_req_list %}
+                <tr>
+                    <td>{{ pur_req.timestamp|date:'n/d/y' }}</td>
+                    <td>{{ pur_req.item }}</td>
+                    <td>{{ pur_req.quantity }}</td>
+                    <td>${{ pur_req.line_total }}</td>
+                    <td>
+                        <a href="{{ pur_req.link }}">{{ pur_req.link }}</a>
+                    </td>
+                    <td>
+                        {% if pur_req.approved %}
+                        <i class="fas fa-check"></i>
+                        {% elif pur_req.approved == False %}
+                        <i class="fas fa-times"></i>
+                        {% else %}
+                        <i class="fas fa-question"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </body>
 </html>
