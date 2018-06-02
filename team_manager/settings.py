@@ -121,6 +121,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# Page to be redirected to after login
+# Login/Logout redirects
 
 LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/'
