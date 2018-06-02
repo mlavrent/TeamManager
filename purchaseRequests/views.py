@@ -14,7 +14,7 @@ def new(request):
 
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
-    return render(request, "purchaseRequests/detail.html")
+    return render(request, "purchaseRequests/detail.html", {'pur_req': pur_req})
 
 def edit(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
