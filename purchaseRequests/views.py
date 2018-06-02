@@ -6,7 +6,7 @@ def index(request):
     return render(request, "purchaseRequests/index.html")
 
 def list(request):
-    pur_req_list = get_list_or_404(Request)
+    pur_req_list = Request.objects.all().order_by('-timestamp')
     return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
 def new(request):
