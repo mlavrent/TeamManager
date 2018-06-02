@@ -6,6 +6,9 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/detail.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
 {% endblock %}
 
 {% block content %}
@@ -13,9 +16,24 @@
         <h1 id="item-title">{{ pur_req.item }}</h1>
         <ul>
             <li>Cost: ${{ pur_req.cost }} x {{ pur_req.quantity }} = ${{ pur_req.line_total }}</li>
-            <li>Requester: {{ pur_req.author.username }}</li>
             <li>Time Added: {{ pur_req.timestamp }}</li>
+            <li>Requester: {{ pur_req.author.username }}</li>
             <li><a href="{{ pur_req.link }}">{{ pur_req.link }}</a></li>
         </ul>
+        <div id="approval-states-container">
+            <table id="approval-states-table">
+                <tr>
+                    <td id="not-approved-approval">
+                        <i class="fas fa-times"></i>
+                    </td>
+                    <td id="undecided-approval">
+                        <i class="fas fa-question"></i>
+                    </td>
+                    <td id="approved-approval">
+                        <i class="fas fa-check"></i>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 {% endblock %}

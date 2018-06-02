@@ -3,10 +3,6 @@ main {
     text-align: center;
 }
 
-#item-title {
-    font-size: 24px;
-}
-
 #detail-div {
     display: inline-block;
     margin: 10% auto;
@@ -15,7 +11,18 @@ main {
     border-radius: 16px;
     text-align: left;
 }
-
+#item-title {
+    font-size: 24px;
+}
 #detail-div li{
     font-size: 20px;
+}
+
+
+#approval-states-container {
+    display: block;
+}
+
+#approval-states-table {
+    margin: auto;
 }
