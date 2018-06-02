@@ -10,6 +10,7 @@ main {
     border: 2px solid #ccc;
     border-radius: 16px;
     text-align: left;
+    max-width: 800px;
 }
 #item-title {
     font-size: 24px;
