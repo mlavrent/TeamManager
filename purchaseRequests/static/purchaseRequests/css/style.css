@@ -1,11 +1,8 @@
 
-* {
-    font-family: "Trebuchet MS", Roboto, Helvetica, sans-serif;
-    font-size: 16px;
-}
-
 body {
     margin: 0;
+    font-family: "Trebuchet MS", Roboto, Helvetica, sans-serif;
+    font-size: 16px;
 }
 
 table {
