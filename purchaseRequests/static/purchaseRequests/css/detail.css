@@ -1,0 +1,21 @@
+
+main {
+    text-align: center;
+}
+
+#item-title {
+    font-size: 24px;
+}
+
+#detail-div {
+    display: inline-block;
+    margin: 10% auto;
+    padding: 16px 48px;
+    border: 2px solid #ccc;
+    border-radius: 16px;
+    text-align: left;
+}
+
+#detail-div li{
+    font-size: 20px;
+}

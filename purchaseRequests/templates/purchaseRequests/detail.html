@@ -9,5 +9,13 @@
 {% endblock %}
 
 {% block content %}
-    <h1>The detail page</h1>
+    <div id="detail-div">
+        <h1 id="item-title">{{ pur_req.item }}</h1>
+        <ul>
+            <li>Cost: ${{ pur_req.cost }} x {{ pur_req.quantity }} = ${{ pur_req.line_total }}</li>
+            <li>Requester: {{ pur_req.author.username }}</li>
+            <li>Time Added: {{ pur_req.timestamp }}</li>
+            <li><a href="{{ pur_req.link }}">{{ pur_req.link }}</a></li>
+        </ul>
+    </div>
 {% endblock %}
