@@ -12,9 +12,15 @@ tbody tr {
     text-align: center;
 }
 
-.link {
-    max-width: 300px;
+
+.link, .item {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.link {
+    max-width: 300px;
+}
+.item {
+    max-width: 350px;
 }

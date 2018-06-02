@@ -6,8 +6,7 @@ def index(request):
     return render(request, "purchaseRequests/index.html")
 
 def list(request):
-    #TODO: don't throw a 404 here, need to fail by showing that there are no requests
-    pur_req_list = get_list_or_404(Request)
+    pur_req_list = Request.objects.all().order_by('-timestamp')
     return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
 def new(request):
