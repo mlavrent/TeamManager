@@ -1,10 +1,13 @@
 {% load staticfiles %}
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'purchaseRequests/css/edit.css' %}"
-</head>
+{% extends 'base.html' %}
 
-<body>
 
-</body>
-</html>
+{% block title %}Edit{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'purchaseRequests/css/edit.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to edit.html</h1>
+{% endblock %}

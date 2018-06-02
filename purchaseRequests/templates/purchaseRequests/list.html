@@ -1,17 +1,19 @@
 {% load static %}
+{% extends 'base.html' %}
 
-<html>
-<head>
+
+{% block title %}List{% endblock %}
+
+{% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/nav_bar.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
           crossorigin="anonymous">
-</head>
+{% endblock %}
 
-<body>
-    {% include './nav_bar.html' %}
+{% block content %}
     <h1>Welcome to the list page!</h1>
     <table id="reqlist">
         <thead>
@@ -47,5 +49,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

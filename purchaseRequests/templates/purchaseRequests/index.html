@@ -1,11 +1,13 @@
 {% load staticfiles %}
+{% extends 'base.html' %}
 
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'purchaseRequests/css/index.css' %}"
-</head>
 
-<body>
+{% block title %}Purchase Request Home{% endblock %}
 
-</body>
-</html>
+{% block css %}
+    <link rel="stylesheet" href="{% static 'purchaseRequests/css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to index.html</h1>
+{% endblock %}
