@@ -4,5 +4,6 @@
         <a class="navbar-link" id="home-nav" href="{% url 'index' %}">Home</a>
         <a class="navbar-link" href="{% url 'list' %}">All requests</a>
         <a class="navbar-link" href="{% url 'new' %}">New request</a>
+        <h1 class="navbar-link" id="navbar-user">Welcome, {{ user }}</h1>
     </div>
 </header>

@@ -3,10 +3,11 @@
     background-color: #24292e;
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: center;
 }
 .centered-div {
-    display: inline-block;
+    margin: auto;
+    width: 70%;
+    overflow: auto;
 }
 
 .navbar-link {
@@ -19,9 +20,16 @@
 
     padding-left: 8px !important;
     padding-right: 8px !important;
+    margin: 11px 0;
+    display: inline-block;
 }
 .navbar-link:hover,
 .navbar-link:focus {
     color: white;
 }
 
+#navbar-user {
+    color: white;
+    float: right;
+    padding-left: 20px !important;
+}
