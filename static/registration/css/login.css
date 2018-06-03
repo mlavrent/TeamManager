@@ -78,7 +78,7 @@ body {
 input[type="submit"], button {
     -webkit-appearance: none;
     appearance: none;
-    background: green;
+    background: #4caf50;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
