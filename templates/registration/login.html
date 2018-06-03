@@ -17,6 +17,7 @@
     </div>
     <div id="content">
         <form method="post">
+            {% csrf_token %}
             <div class="form-row">
                 <label class="required" for="id_username">Username:</label>
                 <input id="id_username" name="username" autofocus="" maxlength="254" required="" type="text">
