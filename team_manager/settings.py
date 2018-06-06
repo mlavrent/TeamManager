@@ -127,6 +127,6 @@ STATICFILES_DIRS = [
 
 # Login/Logout redirects
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/purchaserequests/'
 
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'
