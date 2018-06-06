@@ -30,6 +30,8 @@
 
 #navbar-user {
     color: white;
+}
+.right-aligned-nav {
     float: right;
     padding-left: 20px !important;
 }
