@@ -14,7 +14,7 @@
 {% block content %}
     <div id="detail-div">
 
-        {% if pur_req.author.user == user or user.is_superuser %}
+        {% if pur_req.author == user or user.is_superuser %}
         <a id="edit-button" href="{% url 'edit' pur_req.id %}">Edit</a>
         {% endif %}
 
