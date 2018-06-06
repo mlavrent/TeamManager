@@ -1,14 +1,17 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, render
+from django.contrib.auth.decorators import login_required
 from .models import Request
 
-
+@login_required
 def list(request):
     pur_req_list = Request.objects.all().order_by('-timestamp')
     return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
+@login_required
 def new(request):
     return render(request, "purchaseRequests/new_request.html")
 
+@login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
     unappr = ""
@@ -26,6 +29,7 @@ def detail(request, pReq_id):
                                                             'undec_class': undec,
                                                             'appr_class': appr,})
 
+@login_required
 def edit(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
     return render(request, "purchaseRequests/edit.html")
