@@ -15,7 +15,7 @@
     <div id="detail-div">
 
         {% if pur_req.author == user or user.is_superuser %}
-        <a id="edit-button" href="{% url 'edit' pur_req.id %}">Edit</a>
+        <a id="edit-button" href="{% url 'purchaseRequests:edit' pur_req.id %}">Edit</a>
         {% endif %}
 
         <h1 id="item-title">{{ pur_req.item }}</h1>

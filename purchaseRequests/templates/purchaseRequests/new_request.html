@@ -10,14 +10,18 @@
 {% block content %}
     <div id="content">
         <h1>Add a new request</h1>
-        <form method="post" action="">
+        <form method="post" action="{% url 'purchaseRequests:add_request' %}">
             {% csrf_token %}
             <div class="form-row">
-                <input type="text" name="item" maxlength="75" autofocus>
+                <label for="item-inp">Item:</label>
+                <input id="item-inp" type="text" name="item" maxlength="75" autofocus>
             </div>
             <div class="form-row">
-                <input type="number" name="cost" min="0" step="0.01">
-                <input type="number" name="quantity" min="0">
+                <label for="cost-inp">Cost:</label>
+                <input id="cost-inp" type="number" name="cost" min="0" step="0.01">
+
+                <label for="qty-inp">Quantity:</label>
+                <input id="qty-inp" type="number" name="quantity" min="0">
             </div>
             <div class="form-row">
                 <input type="url" name="link">

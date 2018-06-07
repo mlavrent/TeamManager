@@ -29,7 +29,7 @@
             </thead>
             <tbody>
                 {% for pur_req in pur_req_list %}
-                <tr onclick="location.href = '{% url 'detail' pur_req.id %}';">
+                <tr onclick="location.href = '{% url 'purchaseRequests:detail' pur_req.id %}';">
                     <td class="date">{{ pur_req.timestamp|date:'n/d/y' }}</td>
                     <td class="item">{{ pur_req.item }}</td>
                     <td class="qty">{{ pur_req.quantity }}</td>
