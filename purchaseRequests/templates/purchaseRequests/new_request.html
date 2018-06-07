@@ -10,8 +10,21 @@
 {% block content %}
     <div id="content">
         <h1>Add a new request</h1>
-        <form method="post" action="{% url 'add_req' %}">
-
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-row">
+                <input type="text" name="item" maxlength="75" autofocus>
+            </div>
+            <div class="form-row">
+                <input type="number" name="cost" min="0" step="0.01">
+                <input type="number" name="quantity" min="0">
+            </div>
+            <div class="form-row">
+                <input type="url" name="link">
+            </div>
+            <div class="form-row">
+                <input type="submit" value="Submit">
+            </div>
         </form>
     </div>
 {% endblock %}
