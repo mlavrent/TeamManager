@@ -9,7 +9,7 @@ main {
     margin: 10% auto;
     padding: 16px 48px;
     border: 2px solid #ccc;
-    border-radius: 16px;
+    border-radius: 12px;
     text-align: left;
     max-width: 800px;
 }
