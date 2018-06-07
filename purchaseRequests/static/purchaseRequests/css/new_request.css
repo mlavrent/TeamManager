@@ -32,7 +32,6 @@
 #item-inp, #cost-inp, #qty-inp, #url-inp {
     clear: both;
     padding: 8px;
-    width: 100%;
     box-sizing: border-box;
     margin: 0;
     min-height: 36px;
@@ -40,6 +39,10 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     vertical-align: middle;
+}
+
+#item-inp, #cost-inp, #url-inp {
+    width: 100%;
 }
 
 input[type=number] {
@@ -50,4 +53,25 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.two-input-row-item {
+    display: inline-block;
+    width: 49%;
+}
+
+.two-input-row-item label {
+    display: block;
+}
+.two-input-row-item input {
+    display: block;
+    width: 100%;
+}
+
+#id-qty-div {
+    float: right;
+}
+
+#id-cost-div {
+    float: left;
 }
