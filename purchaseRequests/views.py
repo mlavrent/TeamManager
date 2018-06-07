@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404, get_list_or_404, render
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Request
 
@@ -33,3 +34,6 @@ def edit(request, pReq_id):
 @login_required
 def new_request(request):
     return render(request, "purchaseRequests/new_request.html")
+
+def add_request(request):
+    return HttpResponseRedirect("")
