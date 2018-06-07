@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Request
 
@@ -36,4 +38,10 @@ def new_request(request):
     return render(request, "purchaseRequests/new_request.html")
 
 def add_request(request):
-    return HttpResponseRedirect("")
+    new_pur_req = Request.objects.create(timestamp=timezone.now(),
+                                             author=request.user,
+                                             item=request.POST["item"],
+                                             cost=request.POST["cost"],
+                                             quantity=request.POST["quantity"],
+                                             link=request.POST["link"],)
+    return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
