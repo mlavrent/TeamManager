@@ -1,11 +1,17 @@
+{% extends './base.html' %}
 {% load staticfiles %}
 
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'purchaseRequests/css/new_request.css' %}"
-</head>
+{% block title %}New Purchase Request{% endblock %}
 
-<body>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/new_request.css' %}">
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <div id="content">
+        <h1>Add a new request</h1>
+        <form method="post" action="{% url 'add_req' %}">
+
+        </form>
+    </div>
+{% endblock %}

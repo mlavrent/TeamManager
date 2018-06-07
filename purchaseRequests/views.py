@@ -8,10 +8,6 @@ def list(request):
     return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
 @login_required
-def new(request):
-    return render(request, "purchaseRequests/new_request.html")
-
-@login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
     unappr = ""
@@ -34,3 +30,6 @@ def edit(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
     return render(request, "purchaseRequests/edit.html")
 
+@login_required
+def new_request(request):
+    return render(request, "purchaseRequests/new_request.html")
