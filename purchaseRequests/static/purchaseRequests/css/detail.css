@@ -11,7 +11,7 @@ main {
     border: 2px solid #ccc;
     border-radius: 12px;
     text-align: left;
-    max-width: 800px;
+    max-width: 600px;
 }
 
 #edit-button {
@@ -23,10 +23,19 @@ main {
 #item-title {
     font-size: 24px;
 }
+#detail-div ul {
+    list-style-position: inside;
+    padding-left: 20px;
+}
 #detail-div li{
     font-size: 20px;
 }
 
+#link {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 #approval-states-container {
     display: block;
