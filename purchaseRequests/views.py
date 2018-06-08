@@ -46,10 +46,9 @@ def add_request(request):
     new_pur_req = Request.objects.create(timestamp=timezone.now(),
                                          author=request.user,
                                          item=request.POST["item"],
-                                         cost=request.POST["cost"],
-                                         quantity=request.POST["quantity"],
+                                         cost=float(request.POST["cost"]),
+                                         quantity=int(request.POST["quantity"]),
                                          link=request.POST["link"],)
-
     message = EmailMessage()
 
     simple_content = email_config.template_simple_email % (email_config.send_to_person,
@@ -80,8 +79,8 @@ def add_request(request):
 
     server = smtplib.SMTP(email_config.app_smtp_server, 587)
     server.starttls()
-    # server.login(email_config.app_email, environ.get("APP_PASS"))
+    server.login(email_config.app_email, environ.get("APP_PASS"))
     server.send_message(message, email_config.app_email, email_config.send_to_email)
     server.quit()
-    
+
     return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
