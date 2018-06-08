@@ -6,6 +6,10 @@
     font-size: 14px;
 }
 
+#content #header {
+    text-align: center;
+}
+
 #content form {
     margin: 0;
     padding: 0;
