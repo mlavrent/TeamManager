@@ -1,3 +1,8 @@
+from purchaseRequests import email_config
+from os import environ
+import smtplib
+from email.message import EmailMessage
+from email.utils import make_msgid
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -39,9 +44,44 @@ def new_request(request):
 
 def add_request(request):
     new_pur_req = Request.objects.create(timestamp=timezone.now(),
-                                             author=request.user,
-                                             item=request.POST["item"],
-                                             cost=request.POST["cost"],
-                                             quantity=request.POST["quantity"],
-                                             link=request.POST["link"],)
+                                         author=request.user,
+                                         item=request.POST["item"],
+                                         cost=request.POST["cost"],
+                                         quantity=request.POST["quantity"],
+                                         link=request.POST["link"],)
+
+    message = EmailMessage()
+
+    simple_content = email_config.template_simple_email % (email_config.send_to_person,
+                                                           new_pur_req.author.get_username(),
+                                                           new_pur_req.item,
+                                                           new_pur_req.timestamp.strftime('%m/%d/%Y'),
+                                                           new_pur_req.item,
+                                                           new_pur_req.cost,
+                                                           new_pur_req.quantity,
+                                                           new_pur_req.cost * new_pur_req.quantity,
+                                                           new_pur_req.link,)
+    html_content = email_config.template_simple_email % (email_config.send_to_person,
+                                                         new_pur_req.author.get_username(),
+                                                         new_pur_req.item,
+                                                         new_pur_req.timestamp.strftime('%m/%d/%Y'),
+                                                         new_pur_req.item,
+                                                         new_pur_req.cost,
+                                                         new_pur_req.quantity,
+                                                         new_pur_req.cost * new_pur_req.quantity,
+                                                         new_pur_req.link,)
+    html_content.format(asparagus_cid=make_msgid()[1:-1])
+
+    message.set_content(simple_content)
+    message.add_alternative(html_content, subtype='html')
+    message["Subject"] = "New Purchase Request for %s" % new_pur_req.item
+    message["From"] = email_config.app_email
+    message["To"] = email_config.send_to_email
+
+    server = smtplib.SMTP(email_config.app_smtp_server, 587)
+    server.starttls()
+    # server.login(email_config.app_email, environ.get("APP_PASS"))
+    server.send_message(message, email_config.app_email, email_config.send_to_email)
+    server.quit()
+    
     return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
