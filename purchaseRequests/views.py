@@ -60,15 +60,16 @@ def add_request(request):
                                                            new_pur_req.quantity,
                                                            new_pur_req.cost * new_pur_req.quantity,
                                                            new_pur_req.link,)
-    html_content = email_config.template_simple_email % (email_config.send_to_person,
-                                                         new_pur_req.author.get_username(),
-                                                         new_pur_req.item,
-                                                         new_pur_req.timestamp.strftime('%m/%d/%Y'),
-                                                         new_pur_req.item,
-                                                         new_pur_req.cost,
-                                                         new_pur_req.quantity,
-                                                         new_pur_req.cost * new_pur_req.quantity,
-                                                         new_pur_req.link,)
+    html_content = email_config.template_html_email % (email_config.send_to_person,
+                                                       new_pur_req.author.get_username(),
+                                                       new_pur_req.item,
+                                                       new_pur_req.timestamp.strftime('%m/%d/%Y'),
+                                                       new_pur_req.item,
+                                                       new_pur_req.cost,
+                                                       new_pur_req.quantity,
+                                                       new_pur_req.cost * new_pur_req.quantity,
+                                                       new_pur_req.link,
+                                                       new_pur_req.link,)
     html_content.format(asparagus_cid=make_msgid()[1:-1])
 
     message.set_content(simple_content)
