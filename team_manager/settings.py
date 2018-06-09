@@ -25,7 +25,9 @@ SECRET_KEY = 'jm_4mc$bu3fq^xoyu2s8kq&*k-ynpey^$82czhrkzfcf-l+dmu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+'frc-team-manager.herokuapp.com',
+]
 
 
 # Application definition
