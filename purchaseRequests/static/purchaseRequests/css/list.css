@@ -27,5 +27,6 @@ tbody tr {
     max-width: 300px;
 }
 .item {
+    width: 150px;
     max-width: 350px;
 }
