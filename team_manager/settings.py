@@ -26,7 +26,9 @@ SECRET_KEY = 'jm_4mc$bu3fq^xoyu2s8kq&*k-ynpey^$82czhrkzfcf-l+dmu'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'frc-team-manager.herokuapp.com',
+    'frc-team-manager.herokuapp.com',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -77,6 +79,8 @@ WSGI_APPLICATION = 'team_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+#TODO: for production server, get server host from heroku env variable "DATABASE_URL" with os.environ[]
+#TODO: else it should just stay as 127.0.0.1
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -139,3 +143,9 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/purchase-requests/'
 
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# Activate Django-Heroku
+
+import django_heroku
+django_heroku.settings(locals())
