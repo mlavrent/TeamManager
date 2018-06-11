@@ -7,6 +7,6 @@ def redirect_to_login(request):
 def login(request, **kwargs):
     print(request.user.is_authenticated)
     if request.user.is_authenticated:
-        return redirect('list', app_name='purchaseRequests')
+        return redirect('/purchase-requests', app_name='purchaseRequests')
     else:
         return views.login(request, **kwargs)
