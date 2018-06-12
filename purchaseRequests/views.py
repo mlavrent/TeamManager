@@ -42,8 +42,22 @@ def edit(request, pReq_id):
         return redirect('')
 
 
-def edit_request(request):
-    pass
+def edit_request(request, pReq_id):
+    pur_req = Request.objects.get(pk=pReq_id)
+
+    pur_req.item = request.POST["item"]
+    pur_req.cost = request.POST["cost"]
+    pur_req.quantity = request.POST["quantity"]
+    pur_req.link = request.POST["link"]
+
+    pur_req.save()
+
+    return redirect("purchaseRequests:detail", pReq_id=pReq_id)
+
+
+def delete_request(request):
+    print("Deleting request")
+    return redirect("purchaseRequests:list", permanent=True)
 
 
 @login_required

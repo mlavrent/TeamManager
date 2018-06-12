@@ -11,7 +11,7 @@
 {% block content %}
     <div id="content">
         <h1 id="header">Edit Purchase Request</h1>
-        <form id="new-item-form" method="post" action="" %}">
+        <form id="edit-item-form" method="post" action="{% url 'purchaseRequests:edit_request' pur_req.id %}" %}">
             {% csrf_token %}
             <div class="form-row">
                 <label for="item-inp">Item:</label>
@@ -36,7 +36,8 @@
             </div>
             <div class="submit-row form-row">
                 <input type="button" id="cancel-button" value="Cancel">
-                <input type="button" id="delete-button" value="Delete">
+                <input type="button" id="delete-button" value="Delete"
+                       onclick="location.href='{% url 'purchaseRequests:delete_request' %}'">
                 <input type="submit" id="save-button" value="Save">
             </div>
         </form>
