@@ -35,7 +35,8 @@
                 <input id="url-inp" type="url" name="link" value="{{ pur_req.link }}" required>
             </div>
             <div class="submit-row form-row">
-                <input type="button" id="cancel-button" value="Cancel">
+                <input type="button" id="cancel-button" value="Cancel"
+                       onclick="location.href='{% url 'purchaseRequests:detail' pur_req.id %}'">
                 <input type="button" id="delete-button" value="Delete"
                        onclick="location.href='{% url 'purchaseRequests:delete_request' pur_req.id %}'">
                 <input type="submit" id="save-button" value="Save">
