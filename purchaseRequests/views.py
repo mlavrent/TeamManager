@@ -43,7 +43,7 @@ def edit(request, pReq_id):
 
 
 def edit_request(request, pReq_id):
-    pur_req = Request.objects.get(pk=pReq_id)
+    pur_req = get_object_or_404(Request, pk=pReq_id)
 
     pur_req.item = request.POST["item"]
     pur_req.cost = request.POST["cost"]
@@ -55,8 +55,8 @@ def edit_request(request, pReq_id):
     return redirect("purchaseRequests:detail", pReq_id=pReq_id)
 
 
-def delete_request(request):
-    print("Deleting request")
+def delete_request(request, pReq_id):
+    get_object_or_404(Request, pk=pReq_id).delete()
     return redirect("purchaseRequests:list", permanent=True)
 
 

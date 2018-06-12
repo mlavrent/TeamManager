@@ -37,7 +37,7 @@
             <div class="submit-row form-row">
                 <input type="button" id="cancel-button" value="Cancel">
                 <input type="button" id="delete-button" value="Delete"
-                       onclick="location.href='{% url 'purchaseRequests:delete_request' %}'">
+                       onclick="location.href='{% url 'purchaseRequests:delete_request' pur_req.id %}'">
                 <input type="submit" id="save-button" value="Save">
             </div>
         </form>
