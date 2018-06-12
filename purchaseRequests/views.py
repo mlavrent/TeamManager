@@ -3,7 +3,7 @@ from os import environ
 import smtplib
 from email.message import EmailMessage
 from email.utils import make_msgid
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
@@ -36,7 +36,15 @@ def detail(request, pReq_id):
 @login_required
 def edit(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
-    return render(request, "purchaseRequests/edit.html")
+    if pur_req.author == request.user or request.user.is_superuser:
+        return render(request, "purchaseRequests/edit.html", {'pur_req': pur_req})
+    else:
+        return redirect('')
+
+
+def edit_request(request):
+    pass
+
 
 @login_required
 def new_request(request):

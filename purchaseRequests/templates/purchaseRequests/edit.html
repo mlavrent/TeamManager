@@ -9,5 +9,36 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to edit.html</h1>
+    <div id="content">
+        <h1 id="header">New Purchase Request</h1>
+        <form id="new-item-form" method="post" action="{% url 'purchaseRequests:edit_request' %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <label for="item-inp">Item:</label>
+                <input id="item-inp" type="text" name="item" maxlength="75" value="{{ pur_req.item }}"
+                       required autofocus>
+            </div>
+            <div class="form-row two-input-row">
+                <div id="id-cost-div" class="two-input-row-item">
+                    <label for="cost-inp">Cost:</label>
+                    <input id="cost-inp" type="number" name="cost" min="0" step="0.01" value="{{ pur_req.cost }}"
+                           required>
+                </div>
+
+                <div id="id-qty-div" class="two-input-row-item">
+                    <label for="qty-inp">Quantity:</label>
+                    <input id="qty-inp" type="number" name="quantity" min="1" value="{{ pur_req.quantity }}" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="url-inp">Link:</label>
+                <input id="url-inp" type="url" name="link" value="{{ pur_req.link }}" required>
+            </div>
+            <div class="submit-row form-row">
+                <input type="button" value="Cancel">
+                <input type="button" value="Delete">
+                <input type="submit" value="Save">
+            </div>
+        </form>
+    </div>
 {% endblock %}
