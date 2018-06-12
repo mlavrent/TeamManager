@@ -10,8 +10,8 @@
 
 {% block content %}
     <div id="content">
-        <h1 id="header">New Purchase Request</h1>
-        <form id="new-item-form" method="post" action="{% url 'purchaseRequests:edit_request' %}">
+        <h1 id="header">Edit Purchase Request</h1>
+        <form id="new-item-form" method="post" action="" %}">
             {% csrf_token %}
             <div class="form-row">
                 <label for="item-inp">Item:</label>
@@ -35,9 +35,9 @@
                 <input id="url-inp" type="url" name="link" value="{{ pur_req.link }}" required>
             </div>
             <div class="submit-row form-row">
-                <input type="button" value="Cancel">
-                <input type="button" value="Delete">
-                <input type="submit" value="Save">
+                <input type="button" id="cancel-button" value="Cancel">
+                <input type="button" id="delete-button" value="Delete">
+                <input type="submit" id="save-button" value="Save">
             </div>
         </form>
     </div>

@@ -1,0 +1,110 @@
+
+#content {
+    margin: 100px auto;
+    width: 28em;
+    min-width: 300px;
+    font-size: 14px;
+}
+
+#content #header {
+    text-align: center;
+}
+
+#content form {
+    margin: 0;
+    padding: 0;
+}
+
+.form-row {
+    padding: 4px 0;
+    float: left;
+    width: 100%;
+}
+
+.two-input-row {
+    display: inline-block;
+}
+
+.form-row label {
+    padding-right: 0.5em;
+    line-height: 2em;
+    font-size: 1em;
+    clear: both;
+    color: #333;
+}
+
+#item-inp, #cost-inp, #qty-inp, #url-inp {
+    clear: both;
+    padding: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+#item-inp, #cost-inp, #url-inp {
+    width: 100%;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.two-input-row-item {
+    display: inline-block;
+    width: 49%;
+}
+
+.two-input-row-item label {
+    display: block;
+}
+.two-input-row-item input {
+    display: block;
+    width: 100%;
+}
+
+#id-qty-div {
+    float: right;
+}
+
+#id-cost-div {
+    float: left;
+}
+
+.submit-row {
+    clear: both;
+    margin: auto;
+    border: none;
+    background: none;
+    text-align: right;
+}
+
+input[type="submit"], input[type="button"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #4caf50;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#delete-button {
+    background-color: #ba2121;
+    float: left;
+}
+
+#cancel-button {
+    background-color: #83c985;
+}
