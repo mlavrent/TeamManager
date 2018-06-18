@@ -44,6 +44,7 @@ body {
     padding: 15px 20px;
     color: #86181d;
     background-color: #ffdce0;
+    border: 1px solid #ccc;
 }
 
 #error-msgs p {
