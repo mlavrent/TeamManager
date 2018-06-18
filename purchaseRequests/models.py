@@ -9,7 +9,7 @@ class Request(models.Model):
     item = models.CharField(max_length=75)
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     quantity = models.PositiveSmallIntegerField()
-    link = models.URLField(max_length=200)
+    link = models.URLField(max_length=2000)
     approved = models.NullBooleanField()
 
     def __str__(self):
