@@ -42,13 +42,19 @@ body {
 #error-msgs {
     border-radius: 4px;
     padding: 15px 20px;
-    color: #86181d;
     background-color: #ffdce0;
     border: 1px solid #ccc;
 }
 
-#error-msgs p {
+#error-msgs p, #error-msgs a {
+    display: inline-block;
+    color: #86181d;
+    font-size: 13px;
     margin: 0;
+}
+
+#error-msgs a {
+    float: right;
 }
 
 #content form {

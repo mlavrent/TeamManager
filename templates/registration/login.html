@@ -6,6 +6,9 @@
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'registration/css/login.css' %}">
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=latin-ext" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
 {% endblock %}
 
 {% block content %}
@@ -16,9 +19,15 @@
         </div>
     </div>
     <div id="content">
+        {% if form.errors %}
         <div id="error-msgs">
             <p>Incorrect username or password.</p>
+            <a href="" onclick="document.getElementById('error-msgs').style.display = 'none';">
+                <i class="fas fa-times"></i>
+            </a>
         </div>
+        {% endif %}
+
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <div class="form-row">
