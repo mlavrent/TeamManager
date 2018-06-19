@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth import views
 
 
@@ -13,5 +13,5 @@ def login(request, **kwargs):
         return views.login(request, **kwargs)
 
 
-def signup(request, **kwargs):
-    return redirect('/purchase-requests')
+def signup(request):
+    return render(request, "registration/signup.html")
