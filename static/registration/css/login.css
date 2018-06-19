@@ -1,12 +1,21 @@
 
 body {
-    background-color: #f8f8f8;
+    background-color: #f9f9f9;
     font-size: 14px;
     font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 }
 
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 #container {
-    margin: 100px auto;
+    margin: 100px auto 0px auto;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     background: #fff;
@@ -103,6 +112,17 @@ input[type="submit"], button {
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
+}
+
+#signup-block {
+    margin: 16px auto;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    width: 28em;
+    min-width: 300px;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
 }
 
 #footer {
