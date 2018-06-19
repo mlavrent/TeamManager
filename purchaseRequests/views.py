@@ -10,10 +10,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from .models import Request
 
+
 @login_required
 def list(request):
     pur_req_list = Request.objects.all().order_by('-timestamp')
     return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
+
 
 @login_required
 def detail(request, pReq_id):
@@ -33,26 +35,26 @@ def detail(request, pReq_id):
                                                             'undec_class': undec,
                                                             'appr_class': appr,})
 
+
 @login_required
 def edit(request, pReq_id):
-    pur_req = get_object_or_404(Request, pk=pReq_id)
-    if pur_req.author == request.user or request.user.is_superuser:
-        return render(request, "purchaseRequests/edit.html", {'pur_req': pur_req})
+    if request.method == "POST":
+        pur_req = get_object_or_404(Request, pk=pReq_id)
+
+        pur_req.item = request.POST["item"]
+        pur_req.cost = request.POST["cost"]
+        pur_req.quantity = request.POST["quantity"]
+        pur_req.link = request.POST["link"]
+
+        pur_req.save()
+
+        return redirect("purchaseRequests:detail", pReq_id=pReq_id)
     else:
-        return redirect('')
-
-
-def edit_request(request, pReq_id):
-    pur_req = get_object_or_404(Request, pk=pReq_id)
-
-    pur_req.item = request.POST["item"]
-    pur_req.cost = request.POST["cost"]
-    pur_req.quantity = request.POST["quantity"]
-    pur_req.link = request.POST["link"]
-
-    pur_req.save()
-
-    return redirect("purchaseRequests:detail", pReq_id=pReq_id)
+        pur_req = get_object_or_404(Request, pk=pReq_id)
+        if pur_req.author == request.user or request.user.is_superuser:
+            return render(request, "purchaseRequests/edit.html", {'pur_req': pur_req})
+        else:
+            return redirect('')
 
 
 def delete_request(request, pReq_id):
@@ -62,18 +64,25 @@ def delete_request(request, pReq_id):
 
 @login_required
 def new_request(request):
-    return render(request, "purchaseRequests/new_request.html")
+    if request.method == "POST":
+        new_pur_req = Request.objects.create(timestamp=timezone.now(),
+                                             author=request.user,
+                                             item=request.POST["item"],
+                                             cost=float(request.POST["cost"]),
+                                             quantity=int(request.POST["quantity"]),
+                                             link=request.POST["link"], )
+        message = EmailMessage()
 
-def add_request(request):
-    new_pur_req = Request.objects.create(timestamp=timezone.now(),
-                                         author=request.user,
-                                         item=request.POST["item"],
-                                         cost=float(request.POST["cost"]),
-                                         quantity=int(request.POST["quantity"]),
-                                         link=request.POST["link"],)
-    message = EmailMessage()
-
-    simple_content = email_config.template_simple_email % (email_config.send_to_person,
+        simple_content = email_config.template_simple_email % (email_config.send_to_person,
+                                                               new_pur_req.author.get_username(),
+                                                               new_pur_req.item,
+                                                               new_pur_req.timestamp.strftime('%m/%d/%Y'),
+                                                               new_pur_req.item,
+                                                               new_pur_req.cost,
+                                                               new_pur_req.quantity,
+                                                               new_pur_req.cost * new_pur_req.quantity,
+                                                               new_pur_req.link,)
+        html_content = email_config.template_html_email % (email_config.send_to_person,
                                                            new_pur_req.author.get_username(),
                                                            new_pur_req.item,
                                                            new_pur_req.timestamp.strftime('%m/%d/%Y'),
@@ -81,29 +90,22 @@ def add_request(request):
                                                            new_pur_req.cost,
                                                            new_pur_req.quantity,
                                                            new_pur_req.cost * new_pur_req.quantity,
+                                                           new_pur_req.link,
                                                            new_pur_req.link,)
-    html_content = email_config.template_html_email % (email_config.send_to_person,
-                                                       new_pur_req.author.get_username(),
-                                                       new_pur_req.item,
-                                                       new_pur_req.timestamp.strftime('%m/%d/%Y'),
-                                                       new_pur_req.item,
-                                                       new_pur_req.cost,
-                                                       new_pur_req.quantity,
-                                                       new_pur_req.cost * new_pur_req.quantity,
-                                                       new_pur_req.link,
-                                                       new_pur_req.link,)
-    html_content.format(asparagus_cid=make_msgid()[1:-1])
+        html_content.format(asparagus_cid=make_msgid()[1:-1])
 
-    message.set_content(simple_content)
-    message.add_alternative(html_content, subtype='html')
-    message["Subject"] = "New Purchase Request for %s" % new_pur_req.item
-    message["From"] = email_config.app_email
-    message["To"] = email_config.send_to_email
+        message.set_content(simple_content)
+        message.add_alternative(html_content, subtype='html')
+        message["Subject"] = "New Purchase Request for %s" % new_pur_req.item
+        message["From"] = email_config.app_email
+        message["To"] = email_config.send_to_email
 
-    server = smtplib.SMTP(email_config.app_smtp_server, 587)
-    server.starttls()
-    server.login(email_config.app_email, environ.get("APP_PASS"))
-    server.send_message(message, email_config.app_email, email_config.send_to_email)
-    server.quit()
+        server = smtplib.SMTP(email_config.app_smtp_server, 587)
+        server.starttls()
+        server.login(email_config.app_email, environ.get("APP_PASS"))
+        server.send_message(message, email_config.app_email, email_config.send_to_email)
+        server.quit()
 
-    return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
+        return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
+    else:
+        return render(request, "purchaseRequests/new_request.html")

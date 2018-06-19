@@ -10,7 +10,7 @@
 {% block content %}
     <div id="content">
         <h1 id="header">New Purchase Request</h1>
-        <form id="new-item-form" method="post" action="{% url 'purchaseRequests:add_request' %}">
+        <form id="new-item-form" method="post" action="{% url 'purchaseRequests:new' %}">
             {% csrf_token %}
             <div class="form-row">
                 <label for="item-inp">Item:</label>
