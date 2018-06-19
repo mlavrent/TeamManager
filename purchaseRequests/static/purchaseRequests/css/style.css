@@ -32,3 +32,12 @@ th {
 .fa-question {
     color: #fb0;
 }
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
