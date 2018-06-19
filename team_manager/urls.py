@@ -21,7 +21,7 @@ from . import views
 urlpatterns = [
     path("purchase-requests/", include("purchaseRequests.urls")),
     path("", views.redirect_to_login),
-    path("login/", views.login),
+    path("login/", views.login, name="login"),
     path("join/", views.signup, name="signup"),
     path("", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
