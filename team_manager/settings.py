@@ -149,3 +149,16 @@ LOGOUT_REDIRECT_URL = 'login'
 
 import django_heroku
 django_heroku.settings(locals())
+
+
+# Email settings
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp-mail.outlook.com'
+
+EMAIL_HOST_USER = 'lavrema@outlook.com'
+
+EMAIL_HOST_PASSWORD = os.environ.get("APP_PASS")
+
+EMAIL_PORT = 587

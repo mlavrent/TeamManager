@@ -1,8 +1,5 @@
 from purchaseRequests import email_config
-from os import environ
-import smtplib
-from email.message import EmailMessage
-from email.utils import make_msgid
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -71,7 +68,6 @@ def new_request(request):
                                              cost=float(request.POST["cost"]),
                                              quantity=int(request.POST["quantity"]),
                                              link=request.POST["link"], )
-        message = EmailMessage()
 
         simple_content = email_config.template_simple_email % (email_config.send_to_person,
                                                                new_pur_req.author.get_username(),
@@ -92,19 +88,12 @@ def new_request(request):
                                                            new_pur_req.cost * new_pur_req.quantity,
                                                            new_pur_req.link,
                                                            new_pur_req.link,)
-        html_content.format(asparagus_cid=make_msgid()[1:-1])
 
-        message.set_content(simple_content)
-        message.add_alternative(html_content, subtype='html')
-        message["Subject"] = "New Purchase Request for %s" % new_pur_req.item
-        message["From"] = email_config.app_email
-        message["To"] = email_config.send_to_email
-
-        server = smtplib.SMTP(email_config.app_smtp_server, 587)
-        server.starttls()
-        server.login(email_config.app_email, environ.get("APP_PASS"))
-        server.send_message(message, email_config.app_email, email_config.send_to_email)
-        server.quit()
+        send_mail(subject="New purchase request for %s" % new_pur_req.item,
+                  message=simple_content,
+                  from_email="lavrema@outlook.com",
+                  recipient_list=email_config.send_to_emails,
+                  html_message=html_content)
 
         return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
     else:

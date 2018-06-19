@@ -1,8 +1,5 @@
 send_to_person = "Mark Lavrentyev"
-send_to_email = "lavrema@outlook.com"
-
-app_email = "lavrema@outlook.com"
-app_smtp_server = "smtp-mail.outlook.com"
+send_to_emails = ["lavrema@outlook.com"]
 
 template_simple_email = \
 """Hello %s,\n
@@ -16,7 +13,7 @@ and decide whether the purchase will be made.
 - Link: %s
 """
 template_html_email = \
-"""Hello %s,\n
+"""Hello %s,<br>
 %s added a request for the following item: <b>%s</b> on %s. Please review the following information about the request \
 and decide whether the purchase will be made.
 <ul>
