@@ -26,6 +26,7 @@
 .navbar-link:hover,
 .navbar-link:focus {
     color: white;
+    text-decoration: none;
 }
 
 #navbar-user {
