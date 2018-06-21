@@ -28,7 +28,7 @@
         </div>
         {% endif %}
 
-        <form method="post" action="{% url 'login' %}">
+        <form method="post" action="{% url 'accounts:login' %}">
             {% csrf_token %}
             <div class="form-row">
                 <label class="required" for="id_username">Username:</label>
@@ -48,7 +48,7 @@
 <div id="signup-block">
     <p>
         New here?
-        <a href="{% url 'signup' %}">Create an account</a>.
+        <a href="{% url 'accounts:signup' %}">Create an account</a>.
     </p>
 </div>
 {% endblock %}
