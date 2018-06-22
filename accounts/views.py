@@ -1,17 +1,21 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import views
+from django.contrib.auth.views import LoginView, TemplateView
 
 
 def redirect_to_login(request):
     return redirect('accounts:login', permanent=True)
 
 
-def login(request, **kwargs):
-    if request.user.is_authenticated:
-        return redirect('purchaseRequests:list')
-    else:
-        return views.login(request, **kwargs)
+class TMLogin(LoginView):
+    redirect_authenticated_user = True
 
 
-def signup(request):
-    return render(request, "registration/signup.html")
+class TMRegister(TemplateView):
+
+
+    def get(self, request, *args):
+        pass
+
+    def post(self, request):
+        pass
