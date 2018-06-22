@@ -1,0 +1,6 @@
+{% autoescape off %}
+Hi {{ user.first_name }},
+Please click on the link below to confirm your registration for FRC team 3654's team management site.
+
+http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+{% endautoescape %}

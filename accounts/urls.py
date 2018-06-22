@@ -6,5 +6,6 @@ urlpatterns = [
     path("", views.redirect_to_login),
     path("login/", views.login, name="login"),
     path("join/", views.signup, name="signup"),
+    path("activate/<uidb64>/<token>/", views.activate, name="activate"),
     path("", include("django.contrib.auth.urls")),
 ]
