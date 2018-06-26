@@ -1,0 +1,92 @@
+body {
+    font-size: 14px;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#header {
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#backto-login {
+    font-size: 12px;
+    text-align: center;
+}
+
+#backto-login p {
+    margin-top: 0;
+}
+
+#container {
+    margin: 20px auto 0px auto;
+    background: #fff;
+    width: 32em;
+    min-width: 300px;
+    overflow: hidden;
+}
+
+form {
+    margin: 0;
+    padding: 0;
+}
+
+.form-row {
+    padding: 4px 2px;
+    float: left;
+    width: 100%;
+}
+    .form-row label {
+    padding-right: 0.5em;
+    line-height: 2em;
+    font-size: 1em;
+    clear: both;
+    color: #333;
+}
+
+.form-row input {
+    clear: both;
+    padding: 8px;
+    width: 98%;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.form-row .errormsg {
+    color: #86181d;
+    font-size: 12px;
+    margin: 6px 0 6px 1em;
+}
+
+.submit-row {
+    clear: both;
+    margin: 0;
+    border: none;
+    background: none;
+    text-align: center;
+    padding-top: 1em;
+}
+input[type="submit"], button {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #4caf50;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
