@@ -1,0 +1,24 @@
+
+body {
+    background-color: #f9f9f9;
+    font-size: 20px;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+a {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#content {
+    max-width: 600px;
+    margin: 200px auto;
+    text-align: center;
+}
+#content p {
+    font-weight: 300;
+}

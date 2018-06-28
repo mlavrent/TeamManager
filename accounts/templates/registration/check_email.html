@@ -1,0 +1,19 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Sign up | TechTigers Team Manager{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'registration/css/check_email.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=latin-ext" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <img src="http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png">
+        <p>Congrats! You're registered. Now, just check your email address to complete the registration.</p>
+    </div>
+{% endblock %}

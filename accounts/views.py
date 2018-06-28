@@ -34,7 +34,7 @@ def signup(request):
                       message=message,
                       from_email="lavrema@outlook.com",
                       recipient_list=[to_email],)
-            return HttpResponse("Please confirm your email address to complete the registration.")
+            return render(request, "registration/check_email.html")
         else:
             return render(request, "registration/signup.html", {"form": form})
     else:
