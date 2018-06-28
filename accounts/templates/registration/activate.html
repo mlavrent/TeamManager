@@ -1,0 +1,29 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Activate your account | TechTigers Team Manager{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'registration/css/activate.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=latin-ext" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <img src="http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png">
+        {% if valid %}
+        <p>
+            You're account's been activated! You can now go
+            <a href="{% url 'accounts:login' %}">log in</a>.
+        </p>
+        {% else %}
+        <p>
+            Sorry, that activation link is invalid. You may have already activated your account. Try
+            <a href="{% url 'accounts:login' %}">logging in</a>.
+        </p>
+        {% endif %}
+    </div>
+{% endblock %}

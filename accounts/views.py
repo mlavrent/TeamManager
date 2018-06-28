@@ -11,7 +11,6 @@ from .forms import SignUpForm
 from .tokens import account_activation_token
 
 
-
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -52,9 +51,11 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('accounts:login')
+        is_valid = True
     else:
-        return HttpResponse("Activation link is invalid.")
+        is_valid = False
+
+    return render(request, "registration/activate.html", {"valid": is_valid})
 
 
 def redirect_to_login(request):
