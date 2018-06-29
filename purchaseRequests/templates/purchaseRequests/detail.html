@@ -28,13 +28,13 @@
         <div id="approval-states-container">
             <table id="approval-states-table">
                 <tr>
-                    <td class="{{ unappr_class }}">
+                    <td id="td-denied" class="{{ state.0 }} {{ selectable }}">
                         <i class="fas fa-times"></i>
                     </td>
-                    <td class="{{ undec_class }}">
+                    <td id="td-undecided" class="{{ state.1 }} {{ selectable }}">
                         <i class="fas fa-question"></i>
                     </td>
-                    <td class="{{ appr_class }}">
+                    <td id="td-approved" class="{{ state.2 }} {{ selectable }}">
                         <i class="fas fa-check"></i>
                     </td>
                 </tr>

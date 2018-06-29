@@ -56,21 +56,35 @@ main {
     color: white;
 }
 
-.selected-unappr {
-    background-color: red;
+
+#td-denied.current-state {
+    background-color: #ff0000;
 }
-.selected-unappr i {
+#td-denied.current-state i, #td-denied.sel:hover > i {
     color: white;
 }
-.selected-undec {
-    background-color: #fb0;
+#td-denied.sel:hover {
+    background-color: #ff6666;
 }
-.selected-undec i {
-    color:white;
+
+
+#td-undecided.current-state {
+    background-color: #ffbb00;
 }
-.selected-appr {
-    background-color: green;
-}
-.selected-appr i {
+#td-undecided.current-state i, #td-undecided.sel:hover > i {
     color: white;
+}
+#td-undecided.sel:hover {
+    background-color: #ffcf4d;
+}
+
+
+#td-approved.current-state {
+    background-color: #008000;
+}
+#td-approved.current-state i, #td-approved.sel:hover > i {
+    color: white;
+}
+#td-approved.sel:hover {
+    background-color: #009900;
 }
