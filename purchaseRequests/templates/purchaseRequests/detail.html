@@ -30,17 +30,20 @@
             <table id="approval-states-table">
                 <tr>
                     <td id="td-denied" class="{{ state.0 }} {{ selectable }}">
-                        <button class="approval-button" type="submit" name="den-but" form="approval-states-container">
+                        <button class="approval-button" type="submit" name="den-but"
+                                form="approval-states-container" {{ disable_buttons }}>
                             <i class="fas fa-times"></i>
                         </button>
                     </td>
                     <td id="td-undecided" class="{{ state.1 }} {{ selectable }}">
-                        <button class="approval-button" type="submit" name="und-but" form="approval-states-container">
+                        <button class="approval-button" type="submit" name="und-but"
+                                form="approval-states-container" {{ disable_buttons }}>
                             <i class="fas fa-question"></i>
                         </button>
                     </td>
                     <td id="td-approved" class="{{ state.2 }} {{ selectable }}">
-                        <button class="approval-button" type="submit" name="app-but" form="approval-states-container">
+                        <button class="approval-button" type="submit" name="app-but"
+                                form="approval-states-container" {{ disable_buttons }}>
                             <i class="fas fa-check"></i>
                         </button>
                     </td>

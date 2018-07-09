@@ -32,7 +32,9 @@ def detail(request, pReq_id):
         pur_req.save()
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
 
-    selectable = "sel" if request.user.groups.filter(name="Approver").exists() or request.user.is_superuser else ""
+    authorized = request.user.groups.filter(name="Approvers").exists() or request.user.is_superuser
+    selectable = "sel" if authorized else ""
+    disable_buttons = "" if authorized else "disabled"
     state = ["", "", ""]
     if pur_req.approved is True:
         state[2] = "current-state"
@@ -43,7 +45,8 @@ def detail(request, pReq_id):
 
     return render(request, "purchaseRequests/detail.html", {"pur_req": pur_req,
                                                             "state": state,
-                                                            "selectable": selectable,})
+                                                            "selectable": selectable,
+                                                            "disable_buttons": disable_buttons,})
 
 
 def change_preq_status(request, pReq_id):
