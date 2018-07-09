@@ -43,6 +43,7 @@ main {
 
 #approval-states-table {
     margin: auto;
+    border: 2px solid #ccc;
 }
 #approval-states-table tr {
     background-color: white;
