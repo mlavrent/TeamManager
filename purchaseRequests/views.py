@@ -8,6 +8,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Request
 
 
+class HttpResponseSeeOther(HttpResponseRedirect):
+    status_code = 303
+
+
 @login_required
 def list(request):
     pur_req_list = Request.objects.all().order_by('-timestamp')
@@ -17,8 +21,18 @@ def list(request):
 @login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
-    selectable = "sel" if request.user.groups.filter(name="Approver").exists() or request.user.is_superuser else ""
 
+    if request.method == "POST":
+        if "den-but" in request.POST:
+            pur_req.approved = False
+        elif "app-but" in request.POST:
+            pur_req.approved = True
+        elif "und-but" in request.POST:
+            pur_req.approved = None
+        pur_req.save()
+        return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
+
+    selectable = "sel" if request.user.groups.filter(name="Approver").exists() or request.user.is_superuser else ""
     state = ["", "", ""]
     if pur_req.approved is True:
         state[2] = "current-state"
@@ -26,10 +40,15 @@ def detail(request, pReq_id):
         state[0] = "current-state"
     else:
         state[1] = "current-state"
-    print(state, selectable)
+
     return render(request, "purchaseRequests/detail.html", {"pur_req": pur_req,
                                                             "state": state,
                                                             "selectable": selectable,})
+
+
+def change_preq_status(request, pReq_id):
+    return redirect("purchaseRequests:detail", pReq_id)
+
 
 
 @login_required

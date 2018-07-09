@@ -43,24 +43,34 @@ main {
 
 #approval-states-table {
     margin: auto;
-    font-size: 24px;
 }
 #approval-states-table tr {
     background-color: white;
 }
 
 #approval-states-table td {
-    padding: 14px;
-    width: 25px;
+    padding: 0;
     text-align: center;
+}
+
+.approval-button {
+    padding: 14px;
+    border: none;
+    background-color: inherit;
+    font-size: 24px;
     color: white;
+}
+.approval-button i {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
 }
 
 
 #td-denied.current-state {
     background-color: #ff0000;
 }
-#td-denied.current-state i, #td-denied.sel:hover > i {
+#td-denied.current-state i, #td-denied.sel:hover i {
     color: white;
 }
 #td-denied.sel:hover {
@@ -71,7 +81,7 @@ main {
 #td-undecided.current-state {
     background-color: #ffbb00;
 }
-#td-undecided.current-state i, #td-undecided.sel:hover > i {
+#td-undecided.current-state i, #td-undecided.sel:hover i {
     color: white;
 }
 #td-undecided.sel:hover {
@@ -82,7 +92,7 @@ main {
 #td-approved.current-state {
     background-color: #008000;
 }
-#td-approved.current-state i, #td-approved.sel:hover > i {
+#td-approved.current-state i, #td-approved.sel:hover i {
     color: white;
 }
 #td-approved.sel:hover {

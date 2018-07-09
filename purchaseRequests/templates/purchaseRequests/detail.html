@@ -25,20 +25,27 @@
             <li>Requester: {{ pur_req.author.username }}</li>
             <li id="link"><a href="{{ pur_req.link }}">{{ pur_req.link }}</a></li>
         </ul>
-        <div id="approval-states-container">
+        <form id="approval-states-container" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
+            {% csrf_token %}
             <table id="approval-states-table">
                 <tr>
                     <td id="td-denied" class="{{ state.0 }} {{ selectable }}">
-                        <i class="fas fa-times"></i>
+                        <button class="approval-button" type="submit" name="den-but" form="approval-states-container">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </td>
                     <td id="td-undecided" class="{{ state.1 }} {{ selectable }}">
-                        <i class="fas fa-question"></i>
+                        <button class="approval-button" type="submit" name="und-but" form="approval-states-container">
+                            <i class="fas fa-question"></i>
+                        </button>
                     </td>
                     <td id="td-approved" class="{{ state.2 }} {{ selectable }}">
-                        <i class="fas fa-check"></i>
+                        <button class="approval-button" type="submit" name="app-but" form="approval-states-container">
+                            <i class="fas fa-check"></i>
+                        </button>
                     </td>
                 </tr>
             </table>
-        </div>
+        </form>
     </div>
 {% endblock %}
