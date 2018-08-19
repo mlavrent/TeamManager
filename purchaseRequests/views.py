@@ -1,4 +1,5 @@
 from purchaseRequests import email_config
+from team_manager import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
@@ -112,7 +113,7 @@ def new_request(request):
 
         send_mail(subject="New purchase request for %s" % new_pur_req.item,
                   message=simple_content,
-                  from_email="lavrema@outlook.com",
+                  from_email=settings.EMAIL_HOST_USER,
                   recipient_list=email_config.send_to_emails,
                   html_message=html_content)
 
