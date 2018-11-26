@@ -62,8 +62,7 @@ def redirect_to_login(request):
     return redirect('accounts:login', permanent=True)
 
 
-def login(request, **kwargs):
-    if request.user.is_authenticated:
-        return redirect('purchaseRequests:list')
-    else:
-        return views.login(request, **kwargs)
+class LoginView(views.LoginView):
+    template_name = "registration/login.html"
+    redirect_authenticated_user = True
+
