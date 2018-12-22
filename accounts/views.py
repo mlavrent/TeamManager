@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from team_manager import settings
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
@@ -31,7 +32,7 @@ def signup(request):
             to_email = form.cleaned_data.get("email")
             send_mail(subject=mail_subject,
                       message=message,
-                      from_email="lavrema@outlook.com",
+                      from_email=settings.EMAIL_HOST_USER,
                       recipient_list=[to_email],)
             return render(request, "registration/check_email.html")
         else:
