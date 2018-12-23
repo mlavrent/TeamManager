@@ -164,3 +164,5 @@ EMAIL_PORT = 587
 # Aesthetic
 
 THEME_COLOR = "#ff9853"
+
+LIGHT_THEME_COLOR = "#ffb380"
