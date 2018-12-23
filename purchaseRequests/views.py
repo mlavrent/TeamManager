@@ -16,7 +16,12 @@ class HttpResponseSeeOther(HttpResponseRedirect):
 @login_required
 def list(request):
     pur_req_list = Request.objects.all().order_by('-timestamp')
-    return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
+
+    context = {
+        'pur_req_list': pur_req_list,
+        'theme_color': settings.THEME_COLOR,
+    }
+    return render(request, "purchaseRequests/list.html", context)
 
 
 @login_required
@@ -71,7 +76,12 @@ def edit(request, pReq_id):
     else:
         pur_req = get_object_or_404(Request, pk=pReq_id)
         if pur_req.author == request.user or request.user.is_superuser:
-            return render(request, "purchaseRequests/edit.html", {'pur_req': pur_req})
+            context = {
+                'pur_req': pur_req,
+                'theme_color': settings.THEME_COLOR,
+                'lt_theme_color': settings.LIGHT_THEME_COLOR,
+            }
+            return render(request, "purchaseRequests/edit.html", context)
         else:
             return redirect('')
 
@@ -119,4 +129,4 @@ def new_request(request):
 
         return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
     else:
-        return render(request, "purchaseRequests/new_request.html")
+        return render(request, "purchaseRequests/new_request.html", {'theme_color': settings.THEME_COLOR})
