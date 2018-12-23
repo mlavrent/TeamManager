@@ -73,5 +73,8 @@ def redirect_to_login(request):
 
 class LoginView(views.LoginView):
     template_name = "registration/login.html"
+    extra_context = {
+        "theme_color": settings.THEME_COLOR,
+    }
     redirect_authenticated_user = True
 
