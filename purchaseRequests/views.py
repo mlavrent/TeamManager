@@ -2,11 +2,13 @@ from purchaseRequests import email_config
 from team_manager import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Request
+import csv
 
 
 class HttpResponseSeeOther(HttpResponseRedirect):
@@ -23,6 +25,28 @@ def list(request):
     }
     return render(request, "purchaseRequests/list.html", context)
 
+
+@login_required
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id', 'timestamp', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
+
+    for pur_req in Request.objects.all().order_by('-timestamp').values():
+        writer.writerow([
+            pur_req['id'],
+            pur_req['timestamp'],
+            User.objects.get(pk=pur_req['author_id']).get_username(),
+            pur_req['cost'],
+            pur_req['quantity'],
+            pur_req['cost'] * pur_req['quantity'],
+            pur_req['link'],
+            pur_req['approved'],
+        ])
+
+    return response
 
 @login_required
 def detail(request, pReq_id):
