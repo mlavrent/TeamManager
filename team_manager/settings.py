@@ -159,3 +159,10 @@ EMAIL_HOST_USER = 'mercytechtigers3654@outlook.com'
 EMAIL_HOST_PASSWORD = os.environ.get("APP_PASS")
 
 EMAIL_PORT = 587
+
+
+# Aesthetic
+
+THEME_COLOR = "#ff9853"
+
+LIGHT_THEME_COLOR = "#ffb380"

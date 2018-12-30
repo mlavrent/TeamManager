@@ -36,10 +36,18 @@ def signup(request):
                       recipient_list=[to_email],)
             return render(request, "registration/check_email.html")
         else:
-            return render(request, "registration/signup.html", {"form": form})
+            context = {
+                "form": form,
+                "theme_color": settings.THEME_COLOR,
+            }
+            return render(request, "registration/signup.html", context)
     else:
         form = SignUpForm()
-        return render(request, "registration/signup.html", {"form": form})
+        context = {
+            "form": form,
+            "theme_color": settings.THEME_COLOR,
+        }
+        return render(request, "registration/signup.html", context)
 
 
 def activate(request, uidb64, token):
@@ -65,5 +73,8 @@ def redirect_to_login(request):
 
 class LoginView(views.LoginView):
     template_name = "registration/login.html"
+    extra_context = {
+        "theme_color": settings.THEME_COLOR,
+    }
     redirect_authenticated_user = True
 

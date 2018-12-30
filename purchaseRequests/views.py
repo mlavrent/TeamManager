@@ -2,11 +2,13 @@ from purchaseRequests import email_config
 from team_manager import settings
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Request
+import csv
 
 
 class HttpResponseSeeOther(HttpResponseRedirect):
@@ -16,8 +18,35 @@ class HttpResponseSeeOther(HttpResponseRedirect):
 @login_required
 def list(request):
     pur_req_list = Request.objects.all().order_by('-timestamp')
-    return render(request, "purchaseRequests/list.html", {'pur_req_list': pur_req_list})
 
+    context = {
+        'pur_req_list': pur_req_list,
+        'theme_color': settings.THEME_COLOR,
+    }
+    return render(request, "purchaseRequests/list.html", context)
+
+
+@login_required
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['id', 'timestamp', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
+
+    for pur_req in Request.objects.all().order_by('-timestamp').values():
+        writer.writerow([
+            pur_req['id'],
+            pur_req['timestamp'],
+            User.objects.get(pk=pur_req['author_id']).get_username(),
+            pur_req['cost'],
+            pur_req['quantity'],
+            pur_req['cost'] * pur_req['quantity'],
+            pur_req['link'],
+            pur_req['approved'],
+        ])
+
+    return response
 
 @login_required
 def detail(request, pReq_id):
@@ -71,7 +100,12 @@ def edit(request, pReq_id):
     else:
         pur_req = get_object_or_404(Request, pk=pReq_id)
         if pur_req.author == request.user or request.user.is_superuser:
-            return render(request, "purchaseRequests/edit.html", {'pur_req': pur_req})
+            context = {
+                'pur_req': pur_req,
+                'theme_color': settings.THEME_COLOR,
+                'lt_theme_color': settings.LIGHT_THEME_COLOR,
+            }
+            return render(request, "purchaseRequests/edit.html", context)
         else:
             return redirect('')
 
@@ -119,4 +153,4 @@ def new_request(request):
 
         return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
     else:
-        return render(request, "purchaseRequests/new_request.html")
+        return render(request, "purchaseRequests/new_request.html", {'theme_color': settings.THEME_COLOR})
