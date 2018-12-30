@@ -16,7 +16,14 @@
 {% block content %}
     <div id="content">
         <h1>Purchase Requests for Team 3654</h1>
-        <a href="{% url 'purchaseRequests:export' %}">Export</a>
+        <div id="filter-bar">
+            <form>
+                <input type="date">
+                <input type="date">
+                <input type="text">
+            </form>
+            <a id="export" href="{% url 'purchaseRequests:export' %}">Export</a>
+        </div>
         <table id="reqlist">
             <thead>
                 <tr>
