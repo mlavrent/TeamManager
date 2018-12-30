@@ -123,7 +123,9 @@ def new_request(request):
                                              item=request.POST["item"],
                                              cost=float(request.POST["cost"]),
                                              quantity=int(request.POST["quantity"]),
-                                             link=request.POST["link"], )
+                                             link=request.POST["link"],)
+
+        path_to_req = reverse("purchaseRequests:detail", args=(new_pur_req.id,))
 
         simple_content = email_config.template_simple_email % (email_config.send_to_person,
                                                                new_pur_req.author.get_username(),
@@ -133,7 +135,8 @@ def new_request(request):
                                                                new_pur_req.cost,
                                                                new_pur_req.quantity,
                                                                new_pur_req.cost * new_pur_req.quantity,
-                                                               new_pur_req.link,)
+                                                               new_pur_req.link,
+                                                               path_to_req)
         html_content = email_config.template_html_email % (email_config.send_to_person,
                                                            new_pur_req.author.get_username(),
                                                            new_pur_req.item,
@@ -143,7 +146,8 @@ def new_request(request):
                                                            new_pur_req.quantity,
                                                            new_pur_req.cost * new_pur_req.quantity,
                                                            new_pur_req.link,
-                                                           new_pur_req.link,)
+                                                           new_pur_req.link,
+                                                           path_to_req)
 
         send_mail(subject="New purchase request for %s" % new_pur_req.item,
                   message=simple_content,
@@ -151,6 +155,6 @@ def new_request(request):
                   recipient_list=email_config.send_to_emails,
                   html_message=html_content)
 
-        return HttpResponseRedirect(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
+        return HttpResponseRedirect(path_to_req)
     else:
         return render(request, "purchaseRequests/new_request.html", {'theme_color': settings.THEME_COLOR})

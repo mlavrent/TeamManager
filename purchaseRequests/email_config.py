@@ -1,9 +1,9 @@
 send_to_person = "Robot Person"
 send_to_emails = ["lavrema@outlook.com",
-                  "lingyi19329@gmail.com",
-                  "snernst@comcast.net",
-                  "bbach@mercyhigh.com",
-                  "kateseelig@gmail.com"]
+                  "lingyi19329@gmail.com",]
+                  #"snernst@comcast.net",
+                  #"bbach@mercyhigh.com",
+                  #"kateseelig@gmail.com"]
 
 template_simple_email = \
 """Hello %s,\n
@@ -15,6 +15,8 @@ and decide whether the purchase will be made.
 - Quantity: %d
 - Total cost: $%.2f
 - Link: %s
+
+You can view the request here: %s
 """
 template_html_email = \
 """Hello %s,<br>
@@ -27,4 +29,6 @@ and decide whether the purchase will be made.
     <li>Total cost: $%.2f</li>
     <li>Link: <a href=%s>%s</a></li>
 </ul>
+
+You can view the request <a href="%s">here</a>.
 """
