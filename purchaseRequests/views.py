@@ -125,7 +125,7 @@ def new_request(request):
                                              quantity=int(request.POST["quantity"]),
                                              link=request.POST["link"],)
 
-        path_to_req = reverse("purchaseRequests:detail", args=(new_pur_req.id,))
+        path_to_req = request.build_absolute_uri(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
 
         simple_content = email_config.template_simple_email % (email_config.send_to_person,
                                                                new_pur_req.author.get_username(),
