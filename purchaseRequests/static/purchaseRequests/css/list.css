@@ -17,8 +17,27 @@ input[type="text"] {
 }
 
 .datepicker {
-    width: 7em;
+    width: 10em;
     text-align: center;
+}
+
+.input-icon {
+    position: relative;
+}
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    margin: 0px 5px;
+    font-style: normal;
+}
+.input-icon > input {
+    padding-left: 25px !important;
+    padding-right: 0;
 }
 
 

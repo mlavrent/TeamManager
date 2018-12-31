@@ -8,8 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/nav_bar.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
           crossorigin="anonymous">
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -22,10 +22,17 @@
     <div id="content">
         <h1>Purchase Requests for Team 3654</h1>
         <div id="filter-bar">
-            <form>
-                <input type="text" name="startdate" class="datepicker" id="startdate">
-                <input type="text" name="enddate" class="datepicker"  id="enddate">
+            <form method="get" action="{% url 'purchaseRequests:list' %}">
+                <div class="input-icon">
+                    <input type="text" name="startdate" class="datepicker" id="startdate">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <div class="input-icon">
+                    <input type="text" name="enddate" class="datepicker"  id="enddate">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
                 <input type="text" name="q" placeholder="Search">
+                <input type="submit" value="Apply filters">
             </form>
             <script type="text/javascript">
                 $("#startdate").daterangepicker({
