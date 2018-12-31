@@ -23,18 +23,35 @@
         <h1>Purchase Requests for Team 3654</h1>
         <div id="filter-bar">
             <form>
-                <input type="text" name="startdate" class="datepicker">
-                <input type="text" name="enddate" class="datepicker" placeholder="">
+                <input type="text" name="startdate" class="datepicker" id="startdate">
+                <input type="text" name="enddate" class="datepicker"  id="enddate">
                 <input type="text" name="q" placeholder="Search">
             </form>
             <script type="text/javascript">
-                $(".datepicker").daterangepicker({
+                $("#startdate").daterangepicker({
                     "singleDatePicker": true,
-                    "maxYear": 2019,
+                    "maxDate": "{% now 'm/d/Y' %}",
                     "startDate": "12/25/2018",
-                    "endDate": "12/31/2018",
+                    "endDate": "12/25/2018",
                     "opens": "center"
-                }, function(start, end, label) {});
+                }, function(start, end, label){
+                    var ed = $("#enddate").data('daterangepicker');
+                    ed.minDate = start;
+                    ed.updateView();
+                    ed.updateCalendars();
+                });
+                $("#enddate").daterangepicker({
+                    "singleDatePicker": true,
+                    "maxDate": "{% now 'm/d/Y' %}",
+                    "startDate": "{% now 'm/d/Y' %}",
+                    "endDate": "{% now 'm/d/Y' %}",
+                    "opens": "center"
+                }, function(start, end, label){
+                    var sd = $("#startdate").data('daterangepicker');
+                    sd.maxDate = start;
+                    sd.updateView();
+                    sd.updateCalendars();
+                });
             </script>
 
             <a id="export" href="{% url 'purchaseRequests:export' %}">Export</a>
