@@ -77,4 +77,4 @@ class LoginView(views.LoginView):
         "theme_color": settings.THEME_COLOR,
     }
     redirect_authenticated_user = True
-
+    redirect_field_name = "next"

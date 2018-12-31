@@ -28,7 +28,7 @@
         </div>
         {% endif %}
 
-        <form method="post" action="{% url 'accounts:login' %}">
+        <form method="post" action="{% url 'accounts:login' %}?next={{ next }}">
             {% csrf_token %}
             <div class="form-row">
                 <label class="required" for="id_username">Username:</label>
