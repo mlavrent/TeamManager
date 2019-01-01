@@ -68,9 +68,9 @@ def list(request):
     print()
 
     submitted_filters = {
-        "start": request.GET["start"] if validate_date_input(request.GET["start"]) else "",
-        "end": request.GET["end"] if validate_date_input(request.GET["end"]) else "",
-        "q": request.GET["q"],
+        "start": request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
+        "end": request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
+        "q": request.GET["q"] if "q" in request.GET else "",
     }
 
     context = {

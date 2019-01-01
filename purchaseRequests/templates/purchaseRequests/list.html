@@ -24,11 +24,11 @@
         <div id="filter-bar">
             <form method="get" action="{% url 'purchaseRequests:list' %}">
                 <div class="input-icon filter date-input">
-                    <input type="text" name="start" class="datepicker" id="startdate">
+                    <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
                     <i class="far fa-calendar-alt"></i>
                 </div>
                 <div class="input-icon filter date-input">
-                    <input type="text" name="end" class="datepicker"  id="enddate">
+                    <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
                     <i class="far fa-calendar-alt"></i>
                 </div>
                 <input type="text" name="q" placeholder="Search" value="{{ filters.q }}" id="search-bar" class="filter">
@@ -38,8 +38,15 @@
                 $("#startdate").daterangepicker({
                     singleDatePicker: true,
                     maxDate: "{% now 'm/d/Y' %}",
+
+                    {% if submitted_filters.start %}
+                    startDate: "{{ submitted_filters.start }}",
+                    endDate: "{{ submitted_filters.start }}",
+                    {% else %}
                     startDate: "{% now 'm/d/Y' %}",
                     endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
                     autoUpdateInput: false,
                     opens: "center",
                     locale: {
@@ -56,8 +63,15 @@
                 $("#enddate").daterangepicker({
                     singleDatePicker: true,
                     maxDate: "{% now 'm/d/Y' %}",
+
+                    {% if submitted_filters.end %}
+                    startDate: "{{ submitted_filters.end }}",
+                    endDate: "{{ submitted_filters.end }}",
+                    {% else %}
                     startDate: "{% now 'm/d/Y' %}",
                     endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
                     autoUpdateInput: false,
                     opens: "center",
                     locale: {
