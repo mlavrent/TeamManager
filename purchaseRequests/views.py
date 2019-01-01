@@ -39,13 +39,27 @@ def list(request):
         pur_reqs = pur_reqs.filter(timestamp__lt=et)
 
     # Search bar
-    # if "q" in request.GET and request.GET["q"].startswith("user:"):
-    #     user_search = request.GET["q"][5:]
-    #     #pur_reqs = pur_reqs.annotate(search=SearchVector()).filter(search=user_search)
-    # elif "q" in request.GET and request.GET["q"]:
-    #     pur_reqs = pur_reqs.annotate(
-    #         search=SearchVector("item"),
-    #     ).filter(search=request.GET["q"])
+    if "q" in request.GET and request.GET["q"]:
+        search_terms = request.GET["q"].split()
+
+        product_terms = []
+        user_terms = []
+        for term in search_terms:
+            if term.startswith("user:"):
+                user_terms.append(term[5:])
+            else:
+                product_terms.append(term)
+
+        for p_term in product_terms:
+            pur_reqs = pur_reqs.annotate(
+                search=SearchVector("item")
+            ).filter(search=p_term)
+            print(pur_reqs)
+
+        for u_term in user_terms:
+            pur_reqs = pur_reqs.annotate(
+                search=SearchVector("author__username")
+            ).filter(search=u_term)
 
     context = {
         'pur_req_list': pur_reqs.order_by('-timestamp'),
