@@ -13,10 +13,10 @@ I recommend running this application on Heroku. To deploy the app to Heroku:
 1. Clone this repository using `git clone https://github.com/MLavrentyev/TeamManager`
 2. Run `heroku create <your-app-name>`
 3. You will also need to add the py_trgm. To do this:
-  - run `heroku pg:psql` to connect to the database on heroku
-  - run `CREATE EXTENSION pg_trgm;` to add the extension
-  - check that it was in fact added by running `\dx`. You should see py_trgm listed.
-  - that's it! you can exit using `\q`.
+    - run `heroku pg:psql` to connect to the database on heroku
+    - run `CREATE EXTENSION pg_trgm;` to add the extension
+    - check that it was in fact added by running `\dx`. You should see py_trgm listed.
+    - that's it! you can exit using `\q`.
 4. Deploy to heroku using `git push heroku master`
 5. To create an admin, use `heroku run python manage.py createsuperuser`. Follow the prompts to provide a username, password, and email for the admin.
 
