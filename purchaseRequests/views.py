@@ -7,9 +7,11 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchVector
 from .models import Request
 import csv
-
+from datetime import datetime, timedelta
+import pytz
 
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
@@ -17,10 +19,36 @@ class HttpResponseSeeOther(HttpResponseRedirect):
 
 @login_required
 def list(request):
-    pur_req_list = Request.objects.all().order_by('-timestamp')
+    pur_reqs = Request.objects.all()
+
+    in_format = "%m/%d/%Y"
+    db_format = "%Y-%m-%d"
+
+    # Date filters
+    if "start" in request.GET and request.GET["start"]:
+        st = datetime.strptime(request.GET["start"], in_format)
+        st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        print(st)
+        pur_reqs = pur_reqs.filter(timestamp__gte=st)
+
+    if "end" in request.GET and request.GET["end"]:
+        et = datetime.strptime(request.GET["end"], in_format)
+        et += timedelta(days=1)
+        et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        print(et)
+        pur_reqs = pur_reqs.filter(timestamp__lt=et)
+
+    # Search bar
+    # if "q" in request.GET and request.GET["q"].startswith("user:"):
+    #     user_search = request.GET["q"][5:]
+    #     #pur_reqs = pur_reqs.annotate(search=SearchVector()).filter(search=user_search)
+    # elif "q" in request.GET and request.GET["q"]:
+    #     pur_reqs = pur_reqs.annotate(
+    #         search=SearchVector("item"),
+    #     ).filter(search=request.GET["q"])
 
     context = {
-        'pur_req_list': pur_req_list,
+        'pur_req_list': pur_reqs.order_by('-timestamp'),
         'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/list.html", context)
@@ -32,12 +60,14 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['id', 'timestamp', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
+    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
 
     for pur_req in Request.objects.all().order_by('-timestamp').values():
+        timestamp = pur_req['timestamp'].astimezone(pytz.timezone(settings.TIME_ZONE))
         writer.writerow([
             pur_req['id'],
-            pur_req['timestamp'],
+            timestamp.strftime("%b %d, %Y"),
+            timestamp.strftime("%H:%M"),
             User.objects.get(pk=pur_req['author_id']).get_username(),
             pur_req['cost'],
             pur_req['quantity'],
