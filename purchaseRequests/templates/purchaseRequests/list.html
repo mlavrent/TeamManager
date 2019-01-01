@@ -23,41 +23,53 @@
         <h1>Purchase Requests for Team 3654</h1>
         <div id="filter-bar">
             <form method="get" action="{% url 'purchaseRequests:list' %}">
-                <div class="input-icon">
+                <div class="input-icon filter date-input">
                     <input type="text" name="start" class="datepicker" id="startdate">
                     <i class="far fa-calendar-alt"></i>
                 </div>
-                <div class="input-icon">
+                <div class="input-icon filter date-input">
                     <input type="text" name="end" class="datepicker"  id="enddate">
                     <i class="far fa-calendar-alt"></i>
                 </div>
-                <input type="text" name="q" placeholder="Search">
-                <input type="submit" value="Apply filters">
+                <input type="text" name="q" placeholder="Search" value="{{ filters.q }}" id="search-bar" class="filter">
+                <input type="submit" value="Apply filters" id="submit-filter" class="filter">
             </form>
             <script type="text/javascript">
                 $("#startdate").daterangepicker({
-                    "singleDatePicker": true,
-                    "maxDate": "{% now 'm/d/Y' %}",
-                    "startDate": "12/25/2018",
-                    "endDate": "12/25/2018",
-                    "opens": "center"
+                    singleDatePicker: true,
+                    maxDate: "{% now 'm/d/Y' %}",
+                    startDate: "{% now 'm/d/Y' %}",
+                    endDate: "{% now 'm/d/Y' %}",
+                    autoUpdateInput: false,
+                    opens: "center",
+                    locale: {
+                        format: "MM/DD/YYYY",
+                    },
                 }, function(start, end, label){
                     var ed = $("#enddate").data('daterangepicker');
                     ed.minDate = start;
                     ed.updateView();
                     ed.updateCalendars();
+
+                    $("#startdate").val(start.format('MM/DD/YYYY'));
                 });
                 $("#enddate").daterangepicker({
-                    "singleDatePicker": true,
-                    "maxDate": "{% now 'm/d/Y' %}",
-                    "startDate": "{% now 'm/d/Y' %}",
-                    "endDate": "{% now 'm/d/Y' %}",
-                    "opens": "center"
+                    singleDatePicker: true,
+                    maxDate: "{% now 'm/d/Y' %}",
+                    startDate: "{% now 'm/d/Y' %}",
+                    endDate: "{% now 'm/d/Y' %}",
+                    autoUpdateInput: false,
+                    opens: "center",
+                    locale: {
+                        format: "MM/DD/YYYY",
+                    },
                 }, function(start, end, label){
                     var sd = $("#startdate").data('daterangepicker');
                     sd.maxDate = start;
                     sd.updateView();
                     sd.updateCalendars();
+
+                    $("#enddate").val(start.format('MM/DD/YYYY'));
                 });
             </script>
 
