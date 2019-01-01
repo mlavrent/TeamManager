@@ -24,18 +24,23 @@ def list(request):
     in_format = "%m/%d/%Y"
     db_format = "%Y-%m-%d"
 
+    def validate_date_input(date_str):
+        try:
+            datetime.strptime(date_str, in_format)
+            return True
+        except ValueError:
+            return False
+
     # Date filters
-    if "start" in request.GET and request.GET["start"]:
+    if "start" in request.GET and validate_date_input(request.GET["start"]):
         st = datetime.strptime(request.GET["start"], in_format)
         st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
-        print(st)
         pur_reqs = pur_reqs.filter(timestamp__gte=st)
 
-    if "end" in request.GET and request.GET["end"]:
+    if "end" in request.GET and validate_date_input(request.GET["end"]):
         et = datetime.strptime(request.GET["end"], in_format)
         et += timedelta(days=1)
         et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
-        print(et)
         pur_reqs = pur_reqs.filter(timestamp__lt=et)
 
     # Search bar
@@ -54,15 +59,23 @@ def list(request):
             pur_reqs = pur_reqs.annotate(
                 search=SearchVector("item")
             ).filter(search=p_term)
-            print(pur_reqs)
 
         for u_term in user_terms:
             pur_reqs = pur_reqs.annotate(
                 search=SearchVector("author__username")
             ).filter(search=u_term)
 
+    print()
+
+    submitted_filters = {
+        "start": request.GET["start"] if validate_date_input(request.GET["start"]) else "",
+        "end": request.GET["end"] if validate_date_input(request.GET["end"]) else "",
+        "q": request.GET["q"],
+    }
+
     context = {
         'pur_req_list': pur_reqs.order_by('-timestamp'),
+        'filters': submitted_filters,
         'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/list.html", context)
