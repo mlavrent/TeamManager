@@ -34,6 +34,27 @@
                     </div>
                 </div>
                 <input type="text" name="q" placeholder="Search" value="{{ filters.q }}" id="search-bar" class="filter">
+                <div id="approval-filter" class="filter">
+                    <table id="approval-states-table">
+                        <tr>
+                            <td id="td-approved" class="{{ state.2 }} {{ selectable }}">
+                                <button class="approval-button" type="submit" name="app-but">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </td>
+                            <td id="td-undecided" class="{{ state.1 }} {{ selectable }}">
+                                <button class="approval-button" type="submit" name="und-but">
+                                    <i class="fas fa-question"></i>
+                                </button>
+                            </td>
+                            <td id="td-denied" class="{{ state.0 }} {{ selectable }}">
+                                <button class="approval-button" type="submit" name="den-but">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <input type="submit" value="Apply filters" id="submit-filter" class="filter">
             </form>
             <script type="text/javascript">

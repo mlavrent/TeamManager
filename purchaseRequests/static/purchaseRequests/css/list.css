@@ -52,17 +52,16 @@ input[type="text"] {
 }
 .filter {
     display: inline-flex;
+    margin: 0 10px;
 }
 #date-filter {
     display: inline-block;
-    margin: 0 10px;
 }
 #search-bar {
     flex: 1;
 }
 #submit-filter {
     float: right;
-    margin: 0 10px;
 }
 
 input[type="submit"] {
@@ -76,6 +75,44 @@ input[type="submit"] {
     cursor: pointer;
 }
 
+
+#approval-states-table {
+    margin: auto;
+    border: 1px solid #ccc;
+    border-spacing: 0;
+    border-radius: 4px;
+}
+#approval-states-table tr {
+    background-color: white;
+}
+#approval-states-table td:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+#approval-states-table td:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#approval-states-table td {
+    padding: 0;
+    text-align: center;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.approval-button {
+    padding: 10px;
+    border: none;
+    background-color: inherit;
+    font-size: 24px;
+    color: white;
+}
+.approval-button i {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
 
 
 
