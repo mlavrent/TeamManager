@@ -23,13 +23,15 @@
         <h1>Purchase Requests for Team 3654</h1>
         <div id="filter-bar">
             <form method="get" action="{% url 'purchaseRequests:list' %}">
-                <div class="input-icon filter date-input">
-                    <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
-                    <i class="far fa-calendar-alt"></i>
-                </div>
-                <div class="input-icon filter date-input">
-                    <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
-                    <i class="far fa-calendar-alt"></i>
+                <div id="date-filter" class="filter">
+                    <div class="input-icon date-input">
+                        <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <div class="input-icon date-input">
+                        <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
                 </div>
                 <input type="text" name="q" placeholder="Search" value="{{ filters.q }}" id="search-bar" class="filter">
                 <input type="submit" value="Apply filters" id="submit-filter" class="filter">
