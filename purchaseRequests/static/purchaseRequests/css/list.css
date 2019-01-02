@@ -97,8 +97,8 @@ input[type="submit"] {
 #approval-states-table td {
     padding: 0;
     text-align: center;
-    border: 1px solid #ddd;
     overflow: hidden;
+    background-color: #f7f7f7;
 }
 
 .approval-button {
@@ -112,6 +112,10 @@ input[type="submit"] {
     font-size: 16px;
     height: 16px;
     width: 16px;
+}
+#td-undecided {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 
