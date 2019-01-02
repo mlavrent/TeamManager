@@ -16,6 +16,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script type="text/javascript" src="{% static 'purchaseRequests/js/list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -38,17 +40,17 @@
                     <table id="approval-states-table">
                         <tr>
                             <td id="td-approved" class="">
-                                <button class="approval-button" name="app-but">
+                                <button class="approval-button" type="button" name="app-but">
                                     <i class="fas fa-check"></i>
                                 </button>
                             </td>
                             <td id="td-undecided" class="">
-                                <button class="approval-button" name="und-but">
+                                <button class="approval-button" type="button" name="und-but">
                                     <i class="fas fa-question"></i>
                                 </button>
                             </td>
                             <td id="td-denied" class="">
-                                <button class="approval-button" name="den-but">
+                                <button class="approval-button" type="button" name="den-but">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </td>

@@ -98,7 +98,10 @@ input[type="submit"] {
     padding: 0;
     text-align: center;
     overflow: hidden;
-    background-color: #f7f7f7;
+    background-color: #fdfdfd;
+}
+#approval-states-table td:hover {
+    background-color: #f5f5f5;
 }
 
 .approval-button {
