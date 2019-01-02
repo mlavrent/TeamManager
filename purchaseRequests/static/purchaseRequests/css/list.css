@@ -52,7 +52,7 @@ input[type="text"] {
 }
 .filter {
     display: inline-flex;
-    margin: 0 10px;
+    margin: 0 5px !important;
 }
 #date-filter {
     display: inline-block;
