@@ -48,6 +48,7 @@ def export(request):
 
     return response
 
+
 @login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
@@ -79,9 +80,9 @@ def detail(request, pReq_id):
                                                             "disable_buttons": disable_buttons,})
 
 
+@login_required
 def change_preq_status(request, pReq_id):
     return redirect("purchaseRequests:detail", pReq_id)
-
 
 
 @login_required
