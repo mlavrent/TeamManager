@@ -39,7 +39,6 @@
             <script type="text/javascript">
                 $("#startdate").daterangepicker({
                     singleDatePicker: true,
-                    maxDate: "{% now 'm/d/Y' %}",
 
                     {% if submitted_filters.start %}
                     startDate: "{{ submitted_filters.start }}",
@@ -47,6 +46,12 @@
                     {% else %}
                     startDate: "{% now 'm/d/Y' %}",
                     endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
+                    {% if submitted_filters.end %}
+                    maxDate: "{{ submitted_filters.end }}",
+                    {% else %}
+                    maxDate: "{% now 'm/d/Y' %}",
                     {% endif %}
 
                     autoUpdateInput: false,
@@ -72,6 +77,10 @@
                     {% else %}
                     startDate: "{% now 'm/d/Y' %}",
                     endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
+                    {% if submitted_filters.start %}
+                    minDate: "{{ submitted_filters.start }}",
                     {% endif %}
 
                     autoUpdateInput: false,
