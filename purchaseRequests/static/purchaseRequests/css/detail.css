@@ -44,14 +44,26 @@ main {
 #approval-states-table {
     margin: auto;
     border: 2px solid #ccc;
+    border-spacing: 0;
+    border-radius: 10px;
 }
 #approval-states-table tr {
     background-color: white;
+}
+#approval-states-table td:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+#approval-states-table td:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 #approval-states-table td {
     padding: 0;
     text-align: center;
+    border: 1px solid #ddd;
+    overflow: hidden;
 }
 
 .approval-button {
@@ -88,7 +100,6 @@ main {
 #td-undecided.sel:hover {
     background-color: #ffcf4d;
 }
-
 
 #td-approved.current-state {
     background-color: #008000;
