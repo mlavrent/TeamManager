@@ -107,7 +107,20 @@ input[type="submit"] {
 .approval-button {
     display: none;
 }
+.approval-button:checked + label i {
+    color: white;
+}
+#app-but:checked + label {
+    background-color: #008000;
+}
+#und-but:checked + label {
+    background-color: #ffbb00;
+}
+#den-but:checked + label {
+    background-color: #ff0000;
+}
 .app-label-div {
+    display: block;
     padding: 10px;
     border: none;
     background-color: inherit;
