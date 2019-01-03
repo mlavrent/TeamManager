@@ -4,12 +4,168 @@
     margin: 0 15%;
 }
 
+input[type="text"] {
+    clear: both;
+    padding: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.datepicker {
+    width: 10em;
+    text-align: center;
+}
+
+.input-icon {
+    position: relative;
+}
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    margin: 0px 5px;
+    font-style: normal;
+}
+.input-icon > input {
+    padding-left: 25px !important;
+    padding-right: 0;
+}
+
+#filter-bar form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.date-input {
+    display: inline-block;
+    whitespace: nowrap;
+    margin: 1px 0;
+}
+.filter {
+    display: inline-flex;
+    margin: 0 5px !important;
+}
+#date-filter {
+    display: inline-block;
+}
+#search-bar {
+    flex: 1;
+}
+#submit-filter {
+    float: right;
+}
+
+input[type="submit"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #7bb8f2;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+#approval-states-table {
+    margin: auto;
+    border: 1px solid #ccc;
+    border-spacing: 0;
+    border-radius: 4px;
+}
+#approval-states-table tr {
+    background-color: white;
+}
+#approval-states-table td:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+#approval-states-table td:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#approval-states-table td {
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    background-color: #fdfdfd;
+}
+#approval-states-table td:hover {
+    background-color: #f5f5f5;
+}
+
+.approval-button {
+    display: none;
+}
+.approval-button:checked + label i {
+    color: white;
+}
+#app-but:checked + label {
+    background-color: #008000;
+}
+#und-but:checked + label {
+    background-color: #ffbb00;
+}
+#den-but:checked + label {
+    background-color: #ff0000;
+}
+.app-label-div {
+    display: block;
+    padding: 10px;
+    border: none;
+    background-color: inherit;
+    font-size: 24px;
+    color: white;
+}
+.app-label-div label {
+    display: block;
+    height: 16px;
+    width: 16px;
+}
+.app-cell i {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+#td-undecided {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+
+
 #reqlist {
     margin: 8px auto;
 }
 
+#reqlist {
+    border-collapse: collapse;
+}
+#reqlist td, #reqlist th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#reqlist tr:nth-child(even) {background-color: #f2f2f2;}
+.content-row:hover {background-color: #ddd;}
+#reqlist th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4caf50;
+    color: white;
+}
 
-tbody tr {
+.content-row {
     cursor: pointer;
 }
 
@@ -24,9 +180,14 @@ tbody tr {
     text-overflow: ellipsis;
 }
 .link {
+    width: 200px;
     max-width: 300px;
 }
 .item {
     width: 250px;
     max-width: 350px;
+}
+
+#empty-message {
+    text-align: center;
 }

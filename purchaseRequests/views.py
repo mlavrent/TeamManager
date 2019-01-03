@@ -7,9 +7,12 @@ from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 from .models import Request
 import csv
-
+from datetime import datetime, timedelta
+import pytz
 
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
@@ -17,10 +20,75 @@ class HttpResponseSeeOther(HttpResponseRedirect):
 
 @login_required
 def list(request):
-    pur_req_list = Request.objects.all().order_by('-timestamp')
+    pur_reqs = Request.objects.all()
+
+    in_format = "%m/%d/%Y"
+    db_format = "%Y-%m-%d"
+
+    def validate_date_input(date_str):
+        try:
+            datetime.strptime(date_str, in_format)
+            return True
+        except ValueError:
+            return False
+
+    # Date filters
+    if "start" in request.GET and validate_date_input(request.GET["start"]):
+        st = datetime.strptime(request.GET["start"], in_format)
+        st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        pur_reqs = pur_reqs.filter(timestamp__gte=st)
+
+    if "end" in request.GET and validate_date_input(request.GET["end"]):
+        et = datetime.strptime(request.GET["end"], in_format)
+        et += timedelta(days=1)
+        et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        pur_reqs = pur_reqs.filter(timestamp__lt=et)
+
+    # Approval filters
+    final_query = Q()
+    if "app" in request.GET:
+        final_query = final_query | Q(approved=True)
+    if "und" in request.GET:
+        final_query = final_query | Q(approved=None)
+    if "den" in request.GET:
+        final_query = final_query | Q(approved=False)
+    pur_reqs = pur_reqs.filter(final_query)
+
+    # Search bar
+    if "q" in request.GET and request.GET["q"]:
+        search_terms = request.GET["q"].split()
+
+        product_terms = []
+        user_terms = []
+        for term in search_terms:
+            if term.startswith("user:"):
+                user_terms.append(term[5:])
+            else:
+                product_terms.append(term)
+
+        for p_term in product_terms:
+            pur_reqs = pur_reqs.annotate(
+                search=SearchVector("item")
+            ).filter(search=p_term)
+
+        for u_term in user_terms:
+            pur_reqs = pur_reqs.annotate(
+                search=SearchVector("author__username")
+            ).filter(search=u_term)
+
+
+    submitted_filters = {
+        "start": request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
+        "end": request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
+        "q": request.GET["q"] if "q" in request.GET else "",
+        "app_checked": "app" in request.GET,
+        "und_checked": "und" in request.GET,
+        "den_checked": "den" in request.GET,
+    }
 
     context = {
-        'pur_req_list': pur_req_list,
+        'pur_req_list': pur_reqs.order_by('-timestamp'),
+        'filters': submitted_filters,
         'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/list.html", context)
@@ -32,12 +100,14 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['id', 'timestamp', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
+    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
 
     for pur_req in Request.objects.all().order_by('-timestamp').values():
+        timestamp = pur_req['timestamp'].astimezone(pytz.timezone(settings.TIME_ZONE))
         writer.writerow([
             pur_req['id'],
-            pur_req['timestamp'],
+            timestamp.strftime("%b %d, %Y"),
+            timestamp.strftime("%H:%M"),
             User.objects.get(pk=pur_req['author_id']).get_username(),
             pur_req['cost'],
             pur_req['quantity'],

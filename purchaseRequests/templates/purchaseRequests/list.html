@@ -8,15 +8,125 @@
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/nav_bar.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
           crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script type="text/javascript" src="{% static 'purchaseRequests/js/list.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div id="content">
         <h1>Purchase Requests for Team 3654</h1>
-        <a href="{% url 'purchaseRequests:export' %}">Export</a>
+        <div id="filter-bar">
+            <form method="get" action="{% url 'purchaseRequests:list' %}">
+                <div id="date-filter" class="filter">
+                    <div class="input-icon date-input">
+                        <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <div class="input-icon date-input">
+                        <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <input type="text" name="q" placeholder="Search" value="{{ filters.q }}" id="search-bar" class="filter">
+                <div id="approval-filter" class="filter">
+                    <table id="approval-states-table">
+                        <tr>
+                            <td id="td-approved" class="app-cell">
+                                <input id="app-but" class="approval-button" type="checkbox" name="app"
+                                       {% if filters.app_checked %}checked{% endif %}>
+                                <label class="app-label-div" for="app-but">
+                                    <i class="fas fa-check"></i>
+                                </label>
+                            </td>
+                            <td id="td-undecided" class="app-cell">
+                                <input id="und-but" class="approval-button" type="checkbox" name="und"
+                                       {% if filters.und_checked %}checked{% endif %}>
+                                <label class="app-label-div" for="und-but">
+                                    <i class="fas fa-question"></i>
+                                </label>
+                            </td>
+                            <td id="td-denied" class="app-cell">
+                                <input id="den-but" class="approval-button" type="checkbox" name="den"
+                                       {% if filters.den_checked %}checked{% endif %}>
+                                <label class="app-label-div" for="den-but">
+                                    <i class="fas fa-times"></i>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <input type="submit" value="Apply filters" id="submit-filter" class="filter">
+            </form>
+            <script type="text/javascript">
+                $("#startdate").daterangepicker({
+                    singleDatePicker: true,
+
+                    {% if submitted_filters.start %}
+                    startDate: "{{ submitted_filters.start }}",
+                    endDate: "{{ submitted_filters.start }}",
+                    {% else %}
+                    startDate: "{% now 'm/d/Y' %}",
+                    endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
+                    {% if submitted_filters.end %}
+                    maxDate: "{{ submitted_filters.end }}",
+                    {% else %}
+                    maxDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
+                    autoUpdateInput: false,
+                    opens: "center",
+                    locale: {
+                        format: "MM/DD/YYYY",
+                    },
+                }, function(start, end, label){
+                    var ed = $("#enddate").data('daterangepicker');
+                    ed.minDate = start;
+                    ed.updateView();
+                    ed.updateCalendars();
+
+                    $("#startdate").val(start.format('MM/DD/YYYY'));
+                });
+                $("#enddate").daterangepicker({
+                    singleDatePicker: true,
+                    maxDate: "{% now 'm/d/Y' %}",
+
+                    {% if submitted_filters.end %}
+                    startDate: "{{ submitted_filters.end }}",
+                    endDate: "{{ submitted_filters.end }}",
+                    {% else %}
+                    startDate: "{% now 'm/d/Y' %}",
+                    endDate: "{% now 'm/d/Y' %}",
+                    {% endif %}
+
+                    {% if submitted_filters.start %}
+                    minDate: "{{ submitted_filters.start }}",
+                    {% endif %}
+
+                    autoUpdateInput: false,
+                    opens: "center",
+                    locale: {
+                        format: "MM/DD/YYYY",
+                    },
+                }, function(start, end, label){
+                    var sd = $("#startdate").data('daterangepicker');
+                    sd.maxDate = start;
+                    sd.updateView();
+                    sd.updateCalendars();
+
+                    $("#enddate").val(start.format('MM/DD/YYYY'));
+                });
+            </script>
+        </div>
         <table id="reqlist">
             <thead>
                 <tr>
@@ -30,7 +140,7 @@
             </thead>
             <tbody>
                 {% for pur_req in pur_req_list %}
-                <tr onclick="location.href = '{% url 'purchaseRequests:detail' pur_req.id %}';">
+                <tr class="content-row" onclick="location.href = '{% url 'purchaseRequests:detail' pur_req.id %}';">
                     <td class="date">{{ pur_req.timestamp|date:'n/d/y' }}</td>
                     <td class="item">{{ pur_req.item }}</td>
                     <td class="qty">{{ pur_req.quantity }}</td>
@@ -46,6 +156,12 @@
                         {% else %}
                         <i class="fas fa-question"></i>
                         {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" id="empty-message">
+                        No requests found. Try adjusting the filters to get more results.
                     </td>
                 </tr>
                 {% endfor %}
