@@ -220,10 +220,15 @@ def new_request(request):
                                                            new_pur_req.link,
                                                            path_to_req)
 
+        approvers = User.objects.filter(groups__name="Approvers").values_list("email", flat=True)
+        recipients = email_config.additional_recipients.copy()
+        recipients.extend(approvers)
+        print(recipients)
+
         send_mail(subject="New purchase request for %s" % new_pur_req.item,
                   message=simple_content,
                   from_email=settings.EMAIL_HOST_USER,
-                  recipient_list=email_config.send_to_emails,
+                  recipient_list=recipients,
                   html_message=html_content)
 
         return HttpResponseRedirect(path_to_req)
