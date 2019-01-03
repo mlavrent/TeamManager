@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 from .models import Request
 import csv
 from datetime import datetime, timedelta
@@ -43,6 +44,16 @@ def list(request):
         et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
         pur_reqs = pur_reqs.filter(timestamp__lt=et)
 
+    # Approval filters
+    final_query = Q()
+    if "app" in request.GET:
+        final_query = final_query | Q(approved=True)
+    if "und" in request.GET:
+        final_query = final_query | Q(approved=None)
+    if "den" in request.GET:
+        final_query = final_query | Q(approved=False)
+    pur_reqs = pur_reqs.filter(final_query)
+
     # Search bar
     if "q" in request.GET and request.GET["q"]:
         search_terms = request.GET["q"].split()
@@ -65,7 +76,6 @@ def list(request):
                 search=SearchVector("author__username")
             ).filter(search=u_term)
 
-    print()
 
     submitted_filters = {
         "start": request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
