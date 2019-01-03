@@ -40,19 +40,22 @@
                     <table id="approval-states-table">
                         <tr>
                             <td id="td-approved" class="app-cell">
-                                <input id="app-but" class="approval-button" type="checkbox" name="app">
+                                <input id="app-but" class="approval-button" type="checkbox" name="app"
+                                       {% if filters.app_checked %}checked{% endif %}>
                                 <label class="app-label-div" for="app-but">
                                     <i class="fas fa-check"></i>
                                 </label>
                             </td>
                             <td id="td-undecided" class="app-cell">
-                                <input id="und-but" class="approval-button" type="checkbox" name="und">
+                                <input id="und-but" class="approval-button" type="checkbox" name="und"
+                                       {% if filters.und_checked %}checked{% endif %}>
                                 <label class="app-label-div" for="und-but">
                                     <i class="fas fa-question"></i>
                                 </label>
                             </td>
                             <td id="td-denied" class="app-cell">
-                                <input id="den-but" class="approval-button" type="checkbox" name="den">
+                                <input id="den-but" class="approval-button" type="checkbox" name="den"
+                                       {% if filters.den_checked %}checked{% endif %}>
                                 <label class="app-label-div" for="den-but">
                                     <i class="fas fa-times"></i>
                                 </label>

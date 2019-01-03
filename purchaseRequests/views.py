@@ -81,6 +81,9 @@ def list(request):
         "start": request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
         "end": request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
         "q": request.GET["q"] if "q" in request.GET else "",
+        "app_checked": "app" in request.GET,
+        "und_checked": "und" in request.GET,
+        "den_checked": "den" in request.GET,
     }
 
     context = {
