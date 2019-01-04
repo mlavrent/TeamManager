@@ -80,8 +80,6 @@ WSGI_APPLICATION = 'team_manager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-#TODO: for production server, get server host from heroku env variable "DATABASE_URL" with os.environ[]
-#TODO: else it should just stay as 127.0.0.1
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
