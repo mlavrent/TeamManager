@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'frc-team-manager.herokuapp.com',
     'frc-team-manager-staging.herokuapp.com',
-    '.localhost',
+    'localhost',
     '127.0.0.1',
 ]
 
