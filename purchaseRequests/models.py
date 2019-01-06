@@ -10,7 +10,11 @@ class Request(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     quantity = models.PositiveSmallIntegerField()
     link = models.URLField(max_length=2000)
+    notes = models.TextField(null=True, blank=True)
+
     approved = models.NullBooleanField()
+    ordered = models.BooleanField(default=False)
+    delivered = models.BooleanField(default=False)
 
     def __str__(self):
         return self.item + ", x" + str(self.quantity)
