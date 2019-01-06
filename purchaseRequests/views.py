@@ -164,9 +164,10 @@ def edit(request, pReq_id):
         pur_req.cost = request.POST["cost"]
         pur_req.quantity = request.POST["quantity"]
         pur_req.link = request.POST["link"]
+        pur_req.notes = request.POST["notes"]
 
         pur_req.save()
-
+        print(pur_req)
         return redirect("purchaseRequests:detail", pReq_id=pReq_id)
     else:
         pur_req = get_object_or_404(Request, pk=pReq_id)
