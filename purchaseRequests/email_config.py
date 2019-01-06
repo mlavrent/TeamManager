@@ -12,6 +12,7 @@ and decide whether the purchase will be made.
 - Quantity: %d
 - Total cost: $%.2f
 - Link: %s
+- Notes: %s
 
 You can view the request here: %s
 """
@@ -25,6 +26,7 @@ and decide whether the purchase will be made.
     <li>Quantity: %d</li>
     <li>Total cost: $%.2f</li>
     <li>Link: <a href=%s>%s</a></li>
+    <li>Notes: %s</li>
 </ul>
 
 You can view the request <a href="%s">here</a>.

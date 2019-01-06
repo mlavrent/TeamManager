@@ -195,7 +195,8 @@ def new_request(request):
                                              item=request.POST["item"],
                                              cost=float(request.POST["cost"]),
                                              quantity=int(request.POST["quantity"]),
-                                             link=request.POST["link"],)
+                                             link=request.POST["link"],
+                                             notes=request.POST["notes"],)
 
         path_to_req = request.build_absolute_uri(reverse("purchaseRequests:detail", args=(new_pur_req.id,)))
 
@@ -208,6 +209,7 @@ def new_request(request):
                                                                new_pur_req.quantity,
                                                                new_pur_req.cost * new_pur_req.quantity,
                                                                new_pur_req.link,
+                                                               new_pur_req.notes,
                                                                path_to_req)
         html_content = email_config.template_html_email % (email_config.send_to_person,
                                                            new_pur_req.author.get_username(),
@@ -219,6 +221,7 @@ def new_request(request):
                                                            new_pur_req.cost * new_pur_req.quantity,
                                                            new_pur_req.link,
                                                            new_pur_req.link,
+                                                           new_pur_req.notes,
                                                            path_to_req)
 
         approvers = User.objects.filter(groups__name="Approvers").values_list("email", flat=True)
