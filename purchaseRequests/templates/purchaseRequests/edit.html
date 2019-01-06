@@ -37,6 +37,10 @@
                 <label for="url-inp">Link:</label>
                 <input id="url-inp" type="url" name="link" value="{{ pur_req.link }}" required>
             </div>
+            <div class="form-row">
+                <label for="notes-inp">Notes:</label>
+                <textarea id="notes-inp" name="notes" maxlength="500"></textarea>
+            </div>
             <div class="submit-row form-row">
                 <input type="button" id="cancel-button" value="Cancel"
                        onclick="location.href='{% url 'purchaseRequests:detail' pur_req.id %}'"

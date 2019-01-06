@@ -33,7 +33,7 @@
     color: #333;
 }
 
-#item-inp, #cost-inp, #qty-inp, #url-inp {
+input, textarea {
     clear: both;
     padding: 8px;
     box-sizing: border-box;
@@ -45,7 +45,7 @@
     vertical-align: middle;
 }
 
-#item-inp, #cost-inp, #url-inp {
+#item-inp, #cost-inp, #url-inp, #notes-inp {
     width: 100%;
 }
 
@@ -91,11 +91,21 @@ input[type=number]::-webkit-outer-spin-button {
     pointer-events: none;
     width: 25px;
     text-align: center;
-font-style: normal;
+    font-style: normal;
 }
 .input-icon > input {
     padding-left: 25px !important;
     padding-right: 0;
+}
+
+#notes-inp {
+    resize: vertical;
+    height: 6em;
+    max-height: 12em;
+
+    color: #777;
+    font-family: "Trebuchet MS", Roboto, Helvetica, sans-serif;
+    font-size: 0.9em;
 }
 
 .submit-row {
