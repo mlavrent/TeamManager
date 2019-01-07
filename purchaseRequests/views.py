@@ -126,10 +126,16 @@ def detail(request, pReq_id):
     if request.method == "POST":
         if "den-but" in request.POST:
             pur_req.approved = False
+            pur_req.approver = request.user
+            pur_req.approved_timestamp = timezone.now()
         elif "app-but" in request.POST:
             pur_req.approved = True
+            pur_req.approver = request.user
+            pur_req.approved_timestamp = timezone.now()
         elif "und-but" in request.POST:
             pur_req.approved = None
+            pur_req.approver = None
+            pur_req.approved_timestamp = None
         pur_req.save()
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
 
