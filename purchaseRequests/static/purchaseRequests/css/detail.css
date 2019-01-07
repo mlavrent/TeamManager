@@ -70,8 +70,9 @@ main {
 
 #note-span {
     float: left;
-    padding: 10px 20px;
+    padding: 0 20px 15px 20px;;
     color: #333;
+    width: 100%;
 }
 
 
