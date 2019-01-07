@@ -146,10 +146,11 @@ input[type="submit"] {
 
 #reqlist {
     margin: 8px auto;
+    border-collapse: collapse;
 }
 
-#reqlist {
-    border-collapse: collapse;
+#reqlist tr {
+    height: 40px;
 }
 #reqlist td, #reqlist th {
     border: 1px solid #ddd;
@@ -192,7 +193,10 @@ input[type="submit"] {
     text-align: center;
 }
 
+.status {
+    padding: 0 8px !important;
+}
 .icon {
     width: 45px;
-    height: 18px;
+    height: 30px;
 }
