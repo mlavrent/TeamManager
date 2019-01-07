@@ -169,7 +169,7 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-.date, .qty, .tcost, .approved {
+.date, .qty, .tcost, .status {
     text-align: center;
 }
 

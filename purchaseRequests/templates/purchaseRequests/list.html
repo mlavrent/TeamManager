@@ -133,7 +133,7 @@
                     <th class="qty" style="background-color:{{ theme_color }};">Quantity</th>
                     <th class="tcost" style="background-color:{{ theme_color }};">Total Cost</th>
                     <th class="link" style="background-color:{{ theme_color }};">Link</th>
-                    <th class="approved" style="background-color:{{ theme_color }};">Approved?</th>
+                    <th class="status" style="background-color:{{ theme_color }};">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -146,7 +146,7 @@
                     <td class="link">
                         <a href="{{ pur_req.link }}">{{ pur_req.link }}</a>
                     </td>
-                    <td class="approved">
+                    <td class="status">
                         {% if pur_req.approved %}
                         <i class="fas fa-check"></i>
                         {% elif pur_req.approved == False %}
