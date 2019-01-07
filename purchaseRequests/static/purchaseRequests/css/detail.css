@@ -11,7 +11,7 @@ main {
     border: 2px solid #ccc;
     border-radius: 12px;
     text-align: left;
-    max-width: 600px;
+    width: 600px;
 }
 
 #edit-button {
@@ -36,6 +36,43 @@ main {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+#notes-div {
+    margin: 16px 0;
+}
+.accordion {
+    color: #999;
+}
+.accordion hr {
+    border: none;
+    background-color: #999;
+    height: 1px;
+    width: 83%;
+    float: left;
+    margin: 10px;
+}
+.accordion button {
+    border: none;
+    background: inherit;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+}
+.accordion button:hover {
+    color: #aaa;
+}
+
+#note-span {
+    float: left;
+    padding: 10px 20px;
+    color: #333;
+    display: none;
+}
+
+
+
 
 #approval-states-container {
     display: block;

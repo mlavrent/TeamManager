@@ -25,6 +25,15 @@
             <li>Requester: {{ pur_req.author.username }}</li>
             <li id="link"><a href="{{ pur_req.link }}">{{ pur_req.link }}</a></li>
         </ul>
+        {% if pur_req.notes %}
+        <div id="notes-div">
+            <div class="accordion">
+                <hr>
+                <button>Notes <i class="fas fa-angle-down"></i></button>
+            </div>
+            <span id="note-span">{{ pur_req.notes }}</span>
+        </div>
+        {% endif %}
         <form id="approval-states-container" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
             {% csrf_token %}
             <table id="approval-states-table">
