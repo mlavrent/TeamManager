@@ -11,4 +11,6 @@ class RequestModelAdmin(admin.ModelAdmin):
         'quantity',
         'cost',
         'approved',
+        'ordered',
+        'delivered',
     ]
