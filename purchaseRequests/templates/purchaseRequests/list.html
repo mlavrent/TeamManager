@@ -148,7 +148,19 @@
                     </td>
                     <td class="status">
                         {% if pur_req.approved %}
-                        <i class="fas fa-check"></i>
+                            {% if pur_req.ordered %}
+                                {% if pur_req.delivered %}
+                                <svg class="icon">
+                                    <use xlink:href="#box"></use>
+                                </svg>
+                                {% else %}
+                                <svg class="icon">
+                                    <use xlink:href="#truck-2"></use>
+                                </svg>
+                                {% endif %}
+                            {% else %}
+                            <i class="fas fa-check"></i>
+                            {% endif %}
                         {% elif pur_req.approved == False %}
                         <i class="fas fa-times"></i>
                         {% else %}
