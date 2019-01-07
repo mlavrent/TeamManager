@@ -30,9 +30,9 @@
         <div id="notes-div">
             <div class="accordion">
                 <hr>
-                <button id="acc-button">Notes <i class="fas fa-angle-down"></i></button>
+                <button id="acc-button">Notes <i id="arrow" class="fas fa-angle-down"></i></button>
             </div>
-            <span id="note-span">{{ pur_req.notes }}</span>
+            <span id="note-span" style="display: none;">{{ pur_req.notes }}</span>
         </div>
         {% endif %}
         <form id="approval-states-container" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
