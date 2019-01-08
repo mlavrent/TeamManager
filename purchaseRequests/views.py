@@ -46,12 +46,17 @@ def list(request):
 
     # Approval filters
     final_query = Q()
-    if "app" in request.GET:
-        final_query = final_query | Q(approved=True)
-    if "und" in request.GET:
-        final_query = final_query | Q(approved=None)
     if "den" in request.GET:
         final_query = final_query | Q(approved=False)
+    if "und" in request.GET:
+        final_query = final_query | Q(approved=None)
+    if "app" in request.GET:
+        final_query = final_query | Q(approved=True, ordered=False, delivered=False)
+    if "ord" in request.GET:
+        final_query = final_query | Q(ordered=True, delivered=False)
+    if "del" in request.GET:
+        final_query = final_query | Q(delivered=True)
+
     pur_reqs = pur_reqs.filter(final_query)
 
     # Search bar
@@ -84,6 +89,8 @@ def list(request):
         "app_checked": "app" in request.GET,
         "und_checked": "und" in request.GET,
         "den_checked": "den" in request.GET,
+        "ord_checked": "ord" in request.GET,
+        "del_checked": "del" in request.GET,
     }
 
     context = {
