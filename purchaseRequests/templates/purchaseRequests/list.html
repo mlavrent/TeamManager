@@ -151,18 +151,22 @@
                             {% if pur_req.ordered %}
                                 {% if pur_req.delivered %}
                                 <svg class="icon">
-                                    <use xlink:href="#box"></use>
+                                    <use xlink:href="#delivered-icon"></use>
                                 </svg>
                                 {% else %}
                                 <svg class="icon">
-                                    <use xlink:href="#truck"></use>
+                                    <use xlink:href="#ordered-icon"></use>
                                 </svg>
                                 {% endif %}
                             {% else %}
-                            <i class="fas fa-check"></i>
+                            <svg class="icon" id="app-svg">
+                                <use xlink:href="#approved-icon"></use>
+                            </svg>
                             {% endif %}
                         {% elif pur_req.approved == False %}
-                        <i class="fas fa-times"></i>
+                        <svg class="icon" id="den-svg">
+                            <use xlink:href="#denied-icon"></use>
+                        </svg>
                         {% else %}
                         <i class="fas fa-question"></i>
                         {% endif %}
