@@ -147,8 +147,8 @@ def detail(request, pReq_id):
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
 
     authorized = request.user.groups.filter(name="Approvers").exists() or request.user.is_superuser
-    selectable = "sel" if authorized else ""
-    disable_buttons = "" if authorized else "disabled"
+    selectable = "sel" if authorized and not pur_req.ordered else ""
+    disable_buttons = "" if authorized and not pur_req.ordered else "disabled"
     state = ["", "", ""]
     if pur_req.approved is True:
         state[2] = "current-state"
