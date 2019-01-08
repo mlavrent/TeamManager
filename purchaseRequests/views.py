@@ -107,7 +107,10 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost', 'link', 'approved?'])
+    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost', 'link',
+                     'approved?', 'approver', 'approval time',
+                     'purchased?', 'purchaser', 'purchase time',
+                     'delivered?', 'delivery signee', 'delivery time'])
 
     for pur_req in Request.objects.all().order_by('-timestamp').values():
         timestamp = pur_req['timestamp'].astimezone(pytz.timezone(settings.TIME_ZONE))
