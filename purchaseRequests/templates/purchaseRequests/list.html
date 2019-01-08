@@ -37,25 +37,43 @@
                 <div id="approval-filter" class="filter">
                     <table id="approval-states-table">
                         <tr>
-                            <td id="td-approved" class="app-cell">
-                                <input id="app-but" class="approval-button" type="checkbox" name="app"
-                                       {% if filters.app_checked %}checked{% endif %}>
-                                <label class="app-label-div" for="app-but">
-                                    <i class="fas fa-check"></i>
+                            <td id="td-denied" class="app-cell">
+                                <input id="den-but" class="approval-button" type="checkbox" name="den"
+                                       {% if filters.den_checked %}checked{% endif %}>
+                                <label class="app-label-div" for="den-but">
+                                    <i class="fas fa-times"></i>
                                 </label>
                             </td>
-                            <td id="td-undecided" class="app-cell">
+                            <td id="td-undecided" class="app-cell filt-border">
                                 <input id="und-but" class="approval-button" type="checkbox" name="und"
                                        {% if filters.und_checked %}checked{% endif %}>
                                 <label class="app-label-div" for="und-but">
                                     <i class="fas fa-question"></i>
                                 </label>
                             </td>
-                            <td id="td-denied" class="app-cell">
-                                <input id="den-but" class="approval-button" type="checkbox" name="den"
-                                       {% if filters.den_checked %}checked{% endif %}>
-                                <label class="app-label-div" for="den-but">
-                                    <i class="fas fa-times"></i>
+                            <td id="td-approved" class="app-cell filt-border">
+                                <input id="app-but" class="approval-button" type="checkbox" name="app"
+                                       {% if filters.app_checked %}checked{% endif %}>
+                                <label class="app-label-div" for="app-but">
+                                    <i class="fas fa-check"></i>
+                                </label>
+                            </td>
+                            <td id="td-ordered" class="app-cell filt-border">
+                                <input id="ord-but" class="approval-button" type="checkbox" name="ord"
+                                       {% if filters.ord_checked %}checked{% endif %}>
+                                <label class="app-label-div svg-label" for="ord-but">
+                                    <svg class="icon">
+                                        <use xlink:href="#ordered-icon"></use>
+                                    </svg>
+                                </label>
+                            </td>
+                            <td id="td-delivered" class="app-cell filt-border">
+                                <input id="del-but" class="approval-button" type="checkbox" name="ord"
+                                       {% if filters.del_checked %}checked{% endif %}>
+                                <label class="app-label-div svg-label" for="del-but">
+                                    <svg class="icon">
+                                        <use xlink:href="#delivered-icon"></use>
+                                    </svg>
                                 </label>
                             </td>
                         </tr>

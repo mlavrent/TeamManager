@@ -103,7 +103,15 @@ input[type="submit"] {
 #approval-states-table td:hover {
     background-color: #f5f5f5;
 }
-
+#approval-states-table svg {
+    height: 20px;
+    width: 20px;
+}
+.svg-label {
+    height: 20px !important;
+    width: 20px !important;
+    padding: 8px !important;
+}
 .approval-button {
     display: none;
 }
@@ -119,9 +127,18 @@ input[type="submit"] {
 #den-but:checked + label {
     background-color: #ff0000;
 }
+#ord-but:checked + label {
+    background-color: #f9dbbd;
+}
+#del-but:checked + label {
+    background-color: #a23b72;
+}
+
 .app-label-div {
     display: block;
     padding: 10px;
+    height: 16px;
+    width: 16px;
     border: none;
     background-color: inherit;
     font-size: 24px;
@@ -137,9 +154,8 @@ input[type="submit"] {
     height: 16px;
     width: 16px;
 }
-#td-undecided {
+.filt-border {
     border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
 }
 
 
