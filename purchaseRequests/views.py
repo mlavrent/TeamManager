@@ -124,6 +124,14 @@ def export(request):
             pur_req['cost'] * pur_req['quantity'],
             pur_req['link'],
             pur_req['approved'],
+            User.objects.get(pk=pur_req['approver_id']).get_username() if pur_req['approved'] else "",
+            pur_req['approved_timestamp'],
+            pur_req['ordered'],
+            User.objects.get(pk=pur_req['orderer_id']).get_username() if pur_req['ordered'] else "",
+            pur_req['order_timestamp'],
+            pur_req['delivered'],
+            User.objects.get(pk=pur_req['delivery_person_id']).get_username() if pur_req['delivered'] else "",
+            pur_req['delivery_timestamp'],
         ])
 
     return response
