@@ -219,6 +219,22 @@ input, textarea {
 }
 
 
+#delivered-message {
+    text-align: center;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    margin-bottom: 20px;
+}
+#delivered-message h1 {
+    display: inline;
+    vertical-align: middle;
+}
+#delivered-message svg {
+    display: inline;
+    vertical-align: middle;
+    height: 50px;
+    width: 50px;
+}
+
 
 #tabs-div table {
     margin: auto;
