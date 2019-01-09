@@ -19,6 +19,7 @@ class Request(models.Model):
     ordered = models.BooleanField(default=False)
     order_timestamp  = models.DateTimeField(null=True, blank=True)
     orderer = models.ForeignKey(User, null=True, blank=True, related_name="+", on_delete=models.SET_NULL)
+    shipping_cost = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     delivered = models.BooleanField(default=False)
     delivery_timestamp = models.DateTimeField(null=True, blank=True)
