@@ -198,7 +198,7 @@ input, textarea {
 #purchase-sub {
     display: block;
     margin: 5px auto;
-    background-color: #f9dbbd;
+    background-color: #4caf50;
 
     -webkit-appearance: none;
     appearance: none;
@@ -212,6 +212,10 @@ input, textarea {
     top: 3px;
     width: 16px;
     height: 16px;
+}
+#purchase-sub span {
+    height: 16px;
+    color: white;
 }
 
 
@@ -237,13 +241,20 @@ input, textarea {
     -o-user-select: none;
     user-select: none;
 }
+.tab i {
+    position: relative;
+    top: 1px;
+}
 .completed-tab {
     border-top: 4px solid green !important;
     color: green !important;
 }
 .denied-tab {
-    border-top: 4px solid red !important;
-    color: red !important;
+    border-top: 4px solid #ba2121 !important;
+    color: #ba2121 !important;
+}
+.denied-tab i {
+    color: #ba2121 !important;
 }
 .cur-tab {
     border-top: 4px solid #999 !important;
