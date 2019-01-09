@@ -74,7 +74,7 @@ main {
 
 
 
-#approval-states-container {
+.tab-content {
     display: block;
 }
 
@@ -148,6 +148,71 @@ main {
     background-color: #009900;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input, textarea {
+    clear: both;
+    padding: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+.input-icon {
+    position: relative;
+}
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    font-style: normal;
+}
+.input-icon > input {
+    padding-left: 25px !important;
+    padding-right: 0;
+}
+#order-form {
+    text-align: center;
+}
+#order-form label {
+    font-size: 14px;
+    color: #666;
+}
+#ord-inp-div {
+    display: inline-block;
+    text-align: left;
+}
+#purchase-sub {
+    display: block;
+    margin: 5px auto;
+    background-color: #f9dbbd;
+
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#purchase-sub svg {
+    position: relative;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+}
 
 
 
