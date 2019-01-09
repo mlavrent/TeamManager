@@ -172,11 +172,15 @@ main {
     -o-user-select: none;
     user-select: none;
 }
-#tabs-div td:hover {
-    border-top: 4px solid #999;
-    color: #999;
-}
 .completed-tab {
     border-top: 4px solid green !important;
     color: green !important;
+}
+.denied-tab {
+    border-top: 4px solid red !important;
+    color: red !important;
+}
+.cur-tab {
+    border-top: 4px solid #999 !important;
+    color: #999 !important;
 }

@@ -37,7 +37,8 @@
             <span id="note-span" style="display: none;">{{ pur_req.notes }}</span>
         </div>
         {% endif %}
-        <form id="approval-states-container" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
+        <form id="approval-states-container" class="tab-content" method="post"
+              action="{% url 'purchaseRequests:detail' pur_req.id %}">
             {% csrf_token %}
             <table id="approval-states-table">
                 <tr>
@@ -65,14 +66,25 @@
         <div id="tabs-div">
             <table>
                 <tr>
-                    <td id="app-tab" class="tab {% if pur_req.approved %}completed-tab{% endif %}">
-                        {% if pur_req.approved %}Approved <i class="fas fa-check"></i>{% else %}Approval{% endif %}
+                    <td id="app-tab" class="tab {% if pur_req.approved %}completed-tab
+                    {% elif pur_req.approved == False %}denied-tab {% else %}cur-tab {% endif %}">
+                        {% if pur_req.approved %}Approved <i class="fas fa-check"></i>
+                        {% elif pur_req.approved == False %}Denied <i class="fas fa-times"></i>
+                        {% else %}Awaiting approval
+                        {% endif %}
                     </td>
-                    <td id="ord-tab" class="tab {% if pur_req.ordered %}completed-tab{% endif %}">
-                        {% if pur_req.ordered %}Purchased <i class="fas fa-check"></i>{% else %}Purchase{% endif %}
+                    <td id="ord-tab" class="tab {% if pur_req.ordered %}completed-tab{% endif %}
+                    {% if pur_req.approved and pur_req.ordered is not True %}cur-tab {% endif %}">
+                        {% if pur_req.ordered %}Purchased <i class="fas fa-check"></i>
+                        {% elif pur_req.approved and pur_req.ordered is not True %} Awaiting purchase
+                        {% else %}Purchase
+                        {% endif %}
                     </td>
-                    <td id="del-tab" class="tab {% if pur_req.delivered %}completed-tab{% endif %}">
-                        {% if pur_req.delivered %}Delivered <i class="fas fa-check"></i>{% else %}Delivery{% endif %}
+                    <td id="del-tab" class="tab {% if pur_req.delivered %}completed-tab{% endif %}
+                    {% if pur_req.ordered and pur_req.delivered is not True %}cur-tab {% endif %}">
+                        {% if pur_req.delivered %}Delivered <i class="fas fa-check"></i>
+                        {% elif pur_req.ordered and pur_req.delivered is not True %}Awaiting delivery
+                        {% else %}Delivery{% endif %}
                     </td>
                 </tr>
             </table>
