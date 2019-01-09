@@ -71,6 +71,7 @@
             <svg>
                 <use xlink:href="#approved-icon"></use>
             </svg>
+            {% if is_purchaser %}
             <form id="order-form" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
                 {% csrf_token %}
                 <div id="ord-inp-div">
@@ -88,6 +89,7 @@
                     </svg>
                 </button>
             </form>
+            {% endif %}
         </div>
         {% elif pur_req.ordered and pur_req.delivered is False %}
         <div id="purchased-message" class="tab-content big-message">
