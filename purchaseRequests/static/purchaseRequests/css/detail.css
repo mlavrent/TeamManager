@@ -199,6 +199,9 @@ input, textarea {
 #purchase-sub {
     position: relative;
     top: 3px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 2px;
 }
 #purchase-sub:hover {
     background-color: #5fb962;
