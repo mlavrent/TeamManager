@@ -107,9 +107,9 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="purchase_requests.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost', 'link',
+    writer.writerow(['id', 'date', 'time', 'author', 'price per unit', 'quantity', 'total cost (w/o shipping)', 'link',
                      'approved?', 'approver', 'approval time',
-                     'purchased?', 'purchaser', 'purchase time',
+                     'purchased?', 'purchaser', 'purchase time', 'shipping cost',
                      'delivered?', 'delivery signee', 'delivery time'])
 
     for pur_req in Request.objects.all().order_by('-timestamp').values():
@@ -129,6 +129,7 @@ def export(request):
             pur_req['ordered'],
             User.objects.get(pk=pur_req['orderer_id']).get_username() if pur_req['ordered'] else "",
             pur_req['order_timestamp'],
+            pur_req['shipping_cost'],
             pur_req['delivered'],
             User.objects.get(pk=pur_req['delivery_person_id']).get_username() if pur_req['delivered'] else "",
             pur_req['delivery_timestamp'],
