@@ -160,6 +160,10 @@ def detail(request, pReq_id):
             pur_req.order_timestamp = timezone.now()
             pur_req.orderer = request.user
             pur_req.ordered = True
+        elif "delivered" in request.POST:
+            pur_req.delivery_timestamp = timezone.now()
+            pur_req.delivery_person = request.user
+            pur_req.delivered = True
 
         pur_req.save()
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))

@@ -91,7 +91,7 @@
             </svg>
             <form id="delivery-form" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
                 {% csrf_token %}
-                <input type="checkbox" name="delivered" value="on" style="display:none;">
+                <input type="checkbox" name="delivered" style="display:none;" checked>
                 <button id="deliver-sub" class="form-sub" type="submit">
                     <span>Mark delivered&ensp;</span>
                     <svg class="icon">
