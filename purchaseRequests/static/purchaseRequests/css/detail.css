@@ -6,12 +6,12 @@ main {
 #detail-div {
     position: relative;
     display: inline-block;
-    margin: 6% auto 2% auto;
+    margin: 7% auto 2% auto;
     padding: 16px 48px;
     border: 2px solid #ccc;
     border-radius: 12px;
     text-align: left;
-    width: 600px;
+    max-width: 600px;
 }
 
 #edit-button {
@@ -149,40 +149,34 @@ main {
 }
 
 
-.timeline {
-    stroke: #aaa;
-}
-.timeline-line {
-    stroke-widtH: 8px;
-}
-.timeline-circle {
-    stroke-width: 6px;
-}
-.arrow_box {
-	position: relative;
-	background: #ddd;
-	border: 2px solid #ccc;
-}
-.arrow_box:after, .arrow_box:before {
-	bottom: 100%;
-	left: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-}
 
-.arrow_box:after {
-	border-color: rgba(221, 221, 221, 0);
-	border-bottom-color: #ddd;
-	border-width: 20px;
-	margin-left: -20px;
+
+#tabs-div table {
+    margin: auto;
+    border-spacing: 0;
+    width: 100%;
+    table-layout: fixed;
 }
-.arrow_box:before {
-	border-color: rgba(204, 204, 204, 0);
-	border-bottom-color: #ccc;
-	border-width: 23px;
-	margin-left: -23px;
+#tabs-div td {
+    width: 100%;
+    padding: 7px 0;
+    text-align: center;
+    border-top: 4px solid #ccc;
+    color: #ccc;
+    font-size: 16px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+#tabs-div td:hover {
+    border-top: 4px solid #999;
+    color: #999;
+}
+.completed-tab {
+    border-top: 4px solid green !important;
+    color: green !important;
 }
