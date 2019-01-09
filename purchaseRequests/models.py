@@ -29,4 +29,7 @@ class Request(models.Model):
         return self.item + ", x" + str(self.quantity)
 
     def line_total(self):
-        return self.quantity * self.cost
+        if self.shipping_cost:
+            return self.shipping_cost + (self.quantity) * (self.cost)
+        else:
+            return self.quantity * self.cost
