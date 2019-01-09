@@ -183,6 +183,7 @@ input, textarea {
 .input-icon > input {
     padding-left: 25px !important;
     padding-right: 0;
+    width: 120px;
 }
 #order-form {
     text-align: center;
@@ -196,6 +197,20 @@ input, textarea {
     text-align: left;
 }
 #purchase-sub {
+    position: relative;
+    top: 3px;
+}
+#purchase-sub:hover {
+    background-color: #5fb962;
+}
+#deliver-sub {
+    background-color: #a23b72;
+}
+#deliver-sub:hover {
+    background-color: #bb4483;
+}
+
+.form-sub {
     display: block;
     margin: 5px auto;
     background-color: #4caf50;
@@ -207,28 +222,26 @@ input, textarea {
     border-radius: 4px;
     cursor: pointer;
 }
-#purchase-sub svg {
-    position: relative;
-    top: 3px;
-    width: 16px;
-    height: 16px;
+.form-sub svg {
+    width: 16px !important;
+    height: 16px !important;
 }
-#purchase-sub span {
+.form-sub span {
     height: 16px;
     color: white;
 }
 
 
-#delivered-message {
+.big-message {
     text-align: center;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     margin-bottom: 20px;
 }
-#delivered-message h1 {
+.big-message h1 {
     display: inline;
     vertical-align: middle;
 }
-#delivered-message svg {
+.big-message svg {
     display: inline;
     vertical-align: middle;
     height: 50px;

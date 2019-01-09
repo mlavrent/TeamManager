@@ -76,7 +76,7 @@
                     <i>$</i>
                 </div>
             </div>
-            <button id="purchase-sub" type="submit">
+            <button id="purchase-sub" class="form-sub" type="submit">
                 <span>Purchase&ensp;</span>
                 <svg class="icon">
                     <use xlink:href="#ordered-icon"></use>
@@ -84,9 +84,23 @@
             </button>
         </form>
         {% elif pur_req.ordered and pur_req.delivered is False %}
-        <form id="delivery-form" class="tab-content" method="post" action=""></form>
+        <div id="purchased-message" class="tab-content big-message">
+            <h1>Purchased&ensp;</h1>
+            <svg>
+                <use xlink:href="#ordered-icon"></use>
+            </svg>
+            <form id="delivery-form" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
+                <input type="checkbox" name="delivered" value="on" style="display:none;">
+                <button id="deliver-sub" class="form-sub" type="submit">
+                    <span>Mark delivered&ensp;</span>
+                    <svg class="icon">
+                        <use xlink:href="#delivered-icon"></use>
+                    </svg>
+                </button>
+            </form>
+        </div>
         {% else %}
-        <div id="delivered-message" class="tab-content">
+        <div id="delivered-message" class="tab-content big-message">
             <h1>Delivered&ensp;</h1>
             <svg>
                 <use xlink:href="#delivered-icon"></use>
