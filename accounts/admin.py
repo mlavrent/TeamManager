@@ -11,10 +11,14 @@ class TMUserAdmin(UserAdmin):
         'last_name',
         'is_active',
         'is_approver',
+        'is_purchaser',
     ]
 
     def is_approver(self, user):
         return user.groups.filter(name="Approvers").exists()
+
+    def is_purchaser(self, user):
+        return user.groups.filter(name="Purchasers").exists()
 
 admin.site.unregister(User)
 admin.site.register(User, TMUserAdmin)

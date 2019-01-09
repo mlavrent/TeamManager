@@ -141,26 +141,28 @@ def export(request):
 @login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
+    approval_auth = request.user.groups.filter(name="Approvers").exists()
+    purchase_auth = request.user.groups.filter(name="Purchasers").exists()
 
     if request.method == "POST":
-        if "den-but" in request.POST:
+        if "den-but" in request.POST and approval_auth:
             pur_req.approved = False
             pur_req.approver = request.user
             pur_req.approved_timestamp = timezone.now()
-        elif "app-but" in request.POST:
+        elif "app-but" in request.POST and approval_auth:
             pur_req.approved = True
             pur_req.approver = request.user
             pur_req.approved_timestamp = timezone.now()
-        elif "und-but" in request.POST:
+        elif "und-but" in request.POST and approval_auth:
             pur_req.approved = None
             pur_req.approver = None
             pur_req.approved_timestamp = None
-        elif "shipping" in request.POST:
+        elif "shipping" in request.POST and purchase_auth:
             pur_req.shipping_cost = request.POST.get("shipping")
             pur_req.order_timestamp = timezone.now()
             pur_req.orderer = request.user
             pur_req.ordered = True
-        elif "delivered" in request.POST:
+        elif "delivered" in request.POST and purchase_auth:
             pur_req.delivery_timestamp = timezone.now()
             pur_req.delivery_person = request.user
             pur_req.delivered = True
@@ -168,9 +170,8 @@ def detail(request, pReq_id):
         pur_req.save()
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
 
-    authorized = request.user.groups.filter(name="Approvers").exists()
-    selectable = "sel" if authorized and not pur_req.ordered else ""
-    disable_buttons = "" if authorized and not pur_req.ordered else "disabled"
+    selectable = "sel" if approval_auth and not pur_req.ordered else ""
+    disable_buttons = "" if approval_auth and not pur_req.ordered else "disabled"
     state = ["", "", ""]
     if pur_req.approved is True:
         state[2] = "current-state"
@@ -182,7 +183,8 @@ def detail(request, pReq_id):
     return render(request, "purchaseRequests/detail.html", {"pur_req": pur_req,
                                                             "state": state,
                                                             "selectable": selectable,
-                                                            "disable_buttons": disable_buttons,})
+                                                            "disable_buttons": disable_buttons,
+                                                            "is_purchaser": purchase_auth,})
 
 
 @login_required

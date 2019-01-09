@@ -66,29 +66,36 @@
             </table>
         </form>
         {% elif pur_req.approved and pur_req.ordered is False %}
-        <form id="order-form" class="tab-content" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
-            {% csrf_token %}
-            <div id="ord-inp-div">
-                <label for="shipping-inp">Shipping cost:</label>
-                <div class="input-icon">
-                    <input id="shipping-inp" type="number" name="shipping" min="0" max="3654" step="0.01"
-                           placeholder="0.00">
-                    <i>$</i>
+        <div id="approved-message" class="tab-content big-message">
+            <h1>Approved&ensp;</h1>
+            <svg>
+                <use xlink:href="#approved-icon"></use>
+            </svg>
+            <form id="order-form" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
+                {% csrf_token %}
+                <div id="ord-inp-div">
+                    <label for="shipping-inp">Shipping cost:</label>
+                    <div class="input-icon">
+                        <input id="shipping-inp" type="number" name="shipping" min="0" max="3654" step="0.01"
+                               placeholder="0.00">
+                        <i>$</i>
+                    </div>
                 </div>
-            </div>
-            <button id="purchase-sub" class="form-sub" type="submit">
-                <span>Purchase&ensp;</span>
-                <svg class="icon">
-                    <use xlink:href="#ordered-icon"></use>
-                </svg>
-            </button>
-        </form>
+                <button id="purchase-sub" class="form-sub" type="submit">
+                    <span>Purchase&ensp;</span>
+                    <svg class="icon">
+                        <use xlink:href="#ordered-icon"></use>
+                    </svg>
+                </button>
+            </form>
+        </div>
         {% elif pur_req.ordered and pur_req.delivered is False %}
         <div id="purchased-message" class="tab-content big-message">
             <h1>Purchased&ensp;</h1>
             <svg>
                 <use xlink:href="#ordered-icon"></use>
             </svg>
+            {% if is_purchaser %}
             <form id="delivery-form" method="post" action="{% url 'purchaseRequests:detail' pur_req.id %}">
                 {% csrf_token %}
                 <input type="checkbox" name="delivered" style="display:none;" checked>
@@ -99,6 +106,7 @@
                     </svg>
                 </button>
             </form>
+            {% endif %}
         </div>
         {% else %}
         <div id="delivered-message" class="tab-content big-message">
