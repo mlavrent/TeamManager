@@ -4,6 +4,9 @@
         <a class="navbar-link" href="{% url 'purchaseRequests:list' %}">All requests</a>
         <a class="navbar-link" href="{% url 'purchaseRequests:new' %}">New request</a>
         <a class="navbar-link" href="{% url 'purchaseRequests:export' %}">Export</a>
+        <a class="navbar-link right-aligned-nav" id="github-link" href="https://github.com/MLavrentyev/TeamManager">
+            <i class="fab fa-github"></i>
+        </a>
         <a class="navbar-link right-aligned-nav" id="logout-link" href="{% url 'accounts:logout' %}">(Log Out)</a>
         <h1 class="navbar-link right-aligned-nav" id="navbar-user">Welcome, {{ user }}</h1>
     </div>

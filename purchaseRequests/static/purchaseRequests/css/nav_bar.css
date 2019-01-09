@@ -32,6 +32,9 @@
 #navbar-user {
     color: white;
 }
+#github-link i{
+    font-size: 26px;
+}
 .right-aligned-nav {
     float: right;
     padding-left: 20px !important;
