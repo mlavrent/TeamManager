@@ -38,7 +38,7 @@
         </div>
         {% endif %}
 
-        {% if pur_req.approved is not True %}
+        {% if pur_req.approved is not True and pur_req.approved is not False %}
         <form id="approval-states-container" class="tab-content" method="post"
               action="{% url 'purchaseRequests:detail' pur_req.id %}">
             {% csrf_token %}
@@ -65,6 +65,13 @@
                 </tr>
             </table>
         </form>
+        {% elif pur_req.approved is False %}
+        <div id="denied-message" class="tab-content big-message">
+            <h1>Denied&ensp;</h1>
+            <svg>
+                <use xlink:href="#denied-icon"></use>
+            </svg>
+        </div>
         {% elif pur_req.approved and pur_req.ordered is False %}
         <div id="approved-message" class="tab-content big-message">
             <h1>Approved&ensp;</h1>
