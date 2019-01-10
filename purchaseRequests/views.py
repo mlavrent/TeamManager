@@ -169,22 +169,22 @@ def detail(request, pReq_id):
 
         pur_req.save()
         return HttpResponseSeeOther(reverse("purchaseRequests:change_preq_status", kwargs={"pReq_id": pReq_id}))
-
-    selectable = "sel" if approval_auth and not pur_req.ordered else ""
-    disable_buttons = "" if approval_auth and not pur_req.ordered else "disabled"
-    state = ["", "", ""]
-    if pur_req.approved is True:
-        state[2] = "current-state"
-    elif pur_req.approved is False:
-        state[0] = "current-state"
     else:
-        state[1] = "current-state"
+        selectable = "sel" if approval_auth and not pur_req.ordered else ""
+        disable_buttons = "" if approval_auth and not pur_req.ordered else "disabled"
+        state = ["", "", ""]
+        if pur_req.approved is True:
+            state[2] = "current-state"
+        elif pur_req.approved is False:
+            state[0] = "current-state"
+        else:
+            state[1] = "current-state"
 
-    return render(request, "purchaseRequests/detail.html", {"pur_req": pur_req,
-                                                            "state": state,
-                                                            "selectable": selectable,
-                                                            "disable_buttons": disable_buttons,
-                                                            "is_purchaser": purchase_auth,})
+        return render(request, "purchaseRequests/detail.html", {"pur_req": pur_req,
+                                                                "state": state,
+                                                                "selectable": selectable,
+                                                                "disable_buttons": disable_buttons,
+                                                                "is_purchaser": purchase_auth,})
 
 
 @login_required
@@ -208,7 +208,7 @@ def edit(request, pReq_id):
         return redirect("purchaseRequests:detail", pReq_id=pReq_id)
     else:
         pur_req = get_object_or_404(Request, pk=pReq_id)
-        if pur_req.author == request.user or request.user.is_superuser:
+        if (pur_req.author == request.user or request.user.is_superuser) and pur_req.approved is None:
             context = {
                 'pur_req': pur_req,
                 'theme_color': settings.THEME_COLOR,
