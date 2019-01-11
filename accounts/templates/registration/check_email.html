@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 
-{% block title %}Sign up | TechTigers Team Manager{% endblock %}
+{% block title %}Sign up | {{ team_name }} Team Manager{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'registration/css/check_email.css' %}">
@@ -13,7 +13,7 @@
 
 {% block content %}
     <div id="content">
-        <img src="http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png">
+        <img src="{{ logo_url }}">
         <p>Congrats! You're registered. Now, just check your email address to complete the registration.</p>
     </div>
 {% endblock %}

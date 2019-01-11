@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 
-{% block title %}Activate your account | TechTigers Team Manager{% endblock %}
+{% block title %}Activate your account | {{ team_name }} Team Manager{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'registration/css/activate.css' %}">
@@ -13,7 +13,7 @@
 
 {% block content %}
     <div id="content">
-        <img src="http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png">
+        <img src="{{ logo_url }}">
         {% if valid %}
         <p>
             Your account's been activated! You can now go

@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% load static %}
 
-{% block title %}Log in | TechTigers Team Manager{% endblock %}
+{% block title %}Log in | {{ team_name }} Team Manager{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'registration/css/login.css' %}">
@@ -15,7 +15,7 @@
 <div id="container">
     <div id="header" style="background:{{ theme_color }};">
         <div id="branding">
-            <h2 id="sitename">TechTigers Team Manager</h2>
+            <h2 id="sitename">{{ team_name }} Team Manager</h2>
         </div>
     </div>
     <div id="content">

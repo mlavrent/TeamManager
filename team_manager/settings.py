@@ -162,7 +162,11 @@ EMAIL_HOST_PASSWORD = os.environ.get("APP_PASS")
 EMAIL_PORT = 587
 
 
-# Aesthetic
+# Personalization
+
+TEAM_NAME = "TechTigers"
+
+LOGO_URL = "http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png"
 
 THEME_COLOR = "#ff9853"
 

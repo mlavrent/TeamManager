@@ -27,18 +27,21 @@ def signup(request):
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
                 'token': account_activation_token.make_token(user),
+                'team_name': settings.TEAM_NAME
             })
-            mail_subject = "Activate your account for FRC 3654's team manager."
+            mail_subject = "Activate your account for %s's team manager." % settings.TEAM_NAME
             to_email = form.cleaned_data.get("email")
             send_mail(subject=mail_subject,
                       message=message,
                       from_email=settings.EMAIL_HOST_USER,
                       recipient_list=[to_email],)
-            return render(request, "registration/check_email.html")
+            return render(request, "registration/check_email.html", {'logo_url': settings.LOGO_URL,
+                                                                     'team_name': settings.TEAM_NAME})
         else:
             context = {
                 "form": form,
                 "theme_color": settings.THEME_COLOR,
+                "team_name": settings.TEAM_NAME,
             }
             return render(request, "registration/signup.html", context)
     else:
@@ -46,6 +49,7 @@ def signup(request):
         context = {
             "form": form,
             "theme_color": settings.THEME_COLOR,
+            "team_name": settings.TEAM_NAME,
         }
         return render(request, "registration/signup.html", context)
 
@@ -64,7 +68,9 @@ def activate(request, uidb64, token):
     else:
         is_valid = False
 
-    return render(request, "registration/activate.html", {"valid": is_valid})
+    return render(request, "registration/activate.html", {"valid": is_valid,
+                                                          'logo_url': settings.LOGO_URL,
+                                                          'team_name': settings.TEAM_NAME})
 
 
 def redirect_to_login(request):
@@ -75,6 +81,7 @@ class LoginView(views.LoginView):
     template_name = "registration/login.html"
     extra_context = {
         "theme_color": settings.THEME_COLOR,
+        "team_name": settings.TEAM_NAME,
     }
     redirect_authenticated_user = True
     redirect_field_name = "next"
