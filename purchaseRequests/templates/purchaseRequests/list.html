@@ -2,7 +2,7 @@
 {% load static %}
 
 
-{% block title %}Team 3654 Purchase Requests{% endblock %}
+{% block title %}{{ team_name }} Purchase Requests{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/style.css' %}">
@@ -20,7 +20,7 @@
 
 {% block content %}
     <div id="content">
-        <h1>Purchase Requests for Team 3654</h1>
+        <h1>Purchase Requests for {{ team_name }}</h1>
         <div id="filter-bar">
             <form method="get" action="{% url 'purchaseRequests:list' %}">
                 <div id="date-filter" class="filter">

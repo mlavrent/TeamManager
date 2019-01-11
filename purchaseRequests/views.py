@@ -97,6 +97,7 @@ def list(request):
         'pur_req_list': pur_reqs.order_by('-timestamp'),
         'filters': submitted_filters,
         'theme_color': settings.THEME_COLOR,
+        'team_name': settings.TEAM_NAME,
     }
     return render(request, "purchaseRequests/list.html", context)
 
