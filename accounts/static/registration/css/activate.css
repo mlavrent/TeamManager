@@ -22,3 +22,7 @@ a:hover {
 #content p {
     font-weight: 300;
 }
+#content img {
+    max-width: 500px;
+    max-height: 250px;
+}
