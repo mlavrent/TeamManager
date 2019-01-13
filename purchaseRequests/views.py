@@ -12,7 +12,6 @@ from django.db.models import Q
 from .models import Request
 import csv
 from datetime import datetime, timedelta
-from itertools import chain
 import pytz
 
 class HttpResponseSeeOther(HttpResponseRedirect):
@@ -266,7 +265,7 @@ def new_request(request):
 
         approvers = User.objects.filter(groups__name="Approvers").values_list("email", flat=True)
         email_viewers = User.objects.filter(groups__name="Email Viewers").values_list("email", flat=True)
-        recipients = chain(approvers, email_viewers)
+        recipients = approvers | email_viewers
 
         send_mail(subject="New purchase request for %s" % new_pur_req.item,
                   message=simple_content,
