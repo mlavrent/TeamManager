@@ -1,6 +1,4 @@
 send_to_person = "Robot Person"
-additional_recipients = ["lavrema@outlook.com",
-                         "lingyi19329@gmail.com",]
 
 template_simple_email = \
 """Hello %s,\n
