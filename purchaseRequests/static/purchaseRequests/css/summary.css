@@ -1,0 +1,12 @@
+#content {
+    width: 70%;
+    min-width: 200px;
+    margin: 0 15%;
+}
+
+#title h1 {
+    display: inline-block;
+}
+#title select {
+    display: inline-block;
+}

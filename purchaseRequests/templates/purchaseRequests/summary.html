@@ -6,6 +6,28 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/summary.css' %}">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+    <div id="content">
+        <div id="title">
+            <h1>Summary for&ensp;</h1>
+            <select id="timespan">
+                <option value="Today">Today</option>
+                <option value="This week">This week</option>
+                <option value="This month">This month</option>
+                <option value="This year">This year</option>
+            </select>
+        </div>
+        <div id="chart-div">
+            <canvas id="chart" width="100%" height="100%"></canvas>
+            <script type="text/javascript">{% include './summary_chart.js' %}</script>
+        </div>
+        <div id="summary">
+            <div id="team-summary" class="summary"></div>
+            <div id="your-summary" class="summary"></div>
+        </div>
+    </div>
+{% endblock %}
