@@ -10,3 +10,26 @@
 #title select {
     display: inline-block;
 }
+
+
+#chart-div {
+    margin: auto;
+    height: 350px;
+    width: 70%;
+    min-width: 350px;
+}
+
+.summary {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 25px;
+    width: calc(50% - 54px);
+    margin: 20px auto;
+}
+#team-summary {
+    float: left;
+}
+#your-summary {
+    float: right;
+}

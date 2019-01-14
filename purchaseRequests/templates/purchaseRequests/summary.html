@@ -22,12 +22,16 @@
             </select>
         </div>
         <div id="chart-div">
-            <canvas id="chart" width="100%" height="100%"></canvas>
+            <canvas id="chart"></canvas>
             <script type="text/javascript">{% include './summary_chart.js' %}</script>
         </div>
         <div id="summary">
-            <div id="team-summary" class="summary"></div>
-            <div id="your-summary" class="summary"></div>
+            <div id="team-summary" class="summary">
+                <h2>The Team</h2>
+            </div>
+            <div id="your-summary" class="summary">
+                <h2>You</h2>
+            </div>
         </div>
     </div>
 {% endblock %}
