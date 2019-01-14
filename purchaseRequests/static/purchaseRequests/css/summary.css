@@ -9,6 +9,17 @@
 }
 #title select {
     display: inline-block;
+    font-size: 16px;
+    padding: 5px;
+    height: 36px;
+    width: 120px;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    margin-left: 10px;
+    position: relative;
+    top: -5px;
 }
 
 

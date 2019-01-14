@@ -142,7 +142,26 @@ def export(request):
 
 @login_required
 def summary(request):
-    context = {}
+
+    if "timespan" in request.GET:
+        timespan = request.GET["timespan"]
+        cur_time = timezone.now()
+
+        if timespan == "day":
+            pass
+        elif timespan == "week":
+            pass
+        elif timespan == "month":
+            pass
+        elif timespan == "year":
+            pass
+    else:
+        timespan = "all"
+        pass
+
+    context = {
+        'timespan': timespan,
+    }
     return render(request, "purchaseRequests/summary.html", context)
 
 

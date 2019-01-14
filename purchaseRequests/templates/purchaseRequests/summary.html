@@ -12,13 +12,15 @@
 
 {% block content %}
     <div id="content">
+        <form id="ts-form" method="get" action="{% url 'purchaseRequests:summary' %}" style="display: none;"></form>
         <div id="title">
-            <h1>Summary for&ensp;</h1>
-            <select id="timespan">
-                <option value="Today">Today</option>
-                <option value="This week">This week</option>
-                <option value="This month">This month</option>
-                <option value="This year">This year</option>
+            <h1>Summary for </h1>
+            <select id="timespan" name="timespan" form="ts-form" onchange="this.form.submit()">
+                <option value="day" {% if timespan == "day" %}selected{% endif %}>Today</option>
+                <option value="week" {% if timespan == "week" %}selected{% endif %}>This week</option>
+                <option value="month" {% if timespan == "month" %}selected{% endif %}>This month</option>
+                <option value="year" {% if timespan == "year" %}selected{% endif %}>This year</option>
+                <option value="all" {% if timespan == "all" %}selected{% endif %}>All time</option>
             </select>
         </div>
         <div id="chart-div">
