@@ -141,6 +141,14 @@ def export(request):
 
 
 @login_required
+def summary(request):
+    context = {}
+    return(request, "purchaseRequests/summary.html", context)
+
+
+
+
+@login_required
 def detail(request, pReq_id):
     pur_req = get_object_or_404(Request, pk=pReq_id)
     approval_auth = request.user.groups.filter(name="Approvers").exists()

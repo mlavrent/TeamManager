@@ -5,6 +5,7 @@ app_name = "purchaseRequests"
 urlpatterns = [
     path("", views.list, name="list"),
     path("export/", views.export, name="export"),
+    path("summary/", views.summary, name="summary"),
     path("new/", views.new_request, name="new"),
     path("<int:pReq_id>", views.detail, name="detail"),
     path("<int:pReq_id>/change-status", views.change_preq_status, name="change_preq_status"),
