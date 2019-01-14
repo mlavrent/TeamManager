@@ -143,9 +143,7 @@ def export(request):
 @login_required
 def summary(request):
     context = {}
-    return(request, "purchaseRequests/summary.html", context)
-
-
+    return render(request, "purchaseRequests/summary.html", context)
 
 
 @login_required
