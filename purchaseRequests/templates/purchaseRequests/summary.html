@@ -24,18 +24,13 @@
         <form id="ts-form" method="get" action="{% url 'purchaseRequests:summary' %}" style="display: none;"></form>
         <div id="title">
             <h1>Summary for </h1>
-            <div id="date-filter" class="filter">
-                <div class="input-icon date-input">
-                    <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
-                    <i class="far fa-calendar-alt"></i>
-                </div>
-                <div class="input-icon date-input">
-                    <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
-                    <i class="far fa-calendar-alt"></i>
-                </div>
+            <div class="input-icon" id="range-input">
+                <input type="text" name="dr" class="datepicker" id="daterange" form="ts-form" value="{{ daterange }}"
+                       readonly>
+                <i class="far fa-calendar-alt"></i>
             </div>
         </div>
-        <script type="text/javascript">{% include './calendar.js' %}</script>
+        <script type="text/javascript">{% include './summary_range.js' %}</script>
 
         <div id="chart-div">
             <canvas id="chart"></canvas>
@@ -60,7 +55,7 @@
                 </table>
             </div>
             <div id="your-summary" class="summary">
-                <h2>You</h2>
+                <h2>{% if user.first_name %}{{ user.first_name }}{% else %}{{ user }}{% endif %}</h2>
                 <table class="summary-table">
                     <tr>
                         <td>Number of requests:</td>

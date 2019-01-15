@@ -19,11 +19,6 @@ input[type="text"] {
     vertical-align: middle;
 }
 
-.datepicker {
-    width: 10em;
-    text-align: center;
-}
-
 .input-icon {
     position: relative;
 }
@@ -39,10 +34,18 @@ input[type="text"] {
     font-style: normal;
 }
 .input-icon > input {
-    padding-left: 25px !important;
+    padding-left: 30px !important;
     padding-right: 0;
+    width: 220px;
+    text-align: center;
 }
 
+#range-input {
+    display: inline-block;
+    margin-left: 15px;
+    position: relative;
+    top: -5px;
+}
 
 
 #chart-div {
