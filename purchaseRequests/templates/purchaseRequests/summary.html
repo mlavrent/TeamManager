@@ -6,6 +6,9 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'purchaseRequests/css/summary.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 {% endblock %}
@@ -15,14 +18,19 @@
         <form id="ts-form" method="get" action="{% url 'purchaseRequests:summary' %}" style="display: none;"></form>
         <div id="title">
             <h1>Summary for </h1>
-            <select id="timespan" name="timespan" form="ts-form" onchange="this.form.submit()">
-                <option value="day" {% if timespan == "day" %}selected{% endif %}>Today</option>
-                <option value="week" {% if timespan == "week" %}selected{% endif %}>This week</option>
-                <option value="month" {% if timespan == "month" %}selected{% endif %}>This month</option>
-                <option value="year" {% if timespan == "year" %}selected{% endif %}>This year</option>
-                <option value="all" {% if timespan == "all" %}selected{% endif %}>All time</option>
-            </select>
+            <div id="date-filter" class="filter">
+                <div class="input-icon date-input">
+                    <input type="text" name="start" class="datepicker" id="startdate" value="{{ filters.start }}">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <div class="input-icon date-input">
+                    <input type="text" name="end" class="datepicker"  id="enddate" value="{{ filters.end }}">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+            </div>
         </div>
+        <script type="text/javascript">{% include './calendar.js' %}</script>
+
         <div id="chart-div">
             <canvas id="chart"></canvas>
             <script type="text/javascript">{% include './summary_chart.js' %}</script>

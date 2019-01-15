@@ -7,20 +7,42 @@
 #title h1 {
     display: inline-block;
 }
-#title select {
-    display: inline-block;
-    font-size: 16px;
-    padding: 5px;
-    height: 36px;
-    width: 120px;
-    font-family: inherit;
+input[type="text"] {
+    clear: both;
+    padding: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 13px;
     border: 1px solid #ccc;
     border-radius: 4px;
-
-    margin-left: 10px;
-    position: relative;
-    top: -5px;
+    vertical-align: middle;
 }
+
+.datepicker {
+    width: 10em;
+    text-align: center;
+}
+
+.input-icon {
+    position: relative;
+}
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    margin: 0px 5px;
+    font-style: normal;
+}
+.input-icon > input {
+    padding-left: 25px !important;
+    padding-right: 0;
+}
+
 
 
 #chart-div {
