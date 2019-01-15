@@ -142,28 +142,34 @@ def export(request):
 
 def summary(request):
     pur_reqs = Request.objects.all()
-    in_format = "%m/%d/%Y"
+    in_format = "%b %d, %Y"
     db_format = "%Y-%m-%d"
 
+    earliest_req_time = pur_reqs.earliest('timestamp').timestamp
     # Date filtering
-    if "start" in request.GET and validate_date_input(request.GET["start"]):
-        st = datetime.strptime(request.GET["start"], in_format)
-        start_time = st.astimezone(pytz.timezone(settings.TIME_ZONE))
-        st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
-        pur_reqs = pur_reqs.filter(Q(timestamp__gte=st) | Q(approved_timestamp__gte=st) |
-                                   Q(order_timestamp__gte=st) | Q(delivery_timestamp__gte=st))
-    else:
-        start_time = pur_reqs.earliest('timestamp').timestamp
+    if "dr" in request.GET and " - " in request.GET["dr"]:
+        st, et = request.GET["dr"].split(" - ")
+        print(st)
+        if validate_date_input(st, in_format) and validate_date_input(et, in_format):
+            st = datetime.strptime(st, in_format)
+            et = datetime.strptime(et, in_format) + timedelta(days=1)
 
-    if "end" in request.GET and validate_date_input(request.GET["start"]):
-        et = datetime.strptime(request.GET["end"], in_format)
-        et += timedelta(days=1)
-        end_time = et.astimezone(pytz.timezone(settings.TIME_ZONE))
-        et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
-        pur_reqs = pur_reqs.filter(Q(timestamp__lte=et) | Q(approved_timestamp__lte=et) |
-                                   Q(order_timestamp__lte=et) | Q(delivery_timestamp__lte=et))
+            start_time = st
+            end_time = et
+
+            st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+            et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+
+            pur_reqs = pur_reqs.filter((Q(timestamp__gte=st) | Q(approved_timestamp__gte=st) |
+                                        Q(order_timestamp__gte=st) | Q(delivery_timestamp__gte=st)) &
+                                       (Q(timestamp__lte=et) | Q(approved_timestamp__lte=et) |
+                                        Q(order_timestamp__lte=et) | Q(delivery_timestamp__lte=et)))
+        else:
+            start_time = earliest_req_time
+            end_time = timezone.now()
     else:
-        end_time = timezone.now().astimezone(pytz.timezone(settings.TIME_ZONE))
+        start_time = earliest_req_time
+        end_time = timezone.now()
 
 
     # Create 15 bins for the histogram
@@ -198,40 +204,37 @@ def summary(request):
     team_data = {
         'num_reqs': pur_reqs.count(),
         'num_app': app_reqs.count(),
-        'total_req': pur_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
-                     (pur_reqs.aggregate(total=Sum('shipping_cost'))["total"]
-                      if pur_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
-        'total_app': app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
-                     (app_reqs.aggregate(total=Sum('shipping_cost'))["total"]
-                      if app_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
-
+        'total_req': pur_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+        'total_app': app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
     }
+    if team_data['total_req'] is None:
+        team_data['total_req'] = 0
+    if team_data['total_app'] is None:
+        team_data['total_app'] = 0
+
     user_reqs = pur_reqs.filter(author=request.user)
     user_app_reqs = user_reqs.filter(approved=True)
     user_data = {
         'num_reqs': user_reqs.count(),
         'num_app': user_app_reqs.count(),
-        'total_req': user_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
-                     (user_reqs.aggregate(total=Sum('shipping_cost'))["total"]
-                      if user_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
-        'total_app': user_app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
-                     (user_app_reqs.aggregate(total=Sum('shipping_cost'))["total"]
-                      if user_app_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
+        'total_req': user_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+        'total_app': user_app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
     }
+    if user_data['total_req'] is None:
+        user_data['total_req'] = 0
+    if user_data['total_app'] is None:
+        user_data['total_app'] = 0
 
-
-    filters = {
-        'start': request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
-        'end': request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
-    }
     context = {
-        'filters': filters,
         'added_data': added_data,
         'approved_data': approved_data,
         'order_data': order_data,
         'delivery_data': delivery_data,
         'team_data': team_data,
         'user_data': user_data,
+        'earliest_req': earliest_req_time.strftime(db_format),
+        'start_date': start_time.strftime(db_format),
+        'end_date': end_time.strftime(db_format),
     }
     return render(request, "purchaseRequests/summary.html", context)
 
