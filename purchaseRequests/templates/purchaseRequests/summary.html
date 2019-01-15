@@ -44,9 +44,37 @@
         <div id="summary">
             <div id="team-summary" class="summary">
                 <h2>The Team</h2>
+                <table class="summary-table">
+                    <tr>
+                        <td>Number of requests:</td>
+                        <td>{{ team_data.num_reqs }} ({{ team_data.num_app }} approved)</td>
+                    </tr>
+                    <tr>
+                        <td>Amount requested:</td>
+                        <td>${{ team_data.total_req }}</td>
+                    </tr>
+                    <tr>
+                        <td>Amount approved:</td>
+                        <td>${{ team_data.total_app }}</td>
+                    </tr>
+                </table>
             </div>
             <div id="your-summary" class="summary">
                 <h2>You</h2>
+                <table class="summary-table">
+                    <tr>
+                        <td>Number of requests:</td>
+                        <td>{{ user_data.num_reqs }} ({{ user_data.num_app }} approved)</td>
+                    </tr>
+                    <tr>
+                        <td>Amount requested:</td>
+                        <td>${{ user_data.total_req }}</td>
+                    </tr>
+                    <tr>
+                        <td>Amount approved:</td>
+                        <td>${{ user_data.total_app }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

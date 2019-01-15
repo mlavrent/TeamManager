@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchVector
-from django.db.models import Q
+from django.db.models import Q, F, Sum, DecimalField
 from .models import Request
 import csv
 from datetime import datetime, timedelta
@@ -145,6 +145,7 @@ def summary(request):
     in_format = "%m/%d/%Y"
     db_format = "%Y-%m-%d"
 
+    # Date filtering
     if "start" in request.GET and validate_date_input(request.GET["start"]):
         st = datetime.strptime(request.GET["start"], in_format)
         start_time = st.astimezone(pytz.timezone(settings.TIME_ZONE))
@@ -165,7 +166,7 @@ def summary(request):
         end_time = timezone.now().astimezone(pytz.timezone(settings.TIME_ZONE))
 
 
-    # Create 25 bins for the histogram
+    # Create 15 bins for the histogram
     num_bins = 15
     bin_width = (end_time - start_time) / num_bins
 
@@ -192,6 +193,33 @@ def summary(request):
              'y': pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end).count()})
 
 
+    # Bottom summary data
+    app_reqs = pur_reqs.filter(approved=True)
+    team_data = {
+        'num_reqs': pur_reqs.count(),
+        'num_app': app_reqs.count(),
+        'total_req': pur_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
+                     (pur_reqs.aggregate(total=Sum('shipping_cost'))["total"]
+                      if pur_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
+        'total_app': app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
+                     (app_reqs.aggregate(total=Sum('shipping_cost'))["total"]
+                      if app_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
+
+    }
+    user_reqs = pur_reqs.filter(author=request.user)
+    user_app_reqs = user_reqs.filter(approved=True)
+    user_data = {
+        'num_reqs': user_reqs.count(),
+        'num_app': user_app_reqs.count(),
+        'total_req': user_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
+                     (user_reqs.aggregate(total=Sum('shipping_cost'))["total"]
+                      if user_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
+        'total_app': user_app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"] +
+                     (user_app_reqs.aggregate(total=Sum('shipping_cost'))["total"]
+                      if user_app_reqs.aggregate(total=Sum('shipping_cost'))["total"] is not None else 0),
+    }
+
+
     filters = {
         'start': request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
         'end': request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
@@ -202,6 +230,8 @@ def summary(request):
         'approved_data': approved_data,
         'order_data': order_data,
         'delivery_data': delivery_data,
+        'team_data': team_data,
+        'user_data': user_data,
     }
     return render(request, "purchaseRequests/summary.html", context)
 
