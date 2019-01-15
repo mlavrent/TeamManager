@@ -66,3 +66,14 @@ input[type="text"] {
 #your-summary {
     float: right;
 }
+
+.summary-table {
+    margin: auto;
+}
+.summary-table td:first-child {
+    text-align: right;
+    padding-right: 20px;
+}
+.summary-table td {
+    padding-bottom: 8px;
+}
