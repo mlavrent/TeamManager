@@ -17,6 +17,13 @@ import pytz
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
 
+def validate_date_input(date_str, in_format="%m/%d/%Y"):
+    try:
+        datetime.strptime(date_str, in_format)
+        return True
+    except ValueError:
+        return False
+
 
 @login_required
 def list(request):
@@ -24,13 +31,6 @@ def list(request):
 
     in_format = "%m/%d/%Y"
     db_format = "%Y-%m-%d"
-
-    def validate_date_input(date_str):
-        try:
-            datetime.strptime(date_str, in_format)
-            return True
-        except ValueError:
-            return False
 
     # Date filters
     if "start" in request.GET and validate_date_input(request.GET["start"]):
@@ -142,25 +142,21 @@ def export(request):
 
 @login_required
 def summary(request):
+    pur_reqs = Request.objects.all()
 
-    if "timespan" in request.GET:
-        timespan = request.GET["timespan"]
-        cur_time = timezone.now()
-
-        if timespan == "day":
-            pass
-        elif timespan == "week":
-            pass
-        elif timespan == "month":
-            pass
-        elif timespan == "year":
-            pass
-    else:
-        timespan = "all"
-        pass
-
+    added_data = [
+        {'t': '2019-01-01T02:30', 'y': 2},
+        {'t': '2019-01-02T15:19', 'y': 3},
+    ]
+    filters = {
+        'start': request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
+        'end': request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
+    }
     context = {
-        'timespan': timespan,
+        # 'added_data': added_data,
+        # 'approved_data': approved_data,
+        # 'purchased_data': purchased_data,
+        # 'delivered_data': delivered_data,
     }
     return render(request, "purchaseRequests/summary.html", context)
 
