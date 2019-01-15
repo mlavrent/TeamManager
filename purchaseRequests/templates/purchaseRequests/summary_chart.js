@@ -3,38 +3,13 @@ var chartCanvas = document.getElementById("chart");
 var summaryChart = new Chart(chartCanvas, {
     type: 'line',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug'],
         datasets: [
             {
-                data: [1, 2, 3, 2, 0, 1],
+                data: {{ added_data|safe }},
                 label: 'New requests',
                 fill: 'origin',
-                backgroundColor: 'rgba(255, 187, 0, 0.4)',
-                borderColor: 'rgba(255, 187, 0, 1)',
-                lineTension: 0
-            },
-            {
-                data: [2, 0, 4, 1, 3, 2],
-                label: 'Approvals',
-                fill: '-1',
-                backgroundColor: 'rgba(0, 128, 0, 0.4)',
-                borderColor: 'rgba(0, 128, 0, 1)',
-                lineTension: 0
-            },
-            {
-                data: [2, 4, 3, 1, 1, 0],
-                label: 'Purchases',
-                fill: '-1',
-                backgroundColor: 'rgba(249, 219, 189, 0.6)',
-                borderColor: 'rgba(249, 219, 189, 1)',
-                lineTension: 0
-            },
-            {
-                data: [1, 2, 1, 0, 1, 3],
-                label: 'Deliveries',
-                fill: '-1',
-                backgroundColor: 'rgba(162, 59, 114, 0.4)',
-                borderColor: 'rgba(162, 59, 114, 1)',
+                backgroundColor: 'rgba(255, 0, 0, 0.4)',
+                borderColor: 'rgba(255, 0, 0, 1)',
                 lineTension: 0
             }
         ]
@@ -51,7 +26,15 @@ var summaryChart = new Chart(chartCanvas, {
         },
         scales: {
             yAxes: [{
-                stacked: true
+                stacked: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Number of requests'
+                }
+            }],
+            xAxes: [{
+                type: 'time',
+                distribution: 'linear'
             }]
         },
         scaleBeginAtZero: true,
