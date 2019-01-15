@@ -5,8 +5,9 @@ $(function() {
 
     function update(start, end) {
         $("#daterange").val(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
+        $("#ts-form").submit()
     }
-    update(start, end);
+    $("#daterange").val(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
 
     $("#range-input").daterangepicker({
         startDate: start,
@@ -24,8 +25,3 @@ $(function() {
     }, update);
 
 });
-
-$("#daterange").bind('input', function() {
-    console.log("hello");
-    $("#ts-form").submit();
-})
