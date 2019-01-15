@@ -56,8 +56,9 @@ input[type="text"] {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 10px 25px;
-    width: calc(50% - 54px);
+    padding: 10px 50px;
+    box-sizing: border-box;
+    width: calc(50% - 4px);
     margin: 20px auto;
 }
 #team-summary {
