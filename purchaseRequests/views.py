@@ -140,23 +140,68 @@ def export(request):
     return response
 
 
-@login_required
 def summary(request):
     pur_reqs = Request.objects.all()
+    in_format = "%m/%d/%Y"
+    db_format = "%Y-%m-%d"
 
-    added_data = [
-        {'t': '2019-01-01T02:30', 'y': 2},
-        {'t': '2019-01-02T15:19', 'y': 3},
-    ]
+    if "start" in request.GET and validate_date_input(request.GET["start"]):
+        st = datetime.strptime(request.GET["start"], in_format)
+        start_time = st.astimezone(pytz.timezone(settings.TIME_ZONE))
+        st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        pur_reqs = pur_reqs.filter(Q(timestamp__gte=st) | Q(approved_timestamp__gte=st) |
+                                   Q(order_timestamp__gte=st) | Q(delivery_timestamp__gte=st))
+    else:
+        start_time = pur_reqs.earliest('timestamp').timestamp
+
+    if "end" in request.GET and validate_date_input(request.GET["start"]):
+        et = datetime.strptime(request.GET["end"], in_format)
+        et += timedelta(days=1)
+        end_time = et.astimezone(pytz.timezone(settings.TIME_ZONE))
+        et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+        pur_reqs = pur_reqs.filter(Q(timestamp__lte=et) | Q(approved_timestamp__lte=et) |
+                                   Q(order_timestamp__lte=et) | Q(delivery_timestamp__lte=et))
+    else:
+        end_time = timezone.now().astimezone(pytz.timezone(settings.TIME_ZONE))
+
+
+    # Create 25 bins for the histogram
+    num_bins = 15
+    bin_width = (end_time - start_time) / num_bins
+
+    added_data = []
+    approved_data = []
+    order_data = []
+    delivery_data = []
+    for n in range(num_bins):
+        bin_start = start_time + (n * bin_width)
+        bin_end = bin_start + bin_width
+        bin_mid = bin_start + (bin_width / 2)
+
+        added_data.append(
+            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
+             'y': pur_reqs.filter(timestamp__gte=bin_start, timestamp__lt=bin_end).count()})
+        approved_data.append(
+            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
+             'y': pur_reqs.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end).count()})
+        order_data.append(
+            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
+             'y': pur_reqs.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end).count()})
+        delivery_data.append(
+            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
+             'y': pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end).count()})
+
+
     filters = {
         'start': request.GET["start"] if "start" in request.GET and validate_date_input(request.GET["start"]) else "",
         'end': request.GET["end"] if "end" in request.GET and validate_date_input(request.GET["end"]) else "",
     }
     context = {
-        # 'added_data': added_data,
-        # 'approved_data': approved_data,
-        # 'purchased_data': purchased_data,
-        # 'delivered_data': delivered_data,
+        'filters': filters,
+        'added_data': added_data,
+        'approved_data': approved_data,
+        'order_data': order_data,
+        'delivery_data': delivery_data,
     }
     return render(request, "purchaseRequests/summary.html", context)
 

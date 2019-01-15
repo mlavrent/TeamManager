@@ -7,10 +7,29 @@ var summaryChart = new Chart(chartCanvas, {
             {
                 data: {{ added_data|safe }},
                 label: 'New requests',
-                fill: 'origin',
-                backgroundColor: 'rgba(255, 0, 0, 0.4)',
-                borderColor: 'rgba(255, 0, 0, 1)',
-                lineTension: 0
+                backgroundColor: 'rgba(255, 128, 0, 0.4)',
+                borderColor: 'rgba(255, 128, 0, 1)',
+            },
+            {
+                data: {{ approved_data|safe }},
+                label: 'Approvals',
+                backgroundColor: 'rgba(0, 128, 0, 0.4)',
+                borderColor: 'rgba(0, 128, 0, 1)',
+                fill: '-1'
+            },
+            {
+                data: {{ order_data|safe }},
+                label: 'Purchases',
+                backgroundColor: 'rgba(255, 128, 128, 0.4)',
+                borderColor: 'rgba(255, 128, 128, 1)',
+                fill: '-1'
+            },
+            {
+                data: {{ delivery_data|safe }},
+                label: 'Deliveries',
+                backgroundColor: 'rgba(162, 59, 114, 0.4)',
+                borderColor: 'rgba(162, 59, 114, 1)',
+                fill: '-1'
             }
         ]
     },
@@ -30,11 +49,15 @@ var summaryChart = new Chart(chartCanvas, {
                 scaleLabel: {
                     display: true,
                     labelString: 'Number of requests'
+                },
+                ticks: {
+                    beginAtZero: true
                 }
             }],
             xAxes: [{
+                stacked: true,
                 type: 'time',
-                distribution: 'linear'
+                distribution: 'linear',
             }]
         },
         scaleBeginAtZero: true,
