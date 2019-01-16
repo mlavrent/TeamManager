@@ -43,6 +43,7 @@ main {
 }
 .accordion {
     color: #999;
+    cursor: pointer;
 }
 .accordion hr {
     border: none;
@@ -58,9 +59,8 @@ main {
     font: inherit;
     color: inherit;
     padding: 0;
-    cursor: pointer;
 }
-.accordion button:hover {
+.accordion:hover button {
     color: #aaa;
 }
 

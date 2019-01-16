@@ -1,7 +1,7 @@
 
 
 $(function() {
-    $("#acc-button").click(function() {
+    $(".accordion").click(function() {
         noteSpan = $("#note-span");
         arrow = $("#arrow");
         if(noteSpan.css("display") === "none") {
