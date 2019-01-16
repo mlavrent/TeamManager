@@ -5,35 +5,15 @@ var summaryChart = new Chart(chartCanvas, {
     data: {
         datasets: [
             {
-                data: {{ added_data|safe }},
-                label: 'New requests',
-                backgroundColor: 'rgba(255, 128, 0, 0.4)',
-                borderColor: 'rgba(255, 128, 0, 1)',
-                fill: 'origin',
-                lineTension: 0
-            },
-            {
-                data: {{ approved_data|safe }},
-                label: 'Approvals',
-                backgroundColor: 'rgba(0, 128, 0, 0.4)',
+                data: {{ activity|safe }},
+                label: 'Activity',
                 borderColor: 'rgba(0, 128, 0, 1)',
-                fill: '-1',
-                lineTension: 0
-            },
-            {
-                data: {{ order_data|safe }},
-                label: 'Purchases',
-                backgroundColor: 'rgba(255, 128, 128, 0.4)',
-                borderColor: 'rgba(255, 128, 128, 1)',
-                fill: '-1',
-                lineTension: 0
-            },
-            {
-                data: {{ delivery_data|safe }},
-                label: 'Deliveries',
-                backgroundColor: 'rgba(162, 59, 114, 0.4)',
-                borderColor: 'rgba(162, 59, 114, 1)',
-                fill: '-1',
+                backgroundColor: 'rgba(255, 255, 255, 0)',
+                pointRadius: 4,
+                pointBorderWidth: 2,
+                pointBackgroundColor: 'rgba(255, 255, 255, 1)',
+                pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)',
+                pointHoverRadius: 5,
                 lineTension: 0
             }
         ]
@@ -43,6 +23,7 @@ var summaryChart = new Chart(chartCanvas, {
             mode: 'x'
         },
         legend: {
+            display: false,
             position: 'bottom'
         },
         hover: {
@@ -50,7 +31,6 @@ var summaryChart = new Chart(chartCanvas, {
         },
         scales: {
             yAxes: [{
-                stacked: true,
                 scaleLabel: {
                     display: true,
                     labelString: 'Number of requests'

@@ -176,28 +176,18 @@ def summary(request):
     num_bins = 15
     bin_width = (end_time - start_time) / num_bins
 
-    added_data = []
-    approved_data = []
-    order_data = []
-    delivery_data = []
+    activity = []
     for n in range(num_bins):
         bin_start = start_time + (n * bin_width)
         bin_end = bin_start + bin_width
         bin_mid = bin_start + (bin_width / 2)
 
-        added_data.append(
+        activity.append(
             {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
-             'y': pur_reqs.filter(timestamp__gte=bin_start, timestamp__lt=bin_end).count()})
-        approved_data.append(
-            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
-             'y': pur_reqs.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end).count()})
-        order_data.append(
-            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
-             'y': pur_reqs.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end).count()})
-        delivery_data.append(
-            {'t': bin_mid.strftime("%Y-%m-%dT%H:%M"),
-             'y': pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end).count()})
-
+             'y': pur_reqs.filter(timestamp__gte=bin_start, timestamp__lt=bin_end).count() +
+                  pur_reqs.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end).count() +
+                  pur_reqs.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end).count() +
+                  pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end).count()})
 
     # Bottom summary data
     app_reqs = pur_reqs.filter(approved=True)
@@ -226,10 +216,7 @@ def summary(request):
         user_data['total_app'] = 0
 
     context = {
-        'added_data': added_data,
-        'approved_data': approved_data,
-        'order_data': order_data,
-        'delivery_data': delivery_data,
+        'activity': activity,
         'team_data': team_data,
         'user_data': user_data,
         'earliest_req': earliest_req_time.strftime(db_format),
