@@ -33,10 +33,11 @@ var summaryChart = new Chart(chartCanvas, {
             yAxes: [{
                 scaleLabel: {
                     display: true,
-                    labelString: 'Number of requests'
+                    labelString: 'Activity'
                 },
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    callback: function(value) {if (Number.isInteger(value)) {return value;}}
                 }
             }],
             xAxes: [{
