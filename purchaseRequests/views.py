@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchVector
-from django.db.models import Q
+from django.db.models import Q, F, Sum, DecimalField
 from .models import Request
 import csv
 from datetime import datetime, timedelta
@@ -17,6 +17,13 @@ import pytz
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
 
+def validate_date_input(date_str, in_format="%m/%d/%Y"):
+    try:
+        datetime.strptime(date_str, in_format)
+        return True
+    except ValueError:
+        return False
+
 
 @login_required
 def list(request):
@@ -24,13 +31,6 @@ def list(request):
 
     in_format = "%m/%d/%Y"
     db_format = "%Y-%m-%d"
-
-    def validate_date_input(date_str):
-        try:
-            datetime.strptime(date_str, in_format)
-            return True
-        except ValueError:
-            return False
 
     # Date filters
     if "start" in request.GET and validate_date_input(request.GET["start"]):
@@ -138,6 +138,146 @@ def export(request):
         ])
 
     return response
+
+
+def summary(request):
+    pur_reqs = Request.objects.all()
+    in_format = "%b %d, %Y"
+    db_format = "%Y-%m-%d"
+
+    earliest_req_time = pur_reqs.earliest('timestamp').timestamp
+    # Date filtering
+    if "dr" in request.GET and " - " in request.GET["dr"]:
+        st, et = request.GET["dr"].split(" - ")
+        if validate_date_input(st, in_format) and validate_date_input(et, in_format):
+            st = datetime.strptime(st, in_format)
+            et = datetime.strptime(et, in_format) + timedelta(days=1)
+
+            start_time = st
+            end_time = et
+
+            st = st.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+            et = et.astimezone(pytz.timezone(settings.TIME_ZONE)).strftime(db_format)
+
+            pur_reqs = pur_reqs.filter((Q(timestamp__gte=st) | Q(approved_timestamp__gte=st) |
+                                        Q(order_timestamp__gte=st) | Q(delivery_timestamp__gte=st)) &
+                                       (Q(timestamp__lte=et) | Q(approved_timestamp__lte=et) |
+                                        Q(order_timestamp__lte=et) | Q(delivery_timestamp__lte=et)))
+        else:
+            start_time = earliest_req_time
+            end_time = timezone.now()
+    else:
+        start_time = earliest_req_time
+        end_time = timezone.now()
+
+
+    # Data generation for the chart
+    range_width = end_time - start_time
+    print(range_width)
+    if range_width <= timedelta(days=1):
+        interval = "hour"
+        start_time = datetime(start_time.year, start_time.month, start_time.day, hour=start_time.hour, minute=0,
+                              second=0, microsecond=0, tzinfo=start_time.tzinfo)
+        round_up = 0 if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0 else 1
+        end_time = datetime(end_time.year, end_time.month, end_time.day, hour=end_time.hour + round_up, minute=0,
+                            second=0, microsecond=0, tzinfo=end_time.tzinfo)
+
+        range_width = end_time - start_time
+        num_bins = int((range_width.days * 86400 + range_width.seconds) / 3600)
+    elif range_width <= timedelta(days=6):
+        interval = "several-hour"
+        num_days = range_width.days
+
+        start_time = datetime(start_time.year, start_time.month, start_time.day,
+                              hour=int(start_time.hour/num_days)*num_days, minute=0, second=0, microsecond=0,
+                              tzinfo=start_time.tzinfo)
+        round_up = 0 if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0 else num_days
+        end_time = datetime(end_time.year, end_time.month, end_time.day,
+                            hour=int(end_time.hour/num_days)*num_days + round_up, minute=0, second=0, microsecond=0,
+                            tzinfo=end_time.tzinfo)
+
+        range_width = end_time - start_time
+        num_bins = int((range_width.days * 86400 + range_width.seconds) / (3600 * num_days))
+    elif range_width <= timedelta(weeks=3):
+        interval = "day"
+        start_time = datetime(start_time.year, start_time.month, start_time.day, tzinfo=start_time.tzinfo)
+        round_up = 0 if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0 else 2
+        end_time = datetime(end_time.year, end_time.month, end_time.day, tzinfo=end_time.tzinfo)
+
+        range_width = end_time - start_time
+        num_bins = range_width.days
+    elif range_width <= timedelta(weeks=26):
+        interval = "week"
+        start_time = datetime(start_time.year, start_time.month, start_time.day)
+        start_time = start_time - timedelta(days=start_time.isoweekday() % 7)
+
+        end_time = datetime(end_time.year, end_time.month, end_time.day)
+        end_time = end_time + timedelta(days=7 - (end_time.isoweekday() % 7))
+
+        range_width = end_time - start_time
+        num_bins = int(range_width.days / 7)
+    else:
+        num_bins = 20
+
+        range_width = end_time - start_time
+        num_bins = range_width.days
+
+    bin_width = (end_time - start_time) / num_bins
+
+    activity = []
+    spending = []
+    for n in range(num_bins):
+        bin_start = start_time + (n * bin_width)
+        bin_end = bin_start + bin_width
+
+        bin_reqs = pur_reqs.filter(timestamp__gte=bin_start, timestamp__lt=bin_end)
+        bin_apps = pur_reqs.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end)
+        bin_ords = pur_reqs.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end)
+        bin_dels = pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end)
+        activity.append(
+            {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
+             'y': bin_reqs.count() + bin_apps.count() + bin_ords.count() + bin_dels.count()})
+        spending.append(
+            {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
+             'y': float(bin_ords.aggregate(t=Sum(F('cost') * F('quantity'), output_field=DecimalField()))["t"] or 0.00)+
+                  float(bin_ords.exclude(shipping_cost__isnull=True).aggregate(sc=Sum('shipping_cost'))["sc"] or 0.00)})
+
+    # Bottom summary data
+    app_reqs = pur_reqs.filter(approved=True)
+    team_data = {
+        'num_reqs': pur_reqs.count(),
+        'num_app': app_reqs.count(),
+        'total_req': pur_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+        'total_app': app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+    }
+    if team_data['total_req'] is None:
+        team_data['total_req'] = 0
+    if team_data['total_app'] is None:
+        team_data['total_app'] = 0
+
+    user_reqs = pur_reqs.filter(author=request.user)
+    user_app_reqs = user_reqs.filter(approved=True)
+    user_data = {
+        'num_reqs': user_reqs.count(),
+        'num_app': user_app_reqs.count(),
+        'total_req': user_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+        'total_app': user_app_reqs.aggregate(total=Sum(F('quantity') * F('cost'), output_field=DecimalField()))["total"],
+    }
+    if user_data['total_req'] is None:
+        user_data['total_req'] = 0
+    if user_data['total_app'] is None:
+        user_data['total_app'] = 0
+
+    context = {
+        'activity': activity,
+        'spending': spending,
+        'team_data': team_data,
+        'user_data': user_data,
+        'earliest_req': earliest_req_time.strftime(db_format),
+        'start_date': start_time.strftime(db_format),
+        'end_date': end_time.strftime(db_format),
+    }
+    return render(request, "purchaseRequests/summary.html", context)
 
 
 @login_required

@@ -1,0 +1,83 @@
+#content {
+    width: 70%;
+    min-width: 200px;
+    margin: 0 15%;
+}
+
+#title h1 {
+    display: inline-block;
+}
+input[type="text"] {
+    clear: both;
+    padding: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: 36px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.input-icon {
+    position: relative;
+}
+.input-icon > i {
+    position: absolute;
+    display: block;
+    transform: translate(0, -50%);
+    top: 50%;
+    pointer-events: none;
+    width: 25px;
+    text-align: center;
+    margin: 0px 5px;
+    font-style: normal;
+}
+.input-icon > input {
+    padding-left: 30px !important;
+    padding-right: 0;
+    width: 220px;
+    text-align: center;
+}
+
+#range-input {
+    display: inline-block;
+    margin-left: 15px;
+    position: relative;
+    top: -5px;
+}
+
+
+#chart-div {
+    margin: auto;
+    height: 350px;
+    width: 70%;
+    min-width: 350px;
+}
+
+.summary {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 50px;
+    box-sizing: border-box;
+    width: calc(50% - 4px);
+    margin: 20px auto;
+}
+#team-summary {
+    float: left;
+}
+#your-summary {
+    float: right;
+}
+
+.summary-table {
+    margin: auto;
+}
+.summary-table td:first-child {
+    text-align: right;
+    padding-right: 20px;
+}
+.summary-table td {
+    padding-bottom: 8px;
+}

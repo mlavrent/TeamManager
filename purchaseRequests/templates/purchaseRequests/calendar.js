@@ -1,16 +1,16 @@
 $("#startdate").daterangepicker({
     singleDatePicker: true,
 
-    {% if submitted_filters.start %}
-    startDate: "{{ submitted_filters.start }}",
-    endDate: "{{ submitted_filters.start }}",
+    {% if filters.start %}
+    startDate: "{{ filters.start }}",
+    endDate: "{{ filters.start }}",
     {% else %}
     startDate: "{% now 'm/d/Y' %}",
     endDate: "{% now 'm/d/Y' %}",
     {% endif %}
 
-    {% if submitted_filters.end %}
-    maxDate: "{{ submitted_filters.end }}",
+    {% if filters.end %}
+    maxDate: "{{ filters.end }}",
     {% else %}
     maxDate: "{% now 'm/d/Y' %}",
     {% endif %}
@@ -32,16 +32,16 @@ $("#enddate").daterangepicker({
     singleDatePicker: true,
     maxDate: "{% now 'm/d/Y' %}",
 
-    {% if submitted_filters.end %}
-    startDate: "{{ submitted_filters.end }}",
-    endDate: "{{ submitted_filters.end }}",
+    {% if filters.end %}
+    startDate: "{{ filters.end }}",
+    endDate: "{{ filters.end }}",
     {% else %}
     startDate: "{% now 'm/d/Y' %}",
     endDate: "{% now 'm/d/Y' %}",
     {% endif %}
 
-    {% if submitted_filters.start %}
-    minDate: "{{ submitted_filters.start }}",
+    {% if filters.start %}
+    minDate: "{{ filters.start }}",
     {% endif %}
 
     autoUpdateInput: false,
