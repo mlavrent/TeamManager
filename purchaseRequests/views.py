@@ -276,6 +276,7 @@ def summary(request):
         'earliest_req': earliest_req_time.strftime(db_format),
         'start_date': start_time.strftime(db_format),
         'end_date': end_time.strftime(db_format),
+        'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/summary.html", context)
 

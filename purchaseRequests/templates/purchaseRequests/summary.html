@@ -29,6 +29,9 @@
                        readonly>
                 <i class="far fa-calendar-alt"></i>
             </div>
+            <a id="export-btn" href="{% url 'purchaseRequests:export' %}" style="background-color:{{ theme_color }}">
+                Export
+            </a>
         </div>
         <script type="text/javascript">{% include './summary_range.js' %}</script>
 

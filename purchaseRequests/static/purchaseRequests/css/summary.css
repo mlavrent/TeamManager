@@ -48,6 +48,19 @@ input[type="text"] {
 }
 
 
+#export-btn {
+    display: block;
+    float: right;
+    margin: 21px 20px 21px 0;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: #4caf50;
+    border-radius: 4px;
+}
+
+
+
 #chart-div {
     margin: auto;
     height: 350px;
