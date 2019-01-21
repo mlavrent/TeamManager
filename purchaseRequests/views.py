@@ -267,8 +267,6 @@ def summary(request):
             activity.append(bin_activity)
             spending.append(bin_spending)
 
-
-
     # Bottom summary data
     app_reqs = pur_reqs.filter(approved=True)
     team_data = {
@@ -303,6 +301,7 @@ def summary(request):
         'earliest_req': earliest_req_time.strftime(db_format),
         'start_date': start_time.strftime(db_format),
         'end_date': end_time.strftime(db_format),
+        'interval': interval,
         'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/summary.html", context)
