@@ -12,10 +12,13 @@ from django.db.models import Q, F, Sum, DecimalField
 from .models import Request
 import csv
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 import pytz
+
 
 class HttpResponseSeeOther(HttpResponseRedirect):
     status_code = 303
+
 
 def validate_date_input(date_str, in_format="%m/%d/%Y"):
     try:
@@ -23,6 +26,19 @@ def validate_date_input(date_str, in_format="%m/%d/%Y"):
         return True
     except ValueError:
         return False
+
+
+def gen_dt_bin_data(raw_data, bin_start, bin_end):
+    bin_reqs = raw_data.filter(timestamp__gte=bin_start, timestamp__lt=bin_end)
+    bin_apps = raw_data.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end)
+    bin_ords = raw_data.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end)
+    bin_dels = raw_data.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end)
+
+    return {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
+            'y': bin_reqs.count() + bin_apps.count() + bin_ords.count() + bin_dels.count()},\
+           {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
+            'y': float(bin_ords.aggregate(t=Sum(F('cost') * F('quantity'), output_field=DecimalField()))["t"] or 0.00) +
+                 float(bin_ords.exclude(shipping_cost__isnull=True).aggregate(sc=Sum('shipping_cost'))["sc"] or 0.00)}
 
 
 @login_required
@@ -172,6 +188,9 @@ def summary(request):
 
 
     # Data generation for the chart
+    activity = []
+    spending = []
+
     range_width = end_time - start_time
     print(range_width)
     if range_width <= timedelta(days=1):
@@ -206,7 +225,7 @@ def summary(request):
 
         range_width = end_time - start_time
         num_bins = range_width.days
-    elif range_width <= timedelta(weeks=26):
+    elif end_time <= start_time + relativedelta(months=+6):
         interval = "week"
         start_time = datetime(start_time.year, start_time.month, start_time.day)
         start_time = start_time - timedelta(days=start_time.isoweekday() % 7)
@@ -216,31 +235,39 @@ def summary(request):
 
         range_width = end_time - start_time
         num_bins = int(range_width.days / 7)
+    elif end_time <= start_time + relativedelta(years=+2):
+        interval = "month"
+        # For up to two years, do by month
+        for n in range(12 * (end_time.year - start_time.year) + end_time.month - start_time.month + 1):
+            bin_start = datetime(start_time.year, start_time.month, 1) + (n * relativedelta(months=+1))
+            bin_end = bin_start + relativedelta(months=+1)
+
+            m_activity, m_spending = gen_dt_bin_data(pur_reqs, bin_start, bin_end)
+            activity.append(m_activity)
+            spending.append(m_spending)
+        num_bins = 0
     else:
-        num_bins = 20
+        interval = "year"
+        for n in range(end_time.year - start_time.year + 1):
+            bin_start = datetime(start_time.year, 1, 1) + relativedelta(years=+n)
+            bin_end = bin_start + relativedelta(years=+1)
 
-        range_width = end_time - start_time
-        num_bins = range_width.days
+            m_activity, m_spending = gen_dt_bin_data(pur_reqs, bin_start, bin_end)
+            activity.append(m_activity)
+            spending.append(m_spending)
+        num_bins = 0
 
-    bin_width = (end_time - start_time) / num_bins
+    if num_bins:
+        bin_width = (end_time - start_time) / num_bins
+        for n in range(num_bins):
+            bin_start = start_time + (n * bin_width)
+            bin_end = bin_start + bin_width
 
-    activity = []
-    spending = []
-    for n in range(num_bins):
-        bin_start = start_time + (n * bin_width)
-        bin_end = bin_start + bin_width
+            bin_activity, bin_spending = gen_dt_bin_data(pur_reqs, bin_start, bin_end)
+            activity.append(bin_activity)
+            spending.append(bin_spending)
 
-        bin_reqs = pur_reqs.filter(timestamp__gte=bin_start, timestamp__lt=bin_end)
-        bin_apps = pur_reqs.filter(approved_timestamp__gte=bin_start, approved_timestamp__lt=bin_end)
-        bin_ords = pur_reqs.filter(order_timestamp__gte=bin_start, order_timestamp__lt=bin_end)
-        bin_dels = pur_reqs.filter(delivery_timestamp__gte=bin_start, delivery_timestamp__lt=bin_end)
-        activity.append(
-            {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
-             'y': bin_reqs.count() + bin_apps.count() + bin_ords.count() + bin_dels.count()})
-        spending.append(
-            {'t': bin_start.strftime("%Y-%m-%d %H:%M"),
-             'y': float(bin_ords.aggregate(t=Sum(F('cost') * F('quantity'), output_field=DecimalField()))["t"] or 0.00)+
-                  float(bin_ords.exclude(shipping_cost__isnull=True).aggregate(sc=Sum('shipping_cost'))["sc"] or 0.00)})
+
 
     # Bottom summary data
     app_reqs = pur_reqs.filter(approved=True)
