@@ -63,9 +63,10 @@ input[type="text"] {
 
 #chart-div {
     margin: auto;
-    height: 350px;
-    width: 70%;
+    height: 320px;
+    width: 80%;
     min-width: 350px;
+    margin-bottom: 20px;
 }
 
 .summary {
