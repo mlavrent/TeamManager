@@ -76,6 +76,9 @@ var summaryChart = new Chart(chartCanvas, {
             xAxes: [{
                 type: 'time',
                 distribution: 'linear',
+                time: {
+                    unit: "{{ interval }}"
+                }
             }]
         },
         scaleBeginAtZero: true,

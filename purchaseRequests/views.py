@@ -204,7 +204,7 @@ def summary(request):
         range_width = end_time - start_time
         num_bins = int((range_width.days * 86400 + range_width.seconds) / 3600)
     elif range_width <= timedelta(days=6):
-        interval = "several-hour"
+        interval = "hour"
         num_days = range_width.days
 
         start_time = datetime(start_time.year, start_time.month, start_time.day,
