@@ -39,7 +39,13 @@ var summaryChart = new Chart(chartCanvas, {
     },
     options: {
         tooltips: {
-            mode: 'x'
+            mode: 'x',
+            callbacks: {
+                label: function(tooltipItem, chart) {
+                    if(tooltipItem.datasetIndex === 1) {return "Spending: $ " + tooltipItem.yLabel.toFixed(2);}
+                    else {return "Activity: " + tooltipItem.yLabel.toFixed(0);}
+                }
+            }
         },
         legend: {
             display: false,
