@@ -77,7 +77,8 @@ var summaryChart = new Chart(chartCanvas, {
                 type: 'time',
                 distribution: 'linear',
                 time: {
-                    unit: "{{ interval }}"
+                    unit: "{{ interval }}",
+                    tooltipFormat: "{{ tt_format }}"
                 }
             }]
         },

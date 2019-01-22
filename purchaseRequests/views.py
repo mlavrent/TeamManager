@@ -195,6 +195,7 @@ def summary(request):
     print(range_width)
     if range_width <= timedelta(days=1):
         interval = "hour"
+        tt_format = "h:mm a"
         start_time = datetime(start_time.year, start_time.month, start_time.day, hour=start_time.hour, minute=0,
                               second=0, microsecond=0, tzinfo=start_time.tzinfo)
         round_up = 0 if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0 else 1
@@ -204,7 +205,8 @@ def summary(request):
         range_width = end_time - start_time
         num_bins = int((range_width.days * 86400 + range_width.seconds) / 3600)
     elif range_width <= timedelta(days=6):
-        interval = "hour"
+        interval = "day"
+        tt_format = "M/D h:mm a"
         num_days = range_width.days
 
         start_time = datetime(start_time.year, start_time.month, start_time.day,
@@ -219,6 +221,7 @@ def summary(request):
         num_bins = int((range_width.days * 86400 + range_width.seconds) / (3600 * num_days))
     elif range_width <= timedelta(weeks=3):
         interval = "day"
+        tt_format = "M/D"
         start_time = datetime(start_time.year, start_time.month, start_time.day, tzinfo=start_time.tzinfo)
         round_up = 0 if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0 else 2
         end_time = datetime(end_time.year, end_time.month, end_time.day, tzinfo=end_time.tzinfo)
@@ -227,6 +230,7 @@ def summary(request):
         num_bins = range_width.days
     elif end_time <= start_time + relativedelta(months=+6):
         interval = "week"
+        tt_format = "[Week of] M/D"
         start_time = datetime(start_time.year, start_time.month, start_time.day)
         start_time = start_time - timedelta(days=start_time.isoweekday() % 7)
 
@@ -237,6 +241,7 @@ def summary(request):
         num_bins = int(range_width.days / 7)
     elif end_time <= start_time + relativedelta(years=+2):
         interval = "month"
+        tt_format = "MMMM"
         # For up to two years, do by month
         for n in range(12 * (end_time.year - start_time.year) + end_time.month - start_time.month + 1):
             bin_start = datetime(start_time.year, start_time.month, 1) + (n * relativedelta(months=+1))
@@ -248,6 +253,7 @@ def summary(request):
         num_bins = 0
     else:
         interval = "year"
+        tt_format = "YYYY"
         for n in range(end_time.year - start_time.year + 1):
             bin_start = datetime(start_time.year, 1, 1) + relativedelta(years=+n)
             bin_end = bin_start + relativedelta(years=+1)
@@ -302,6 +308,7 @@ def summary(request):
         'start_date': start_time.strftime(db_format),
         'end_date': end_time.strftime(db_format),
         'interval': interval,
+        'tt_format': tt_format,
         'theme_color': settings.THEME_COLOR,
     }
     return render(request, "purchaseRequests/summary.html", context)
