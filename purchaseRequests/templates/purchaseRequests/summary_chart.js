@@ -20,19 +20,19 @@ var summaryChart = new Chart(chartCanvas, {
             {
                 data: {{ activity|safe }},
                 label: 'Activity',
-                borderColor: '#28a745',
+                borderColor: '#005cc5',
                 pointBorderColor: '#fff',
                 pointHoverBorderColor: '#fff',
-                pointBackgroundColor: '#28a745',
+                pointBackgroundColor: '#005cc5',
                 yAxisID: 'A'
             },
             {
                 data: {{ spending|safe }},
                 label: 'Money spent',
-                borderColor: '#005cc5',
+                borderColor: '#28a745',
                 pointBorderColor: '#fff',
                 pointHoverBorderColor: '#fff',
-                pointBackgroundColor: '#005cc5',
+                pointBackgroundColor: '#28a745',
                 yAxisID: 'B'
             }
         ]
@@ -62,7 +62,15 @@ var summaryChart = new Chart(chartCanvas, {
                     ticks: {
                         beginAtZero: true,
                         suggestedMax: 4,
-                        callback: function(value) {if (Number.isInteger(value)) {return value;}}
+                        callback: function(value) {if (Number.isInteger(value)) {return value + '  ';}}
+                    },
+                    gridLines: {
+                        drawOnChartArea: false,
+                        zeroLineWidth: 0,
+                        drawBorder: true,
+                        tickMarkLength: 3,
+                        lineWidth: 3,
+                        color: '#005cc5'
                     }
                 },
                 {
@@ -72,10 +80,15 @@ var summaryChart = new Chart(chartCanvas, {
                     ticks: {
                         beginAtZero: true,
                         suggestedMax: 100,
-                        callback: function(value) {if (value % 10 === 0) {return '$' + value;}}
+                        callback: function(value) {if (value % 10 === 0) {return ' $' + value;}}
                     },
                     gridLines: {
-                        color: 'rgba(0, 0, 0, 0)',
+                        drawOnChartArea: false,
+                        zeroLineWidth: 0,
+                        drawBorder: true,
+                        tickMarkLength: 6,
+                        lineWidth: 3,
+                        color: '#28a745'
                     }
                 }
             ],
