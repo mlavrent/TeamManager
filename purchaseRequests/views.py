@@ -63,15 +63,15 @@ def list(request):
     # Approval filters
     final_query = Q()
     if "den" in request.GET:
-        final_query = final_query | Q(approved=False)
+        final_query |= Q(approved=False)
     if "und" in request.GET:
-        final_query = final_query | Q(approved=None)
+        final_query |= Q(approved=None)
     if "app" in request.GET:
-        final_query = final_query | Q(approved=True, ordered=False, delivered=False)
+        final_query |= Q(approved=True, ordered=False, delivered=False)
     if "ord" in request.GET:
-        final_query = final_query | Q(ordered=True, delivered=False)
+        final_query |= Q(ordered=True, delivered=False)
     if "del" in request.GET:
-        final_query = final_query | Q(delivered=True)
+        final_query |= Q(delivered=True)
 
     pur_reqs = pur_reqs.filter(final_query)
 
@@ -81,9 +81,14 @@ def list(request):
 
         product_terms = []
         user_terms = []
+        supplier_terms = []
         for term in search_terms:
             if term.startswith("user:"):
                 user_terms.append(term[5:])
+            elif term.startswith("supp:"):
+                supplier_terms.append(term[5:])
+            elif term.startswith("supplier:"):
+                supplier_terms.append(term[9:])
             else:
                 product_terms.append(term)
 
@@ -92,10 +97,15 @@ def list(request):
                 search=SearchVector("item")
             ).filter(search=p_term)
 
+        user_or_query = Q()
         for u_term in user_terms:
-            pur_reqs = pur_reqs.annotate(
-                search=SearchVector("author__username")
-            ).filter(search=u_term)
+            user_or_query |= Q(author__username=u_term)
+        pur_reqs = pur_reqs.filter(user_or_query)
+
+        supp_or_query = Q()
+        for supp_term in supplier_terms:
+            supp_or_query |= Q(supplier=supp_term)
+        pur_reqs = pur_reqs.filter(supp_or_query)
 
 
     submitted_filters = {
