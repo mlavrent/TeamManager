@@ -104,7 +104,7 @@ def list(request):
 
         supp_or_query = Q()
         for supp_term in supplier_terms:
-            supp_or_query |= Q(supplier=supp_term)
+            supp_or_query |= Q(supplier__icontains=supp_term)
         pur_reqs = pur_reqs.filter(supp_or_query)
 
 
