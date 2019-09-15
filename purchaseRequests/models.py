@@ -11,6 +11,7 @@ class Request(models.Model):
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     quantity = models.PositiveSmallIntegerField()
     link = models.URLField(max_length=2000)
+    supplier = models.CharField(max_length=40, null=True)
     notes = models.TextField(null=True, blank=True)
 
     approved = models.NullBooleanField()
@@ -26,11 +27,13 @@ class Request(models.Model):
     delivery_timestamp = models.DateTimeField(null=True, blank=True)
     delivery_person = models.ForeignKey(User, null=True, blank=True, related_name="+", on_delete=models.SET_NULL)
 
+    def save(self, *args, **kwargs):
+        if not self.supplier:
+            self.supplier = extract(self.link).domain
+        super(Request, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.item + ", x" + str(self.quantity)
-
-    def supplier_domain(self):
-        return extract(self.link).domain
 
     def line_total(self):
         if self.shipping_cost:
