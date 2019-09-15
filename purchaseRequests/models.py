@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from tldextract import extract
 
 
 class Request(models.Model):
@@ -27,6 +28,9 @@ class Request(models.Model):
 
     def __str__(self):
         return self.item + ", x" + str(self.quantity)
+
+    def supplier_domain(self):
+        return extract(self.link).domain
 
     def line_total(self):
         if self.shipping_cost:
