@@ -166,7 +166,7 @@ EMAIL_PORT = 587
 
 TEAM_NAME = "Brown FSAE"
 
-LOGO_URL = "https://ibb.co/kqJHrw9"
+LOGO_URL = "https://i.ibb.co/tYzmNvx/brown-fsae-logo.png"
 
 THEME_COLOR = "#ca0000"
 
