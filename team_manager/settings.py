@@ -164,10 +164,10 @@ EMAIL_PORT = 587
 
 # Personalization
 
-TEAM_NAME = "TechTigers"
+TEAM_NAME = "Brown FSAE"
 
-LOGO_URL = "http://techtigers3654.org/public/common/themes/techtigers3654/img/logo-004.png"
+LOGO_URL = "https://ibb.co/kqJHrw9"
 
-THEME_COLOR = "#ff9853"
+THEME_COLOR = "#ca0000"
 
-LIGHT_THEME_COLOR = "#ffb380"
+LIGHT_THEME_COLOR = "#ff8080"
