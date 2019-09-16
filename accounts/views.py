@@ -25,7 +25,7 @@ def signup(request):
             message = render_to_string("registration/act_acc_email.html", {
                 'user': user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode("utf-8"),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
                 'team_name': settings.TEAM_NAME
             })
